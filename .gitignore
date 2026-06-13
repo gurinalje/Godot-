@@ -7,6 +7,14 @@ opencode-debug-latest.json
 fixed-debug.json
 opencode-config-verify.json
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Godot
+.godot/
+
 # Session data (private — contains design discussions)
 production/session-logs/
 production/session-state/

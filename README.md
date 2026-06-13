@@ -51,14 +51,27 @@
 │   └── ui-system/          # UI系统
 ├── assets/                 # 游戏资源
 │   ├── sprites/            # 图片资源
+│   │   ├── vampire/        # 吸血鬼角色资源
+│   │   ├── characters/     # 角色资源
+│   │   ├── cards/          # 卡牌资源
+│   │   ├── ui/             # UI资源
+│   │   └── effects/        # 特效资源
 │   ├── audio/              # 音频资源
 │   └── data/               # 数据文件
+│       └── cards/          # 卡牌数据
+├── tools/                  # 开发工具
+│   ├── aseprite-mcp/       # Aseprite集成
+│   └── generate/           # 资源生成脚本
 ├── design/                 # 设计文档
 │   ├── gdd/                # 游戏设计文档
 │   └── art/                # 美术规范
-└── docs/                   # 技术文档
-    ├── architecture/       # 架构文档
-    └── engine-reference/   # 引擎参考
+├── docs/                   # 技术文档
+│   ├── architecture/       # 架构文档
+│   └── engine-reference/   # 引擎参考
+├── tests/                  # 测试代码
+├── production/             # 生产管理
+├── prototypes/             # 原型开发
+└── scripts/                # 自动化脚本
 ```
 
 ## 已实现系统
