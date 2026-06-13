@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/card-database/card_data.gd" id="1"]
+[ext_resource type="Script" path="res://src/card-database/card_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+effect_type = 0
+value = 5
+target = 1
+duration = 0
+condition = ""
+description_template = ""
+
+[resource]
+script = ExtResource("1")
+id = "card_damage_001"
+name = "火球术"
+description = "发射一个火球，对敌人造成5点火焰伤害"
+card_type = 1
+cost = 2
+effects = [SubResource("2")]
+rarity = 0
+element = 1
+artwork = null
+keywords = ["火焰", "伤害", "基础"]

@@ -1,0 +1,69 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://src/core/resource_index.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+cards = {
+"summon_skeleton": "res://assets/sprites/cards/card_summon_skeleton.png",
+"summon_golem": "res://assets/sprites/cards/card_summon_golem.png",
+"summon_elemental": "res://assets/sprites/cards/card_summon_elemental.png",
+"damage_fireball": "res://assets/sprites/cards/card_damage_fireball.png",
+"damage_lightning": "res://assets/sprites/cards/card_damage_lightning.png",
+"damage_ice_lance": "res://assets/sprites/cards/card_damage_ice_lance.png",
+"environment_blizzard": "res://assets/sprites/cards/card_environment_blizzard.png",
+"environment_earthquake": "res://assets/sprites/cards/card_environment_earthquake.png",
+"environment_firestorm": "res://assets/sprites/cards/card_environment_firestorm.png",
+"buff_holy_blessing": "res://assets/sprites/cards/card_buff_holy_blessing.png",
+"buff_dark_curse": "res://assets/sprites/cards/card_buff_dark_curse.png",
+"buff_shield": "res://assets/sprites/cards/card_buff_shield.png"
+}
+characters = {
+"player_warrior": "res://assets/sprites/characters/players/char_players_warrior.png",
+"player_mage": "res://assets/sprites/characters/players/char_players_mage.png",
+"player_rogue": "res://assets/sprites/characters/players/char_players_rogue.png",
+"npc_merchant": "res://assets/sprites/characters/npcs/char_npcs_merchant.png",
+"npc_quest_giver": "res://assets/sprites/characters/npcs/char_npcs_quest_giver.png",
+"npc_blacksmith": "res://assets/sprites/characters/npcs/char_npcs_blacksmith.png",
+"enemy_slime": "res://assets/sprites/characters/enemies/char_enemies_slime.png",
+"enemy_skeleton": "res://assets/sprites/characters/enemies/char_enemies_skeleton.png",
+"enemy_demon": "res://assets/sprites/characters/enemies/char_enemies_demon.png",
+"boss_dragon": "res://assets/sprites/characters/bosses/char_bosses_dragon.png",
+"boss_lich": "res://assets/sprites/characters/bosses/char_bosses_lich.png"
+}
+ui = {
+"button_primary": "res://assets/sprites/ui/buttons/ui_buttons_primary.png",
+"button_secondary": "res://assets/sprites/ui/buttons/ui_buttons_secondary.png",
+"panel_main": "res://assets/sprites/ui/panels/ui_panels_main.png",
+"icon_health": "res://assets/sprites/ui/icons/ui_icons_health.png",
+"icon_mana": "res://assets/sprites/ui/icons/ui_icons_mana.png",
+"bar_health": "res://assets/sprites/ui/bars/ui_bars_health.png",
+"bar_mana": "res://assets/sprites/ui/bars/ui_bars_mana.png"
+}
+environments = {
+"forest_bg": "res://assets/sprites/environments/forest/env_forest_background.png",
+"forest_battle": "res://assets/sprites/environments/forest/env_forest_battle.png",
+"castle_bg": "res://assets/sprites/environments/castle/env_castle_background.png",
+"castle_battle": "res://assets/sprites/environments/castle/env_castle_battle.png",
+"ruins_bg": "res://assets/sprites/environments/ruins/env_ruins_background.png",
+"ruins_battle": "res://assets/sprites/environments/ruins/env_ruins_battle.png",
+"void_bg": "res://assets/sprites/environments/void/env_void_background.png",
+"void_battle": "res://assets/sprites/environments/void/env_void_battle.png"
+}
+effects = {
+"combat_slash": "res://assets/sprites/effects/combat/fx_combat_slash.png",
+"combat_stab": "res://assets/sprites/effects/combat/fx_combat_stab.png",
+"combat_impact": "res://assets/sprites/effects/combat/fx_combat_impact.png",
+"element_fire": "res://assets/sprites/effects/elements/fx_elements_fire.png",
+"element_water": "res://assets/sprites/effects/elements/fx_elements_water.png",
+"element_wind": "res://assets/sprites/effects/elements/fx_elements_wind.png",
+"element_earth": "res://assets/sprites/effects/elements/fx_elements_earth.png"
+}
+audio = {
+"sfx_card_draw": "res://assets/audio/sfx/combat/sfx_card_draw.ogg",
+"sfx_card_play": "res://assets/audio/sfx/combat/sfx_card_play.ogg",
+"sfx_attack_hit": "res://assets/audio/sfx/combat/sfx_attack_hit.ogg",
+"sfx_button_click": "res://assets/audio/sfx/ui/sfx_button_click.ogg",
+"bgm_menu": "res://assets/audio/music/menu/bgm_menu.ogg",
+"bgm_forest_exploration": "res://assets/audio/music/forest/bgm_forest_exploration.ogg"
+}

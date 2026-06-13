@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/card-database/card_data.gd" id="1"]
+[ext_resource type="Script" path="res://src/card-database/card_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+effect_type = 5
+value = 0
+target = 3
+duration = 3
+condition = ""
+description_template = ""
+
+[resource]
+script = ExtResource("1")
+id = "card_env_001"
+name = "暴风雪"
+description = "召唤暴风雪覆盖战场，降低所有敌人速度并造成冰冻伤害"
+card_type = 2
+cost = 4
+effects = [SubResource("2")]
+rarity = 2
+element = 2
+artwork = null
+keywords = ["环境", "冰冻", "控制"]

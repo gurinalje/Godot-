@@ -1,0 +1,28 @@
+# 命运卡牌局代码完整性修复任务清单
+
+- [x] 核心系统管理与启动逻辑 (GameManager & Main)
+  - [x] 注册 `QuestSystem` 到 `game_manager.gd`
+  - [x] 优化 `game_manager.gd` 中的 `reset_game()` 逻辑，清理子节点
+  - [x] 修复 `main.gd` 中的 `systems_initialized` 信号发射
+  - [x] 修复 `main.gd` 中的 `GameManager` 初始化死锁检查
+- [x] 战斗与伤害计算系统 (CardBattle & DamageCalculator)
+  - [x] 重构 `card_battle_system.gd` 获取子系统引用为 `GameManager.get_system()`
+  - [x] 修正 `card_battle_system.gd` 中的伤害计算传参和 Key 读取
+  - [x] 增加 `damage_calculator.gd` 的 `calculate_damage()` 接口容错性
+  - [x] 修改 `card_battle.gd` 对 Resource 的 `has()` 误用为 `in` 检查
+- [x] 选择与存档系统 (Choice & Save)
+  - [x] 修改 `save_slot_manager.gd` 中 `QuestSystem` 的获取方式为 `GameManager.get_system()`
+  - [x] 修改 `choice_manager.gd` 中 `StoryMarkSystem` 的获取方式为 `GameManager.get_system("StoryMarkManager")`
+  - [x] 修改 `choice_system.gd` 中 `StoryMarkManager` 和 `NarrativeManager` 的获取方式为 `GameManager.get_system()`
+- [x] 背包、商店与卡组系统 (NPC, Deck & Exploration)
+  - [x] 修改 `npc_interaction_system.gd` 获取 `CardDatabase` 和 `DeckBuildingManager` 为 `GameManager.get_system()`
+  - [x] 修改 `deck_builder.gd` 获取 `CardDatabase` 为 `GameManager.get_system()`
+  - [x] 修改 `deck_building_manager.gd` 获取 `CardDatabase` 为 `GameManager.get_system()`
+  - [x] 修改 `world_explorer.gd` 获取 `WorldStateManager` 为 `GameManager.get_system()`
+- [x] 音频与连锁系统细节 (Audio & Combo)
+  - [x] 重构 `audio_manager.gd` 的 `_scan_audio_directory()` 递归读取子文件夹
+  - [x] 将 `audio_manager.gd` 默认音频总线修改为安全退守的 `"Master"`
+  - [x] 修改 `combo_chain.gd` 反序列化默认值 `[]` 为 `{}`
+- [x] 验证测试
+  - [x] 检查并确保各脚本均无语法编译错误
+  - [x] 编写并保存修复与验证文档 `walkthrough.md`

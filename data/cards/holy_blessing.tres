@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/card-database/card_data.gd" id="1"]
+[ext_resource type="Script" path="res://src/card-database/card_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+effect_type = 3
+value = 3
+target = 0
+duration = 3
+condition = ""
+description_template = ""
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("2")
+effect_type = 1
+value = 2
+target = 0
+duration = 0
+condition = ""
+description_template = ""
+
+[resource]
+script = ExtResource("1")
+id = "card_buff_001"
+name = "神圣祝福"
+description = "获得神圣力量的祝福，提升攻击力并恢复少量生命"
+card_type = 3
+cost = 2
+effects = [SubResource("2"), SubResource("3")]
+rarity = 1
+element = 4
+artwork = null
+keywords = ["增益", "治疗", "神圣"]

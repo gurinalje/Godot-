@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/card-database/card_data.gd" id="1"]
+[ext_resource type="Script" path="res://src/card-database/card_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+effect_type = 2
+value = 4
+target = 0
+duration = 0
+condition = ""
+description_template = ""
+
+[resource]
+script = ExtResource("1")
+id = "card_summon_001"
+name = "召唤骷髅战士"
+description = "从亡者之地召唤一个骷髅战士为你而战"
+card_type = 0
+cost = 3
+effects = [SubResource("2")]
+rarity = 0
+element = 0
+artwork = null
+keywords = ["召唤", "亡灵", "基础"]
