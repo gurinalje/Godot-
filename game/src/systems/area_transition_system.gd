@@ -154,10 +154,15 @@ func get_available_areas() -> Array[Dictionary]:
 
 ## 获取玩家等级（通过GameManager依赖注入）
 func _get_player_level() -> int:
-	# GameManager是autoload单例，通过场景树路径访问
 	var game_manager: Node = get_tree().root.get_node_or_null("GameManager")
-	if game_manager and game_manager.get("player_level") != null:
-		return game_manager.get("player_level") as int
+	if game_manager:
+		# 优先检查 player_data.level（实际存储位置）
+		var player_data = game_manager.get("player_data")
+		if player_data and player_data.get("level") != null:
+			return player_data.level as int
+		# 回退到直接属性
+		if game_manager.get("player_level") != null:
+			return game_manager.get("player_level") as int
 	push_warning("[AreaTransitionSystem] GameManager not found, returning default level 1")
 	return 1
 

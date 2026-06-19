@@ -203,6 +203,9 @@ func _setup_area_transition_system() -> void:
 	area_transition_system.area_changed.connect(_on_area_transition_changed)
 	area_transition_system.transition_completed.connect(_on_transition_completed)
 	
+	# 根据当前等级解锁区域
+	area_transition_system.check_and_unlock_areas(player_level)
+	
 	print("[WorldExploration] 区域传送系统已初始化")
 
 ## 创建程序化占位符玩家精灵（我的世界风格）
@@ -1071,7 +1074,6 @@ func _check_portal() -> void:
 			var target_area = portal.target_area
 			var area_info = area_transition_system.get_area_info(target_area)
 			var area_name = area_info.display_name
-			var required_level = area_info.unlock_level
 			
 			# 检查是否可以传送
 			var check = area_transition_system.can_transition_to(target_area)
@@ -1080,7 +1082,7 @@ func _check_portal() -> void:
 				# 执行传送
 				area_transition_system.transition_to(target_area)
 			else:
-				_add_log("传送门: " + area_name + " (需要等级 " + str(required_level) + ")")
+				_add_log("传送门: " + area_name + " - " + check["reason"])
 			break
 
 ## 检查宝箱
