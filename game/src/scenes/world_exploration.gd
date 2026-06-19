@@ -1258,6 +1258,9 @@ const WALK_ANIM_SPEED = 10.0  # 10 FPS
 var idle_texture: Texture2D = null
 var walk_texture: Texture2D = null
 
+## 上一帧的移动状态（用于检测状态切换）
+var was_moving: bool = false
+
 ## 更新玩家动画
 func _update_player_animation(direction: Vector2) -> void:
 	var sprite = player.get_node_or_null("Sprite2D")
@@ -1266,6 +1269,12 @@ func _update_player_animation(direction: Vector2) -> void:
 	
 	# 更新动画计时器
 	animation_timer += get_physics_process_delta_time()
+	
+	# 检测状态切换，重置帧计数器
+	if is_moving != was_moving:
+		current_frame = 0
+		animation_timer = 0.0
+		was_moving = is_moving
 	
 	if is_moving:
 		# 设置朝向
