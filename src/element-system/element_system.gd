@@ -1,5 +1,6 @@
 ## 元素系统
 ## 管理元素切换和元素效果
+## 元素名称、颜色、克制关系等工具方法统一使用 CardEnums
 
 class_name ElementSystem
 extends Node
@@ -70,63 +71,16 @@ func set_element_bonus(element: CardEnums.Element, bonus: float) -> void:
 	element_bonuses[element] = bonus
 
 ## 获取元素名称
+## 委托给 CardEnums.get_element_name() 作为单一数据源
 func get_element_name(element: CardEnums.Element) -> String:
-	match element:
-		CardEnums.Element.FIRE:
-			return "Fire"
-		CardEnums.Element.WATER:
-			return "Water"
-		CardEnums.Element.WIND:
-			return "Wind"
-		CardEnums.Element.EARTH:
-			return "Earth"
-		CardEnums.Element.LIGHTNING:
-			return "Lightning"
-		_:
-			return "None"
+	return CardEnums.get_element_name(element)
 
 ## 获取元素颜色
+## 委托给 CardEnums.get_element_color() 作为单一数据源
 func get_element_color(element: CardEnums.Element) -> Color:
-	match element:
-		CardEnums.Element.FIRE:
-			return Color(0.9, 0.2, 0.2)
-		CardEnums.Element.WATER:
-			return Color(0.2, 0.5, 0.9)
-		CardEnums.Element.WIND:
-			return Color(0.2, 0.8, 0.4)
-		CardEnums.Element.EARTH:
-			return Color(0.6, 0.4, 0.2)
-		CardEnums.Element.LIGHTNING:
-			return Color(0.9, 0.9, 0.2)
-		_:
-			return Color(0.5, 0.5, 0.5)
+	return CardEnums.get_element_color(element)
 
 ## 获取克制关系
+## 委托给 CardEnums.get_element_modifier() 作为单一数据源
 func get_element_advantage(attack: CardEnums.Element, defense: CardEnums.Element) -> float:
-	match attack:
-		CardEnums.Element.FIRE:
-			if defense == CardEnums.Element.WIND:
-				return 1.5
-			elif defense == CardEnums.Element.WATER:
-				return 0.75
-		CardEnums.Element.WATER:
-			if defense == CardEnums.Element.FIRE:
-				return 1.5
-			elif defense == CardEnums.Element.EARTH:
-				return 0.75
-		CardEnums.Element.WIND:
-			if defense == CardEnums.Element.EARTH:
-				return 1.5
-			elif defense == CardEnums.Element.FIRE:
-				return 0.75
-		CardEnums.Element.EARTH:
-			if defense == CardEnums.Element.LIGHTNING:
-				return 1.5
-			elif defense == CardEnums.Element.WIND:
-				return 0.75
-		CardEnums.Element.LIGHTNING:
-			if defense == CardEnums.Element.WATER:
-				return 1.5
-			elif defense == CardEnums.Element.EARTH:
-				return 0.75
-	return 1.0
+	return CardEnums.get_element_modifier(attack, defense)

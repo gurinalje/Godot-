@@ -1,5 +1,6 @@
 ## 卡牌数据库
 ## 管理所有卡牌数据的加载和查询
+## 支持从 .tres 资源文件和 .json 数据文件加载卡牌
 
 class_name CardDatabase
 extends Node
@@ -30,7 +31,6 @@ func _load_all_cards() -> void:
 	
 	if not dir:
 		push_warning("[CardDatabase] Cards directory not found: " + cards_dir)
-		_create_default_cards()
 		return
 	
 	dir.list_dir_begin()
@@ -38,264 +38,212 @@ func _load_all_cards() -> void:
 	
 	while file_name != "":
 		if file_name.ends_with(".tres"):
-			var card_path = cards_dir + file_name
-			var card = load(card_path)
-			if card and card is CardData:
-				_cards[card.id] = card
-				card_loaded.emit(card.id)
+			_load_tres_card(cards_dir + file_name)
+		elif file_name.ends_with(".json"):
+			_load_json_cards(cards_dir + file_name)
 		file_name = dir.get_next()
-	
-	# 补充缺失的默认卡牌
-	_ensure_default_cards()
 
-## 确保默认卡牌存在
-func _ensure_default_cards() -> void:
-	var defaults = _get_default_card_definitions()
-	# 始终用默认卡牌覆盖，确保ID一致性
-	for card_id in defaults:
-		_cards[card_id] = defaults[card_id]
+## 加载 .tres 格式卡牌
+func _load_tres_card(card_path: String) -> void:
+	var card = load(card_path)
+	if card and card is CardData:
+		_cards[card.id] = card
+		card_loaded.emit(card.id)
 
-## 获取默认卡牌定义
-func _get_default_card_definitions() -> Dictionary:
-	var cards: Dictionary = {}
+## 加载 .json 格式卡牌数据
+func _load_json_cards(json_path: String) -> void:
+	var file = FileAccess.open(json_path, FileAccess.READ)
+	if not file:
+		push_warning("[CardDatabase] Cannot open JSON file: " + json_path)
+		return
 	
-	# 小型生命药水
-	var item_health_potion = CardData.new()
-	item_health_potion.id = "item_health_potion"
-	item_health_potion.name = "小型生命药水"
-	item_health_potion.description = "消耗10点MP，恢复30点HP"
-	item_health_potion.card_type = CardEnums.CardType.BUFF_DEBUFF
-	item_health_potion.element = CardEnums.Element.NONE
-	item_health_potion.cost = 0
-	item_health_potion.hp_cost = 0
-	item_health_potion.mp_cost = 10
-	item_health_potion.is_single_use = true
-	item_health_potion.rarity = CardEnums.Rarity.COMMON
-	var potion_heal_effect = CardEffect.new()
-	potion_heal_effect.effect_type = CardEnums.EffectType.HEAL
-	potion_heal_effect.value = 30
-	potion_heal_effect.target = CardEnums.TargetType.SELF
-	item_health_potion.effects.append(potion_heal_effect)
-	cards["item_health_potion"] = item_health_potion
+	var json_string = file.get_as_text()
+	file.close()
 	
-	# 恶魔药水
-	var item_rage_potion = CardData.new()
-	item_rage_potion.id = "item_rage_potion"
-	item_rage_potion.name = "恶魔药水"
-	item_rage_potion.description = "消耗20点HP，获得15点护甲"
-	item_rage_potion.card_type = CardEnums.CardType.BUFF_DEBUFF
-	item_rage_potion.element = CardEnums.Element.NONE
-	item_rage_potion.cost = 0
-	item_rage_potion.hp_cost = 20
-	item_rage_potion.mp_cost = 0
-	item_rage_potion.is_single_use = true
-	item_rage_potion.rarity = CardEnums.Rarity.UNCOMMON
-	var potion_shield_effect = CardEffect.new()
-	potion_shield_effect.effect_type = CardEnums.EffectType.BUFF
-	potion_shield_effect.value = 15
-	potion_shield_effect.target = CardEnums.TargetType.SELF
-	item_rage_potion.effects.append(potion_shield_effect)
-	cards["item_rage_potion"] = item_rage_potion
+	var json = JSON.new()
+	var error = json.parse(json_string)
+	if error != OK:
+		push_warning("[CardDatabase] JSON parse error in " + json_path + ": " + json.get_error_message())
+		return
 	
-	# 无消耗秘药
-	var item_elixir = CardData.new()
-	item_elixir.id = "item_elixir"
-	item_elixir.name = "无消耗秘药"
-	item_elixir.description = "获得8点护甲，无消耗且一次性"
-	item_elixir.card_type = CardEnums.CardType.BUFF_DEBUFF
-	item_elixir.element = CardEnums.Element.NONE
-	item_elixir.cost = 0
-	item_elixir.hp_cost = 0
-	item_elixir.mp_cost = 0
-	item_elixir.is_single_use = true
-	item_elixir.rarity = CardEnums.Rarity.COMMON
-	var elixir_shield_effect = CardEffect.new()
-	elixir_shield_effect.effect_type = CardEnums.EffectType.BUFF
-	elixir_shield_effect.value = 8
-	elixir_shield_effect.target = CardEnums.TargetType.SELF
-	item_elixir.effects.append(elixir_shield_effect)
-	cards["item_elixir"] = item_elixir
+	var data = json.data
+	if not data is Dictionary or not data.has("cards"):
+		push_warning("[CardDatabase] Invalid JSON structure in " + json_path)
+		return
 	
-	# 火球术
-	var fireball = CardData.new()
-	fireball.id = "fireball"
-	fireball.name = "火球术"
-	fireball.description = "造成8点火焰伤害"
-	fireball.card_type = CardEnums.CardType.DIRECT_DAMAGE
-	fireball.element = CardEnums.Element.FIRE
-	fireball.cost = 2
-	fireball.rarity = CardEnums.Rarity.COMMON
-	var fireball_effect = CardEffect.new()
-	fireball_effect.effect_type = CardEnums.EffectType.DAMAGE
-	fireball_effect.value = 8
-	fireball_effect.target = CardEnums.TargetType.ENEMY
-	fireball.effects.append(fireball_effect)
-	cards["fireball"] = fireball
-	
-	# 冰冻术
-	var blizzard = CardData.new()
-	blizzard.id = "blizzard"
-	blizzard.name = "暴风雪"
-	blizzard.description = "对所有敌人造成5点冰霜伤害"
-	blizzard.card_type = CardEnums.CardType.ENVIRONMENT
-	blizzard.element = CardEnums.Element.WATER
-	blizzard.cost = 3
-	blizzard.rarity = CardEnums.Rarity.RARE
-	var blizzard_effect = CardEffect.new()
-	blizzard_effect.effect_type = CardEnums.EffectType.DAMAGE
-	blizzard_effect.value = 5
-	blizzard_effect.target = CardEnums.TargetType.ALL_ENEMIES
-	blizzard.effects.append(blizzard_effect)
-	cards["blizzard"] = blizzard
-	
-	# 骷髅召唤
-	var summon_skeleton = CardData.new()
-	summon_skeleton.id = "summon_skeleton"
-	summon_skeleton.name = "召唤骷髅"
-	summon_skeleton.description = "召唤一个骷髅战士"
-	summon_skeleton.card_type = CardEnums.CardType.SUMMON
-	summon_skeleton.element = CardEnums.Element.EARTH
-	summon_skeleton.cost = 3
-	summon_skeleton.rarity = CardEnums.Rarity.COMMON
-	var summon_effect = CardEffect.new()
-	summon_effect.effect_type = CardEnums.EffectType.SUMMON
-	summon_effect.value = 10
-	summon_effect.target = CardEnums.TargetType.SELF
-	summon_skeleton.effects.append(summon_effect)
-	cards["summon_skeleton"] = summon_skeleton
-	
-	# 神圣祝福
-	var holy_blessing = CardData.new()
-	holy_blessing.id = "holy_blessing"
-	holy_blessing.name = "神圣祝福"
-	holy_blessing.description = "恢复10点生命值"
-	holy_blessing.card_type = CardEnums.CardType.BUFF_DEBUFF
-	holy_blessing.element = CardEnums.Element.WATER
-	holy_blessing.cost = 2
-	holy_blessing.rarity = CardEnums.Rarity.COMMON
-	var heal_effect = CardEffect.new()
-	heal_effect.effect_type = CardEnums.EffectType.HEAL
-	heal_effect.value = 10
-	heal_effect.target = CardEnums.TargetType.SELF
-	holy_blessing.effects.append(heal_effect)
-	cards["holy_blessing"] = holy_blessing
-	
-	# 护盾
-	var shield = CardData.new()
-	shield.id = "shield"
-	shield.name = "护盾"
-	shield.description = "获得5点护甲"
-	shield.card_type = CardEnums.CardType.BUFF_DEBUFF
-	shield.element = CardEnums.Element.EARTH
-	shield.cost = 1
-	shield.rarity = CardEnums.Rarity.COMMON
-	var armor_effect = CardEffect.new()
-	armor_effect.effect_type = CardEnums.EffectType.BUFF
-	armor_effect.value = 5
-	armor_effect.target = CardEnums.TargetType.SELF
-	shield.effects.append(armor_effect)
-	cards["shield"] = shield
-	
-	# 闪电箭
-	var lightning = CardData.new()
-	lightning.id = "lightning"
-	lightning.name = "闪电箭"
-	lightning.description = "造成6点雷电伤害"
-	lightning.card_type = CardEnums.CardType.DIRECT_DAMAGE
-	lightning.element = CardEnums.Element.LIGHTNING
-	lightning.cost = 1
-	lightning.rarity = CardEnums.Rarity.COMMON
-	var lightning_effect = CardEffect.new()
-	lightning_effect.effect_type = CardEnums.EffectType.DAMAGE
-	lightning_effect.value = 6
-	lightning_effect.target = CardEnums.TargetType.ENEMY
-	lightning.effects.append(lightning_effect)
-	cards["lightning"] = lightning
-	
-	# 地震术
-	var earthquake = CardData.new()
-	earthquake.id = "earthquake"
-	earthquake.name = "地震术"
-	earthquake.description = "对所有敌人造成4点土系伤害"
-	earthquake.card_type = CardEnums.CardType.ENVIRONMENT
-	earthquake.element = CardEnums.Element.EARTH
-	earthquake.cost = 2
-	earthquake.rarity = CardEnums.Rarity.RARE
-	var earthquake_effect = CardEffect.new()
-	earthquake_effect.effect_type = CardEnums.EffectType.DAMAGE
-	earthquake_effect.value = 4
-	earthquake_effect.target = CardEnums.TargetType.ALL_ENEMIES
-	earthquake.effects.append(earthquake_effect)
-	cards["earthquake"] = earthquake
-	
-	# 黑暗诅咒
-	var dark_curse = CardData.new()
-	dark_curse.id = "dark_curse"
-	dark_curse.name = "黑暗诅咒"
-	dark_curse.description = "使目标受到伤害增加50%"
-	dark_curse.card_type = CardEnums.CardType.BUFF_DEBUFF
-	dark_curse.element = CardEnums.Element.NONE
-	dark_curse.cost = 2
-	dark_curse.rarity = CardEnums.Rarity.RARE
-	var debuff_effect = CardEffect.new()
-	debuff_effect.effect_type = CardEnums.EffectType.DEBUFF
-	debuff_effect.value = 50
-	debuff_effect.target = CardEnums.TargetType.ENEMY
-	debuff_effect.duration = 3
-	dark_curse.effects.append(debuff_effect)
-	cards["dark_curse"] = dark_curse
-	
-	return cards
+	for card_dict in data["cards"]:
+		var card = _create_card_from_dict(card_dict)
+		if card:
+			_cards[card.id] = card
+			card_loaded.emit(card.id)
 
-## 创建默认卡牌
-func _create_default_cards() -> void:
-	var defaults = _get_default_card_definitions()
-	for card_id in defaults:
-		_cards[card_id] = defaults[card_id]
-	print("[CardDatabase] Created ", _cards.size(), " default cards")
+## 从字典创建卡牌数据
+func _create_card_from_dict(card_dict: Dictionary) -> CardData:
+	if not card_dict.has("id"):
+		push_warning("[CardDatabase] Card missing 'id' field")
+		return null
+	
+	var card = CardData.new()
+	card.id = card_dict.get("id", "")
+	card.display_name = card_dict.get("display_name", "")
+	card.description = card_dict.get("description", "")
+	card.cost = card_dict.get("cost", 0)
+	card.hp_cost = card_dict.get("hp_cost", 0)
+	card.mp_cost = card_dict.get("mp_cost", 0)
+	card.is_single_use = card_dict.get("is_single_use", false)
+	
+	# 解析枚举类型
+	card.card_type = _parse_card_type(card_dict.get("card_type", "DIRECT_DAMAGE"))
+	card.element = _parse_element(card_dict.get("element", "NONE"))
+	card.rarity = _parse_rarity(card_dict.get("rarity", "COMMON"))
+	
+	# 解析效果列表
+	var effects_array = card_dict.get("effects", [])
+	for effect_dict in effects_array:
+		var effect = _create_effect_from_dict(effect_dict)
+		if effect:
+			card.effects.append(effect)
+	
+	return card
+
+## 从字典创建卡牌效果
+func _create_effect_from_dict(effect_dict: Dictionary) -> CardEffect:
+	var effect = CardEffect.new()
+	effect.effect_type = _parse_effect_type(effect_dict.get("effect_type", "DAMAGE"))
+	effect.value = effect_dict.get("value", 0)
+	effect.target = _parse_target_type(effect_dict.get("target", "ENEMY"))
+	effect.duration = effect_dict.get("duration", 0)
+	effect.secondary_value = effect_dict.get("secondary_value", 0)
+	effect.condition = effect_dict.get("condition", "")
+	return effect
+
+## 解析卡牌类型
+func _parse_card_type(type_string: String) -> CardEnums.CardType:
+	match type_string:
+		"SUMMON":
+			return CardEnums.CardType.SUMMON
+		"DIRECT_DAMAGE":
+			return CardEnums.CardType.DIRECT_DAMAGE
+		"ENVIRONMENT":
+			return CardEnums.CardType.ENVIRONMENT
+		"BUFF_DEBUFF":
+			return CardEnums.CardType.BUFF_DEBUFF
+		_:
+			push_warning("[CardDatabase] Unknown card type: " + type_string)
+			return CardEnums.CardType.DIRECT_DAMAGE
+
+## 解析元素类型
+func _parse_element(element_string: String) -> CardEnums.Element:
+	match element_string:
+		"NONE":
+			return CardEnums.Element.NONE
+		"FIRE":
+			return CardEnums.Element.FIRE
+		"WATER":
+			return CardEnums.Element.WATER
+		"EARTH":
+			return CardEnums.Element.EARTH
+		"WIND":
+			return CardEnums.Element.WIND
+		"LIGHTNING":
+			return CardEnums.Element.LIGHTNING
+		_:
+			push_warning("[CardDatabase] Unknown element: " + element_string)
+			return CardEnums.Element.NONE
+
+## 解析稀有度
+func _parse_rarity(rarity_string: String) -> CardEnums.Rarity:
+	match rarity_string:
+		"COMMON":
+			return CardEnums.Rarity.COMMON
+		"UNCOMMON":
+			return CardEnums.Rarity.UNCOMMON
+		"RARE":
+			return CardEnums.Rarity.RARE
+		"LEGENDARY":
+			return CardEnums.Rarity.LEGENDARY
+		_:
+			push_warning("[CardDatabase] Unknown rarity: " + rarity_string)
+			return CardEnums.Rarity.COMMON
+
+## 解析效果类型
+func _parse_effect_type(type_string: String) -> CardEnums.EffectType:
+	match type_string:
+		"DAMAGE":
+			return CardEnums.EffectType.DAMAGE
+		"HEAL":
+			return CardEnums.EffectType.HEAL
+		"SUMMON":
+			return CardEnums.EffectType.SUMMON
+		"BUFF":
+			return CardEnums.EffectType.BUFF
+		"DEBUFF":
+			return CardEnums.EffectType.DEBUFF
+		"ENVIRONMENT_CHANGE":
+			return CardEnums.EffectType.ENVIRONMENT_CHANGE
+		_:
+			push_warning("[CardDatabase] Unknown effect type: " + type_string)
+			return CardEnums.EffectType.DAMAGE
+
+## 解析目标类型
+func _parse_target_type(target_string: String) -> CardEnums.TargetType:
+	match target_string:
+		"SELF":
+			return CardEnums.TargetType.SELF
+		"ENEMY":
+			return CardEnums.TargetType.ENEMY
+		"ALL_ENEMIES":
+			return CardEnums.TargetType.ALL_ENEMIES
+		"ALL_ALLIES":
+			return CardEnums.TargetType.ALL_ALLIES
+		"RANDOM":
+			return CardEnums.TargetType.RANDOM
+		_:
+			push_warning("[CardDatabase] Unknown target type: " + target_string)
+			return CardEnums.TargetType.ENEMY
 
 ## 获取卡牌
-func get_card(card_id: String):
+func get_card(card_id: String) -> CardData:
 	return _cards.get(card_id)
 
 ## 获取所有卡牌
-func get_all_cards() -> Array:
-	var cards: Array = []
+func get_all_cards() -> Array[CardData]:
+	var cards: Array[CardData] = []
 	for card in _cards.values():
 		cards.append(card)
 	return cards
 
 ## 按类型获取卡牌
-func get_cards_by_type(card_type) -> Array:
-	var cards: Array = []
+func get_cards_by_type(card_type: CardEnums.CardType) -> Array[CardData]:
+	var cards: Array[CardData] = []
 	for card in _cards.values():
 		if card.card_type == card_type:
 			cards.append(card)
 	return cards
 
 ## 按元素获取卡牌
-func get_cards_by_element(element) -> Array:
-	var cards: Array = []
+func get_cards_by_element(element: CardEnums.Element) -> Array[CardData]:
+	var cards: Array[CardData] = []
 	for card in _cards.values():
 		if card.element == element:
 			cards.append(card)
 	return cards
 
 ## 按稀有度获取卡牌
-func get_cards_by_rarity(rarity) -> Array:
-	var cards: Array = []
+func get_cards_by_rarity(rarity: CardEnums.Rarity) -> Array[CardData]:
+	var cards: Array[CardData] = []
 	for card in _cards.values():
 		if card.rarity == rarity:
 			cards.append(card)
 	return cards
 
 ## 搜索卡牌
-func search_cards(query: String) -> Array:
-	var results: Array = []
+func search_cards(query: String) -> Array[CardData]:
+	var results: Array[CardData] = []
 	var lower_query = query.to_lower()
 	
 	for card in _cards.values():
-		if card.name.to_lower().contains(lower_query) or card.description.to_lower().contains(lower_query):
+		if card.display_name.to_lower().contains(lower_query) or card.description.to_lower().contains(lower_query):
 			results.append(card)
 	
 	return results

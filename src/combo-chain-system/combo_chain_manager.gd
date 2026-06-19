@@ -27,63 +27,88 @@ var combo_count_this_turn: int = 0
 
 ## 初始化
 func _ready() -> void:
-	_load_default_combos()
+	_load_combos_from_files()
 
-## 加载默认连锁规则
-func _load_default_combos() -> void:
-	# 卡牌类型连锁
-	var summon_buff_combo: ComboChain = ComboChain.new()
-	summon_buff_combo.chain_id = "combo_summon_buff"
-	summon_buff_combo.chain_name = "召唤强化"
-	summon_buff_combo.description = "召唤生物后施加增益，伤害增加50%"
-	summon_buff_combo.chain_type = ComboChain.ChainType.CARD_TYPE
-	summon_buff_combo.trigger_conditions = {"card_types": [CardEnums.CardType.SUMMON, CardEnums.CardType.BUFF_DEBUFF]}
-	summon_buff_combo.effect_type = ComboChain.ChainEffectType.DAMAGE_BONUS
-	summon_buff_combo.effect_value = 0.5
-	summon_buff_combo.priority = 10
-	combo_chains.append(summon_buff_combo)
+## 从文件加载连锁规则
+func _load_combos_from_files() -> void:
+	var combos_dir = "res://data/combos/"
+	var dir = DirAccess.open(combos_dir)
 	
-	# 元素连锁
-	var fire_wind_combo: ComboChain = ComboChain.new()
-	fire_wind_combo.chain_id = "combo_fire_wind"
-	fire_wind_combo.chain_name = "风火轮"
-	fire_wind_combo.description = "火+风元素连锁，触发火焰风暴"
-	fire_wind_combo.chain_type = ComboChain.ChainType.ELEMENT
-	fire_wind_combo.trigger_conditions = {"elements": [CardEnums.Element.FIRE, CardEnums.Element.WIND]}
-	fire_wind_combo.effect_type = ComboChain.ChainEffectType.EXTRA_EFFECT
-	fire_wind_combo.effect_value = 0.0
-	fire_wind_combo.priority = 20
-	combo_chains.append(fire_wind_combo)
+	if not dir:
+		push_warning("[ComboChainManager] Combos directory not found: " + combos_dir)
+		return
 	
-	# 关键词连锁
-	var explosion_combo: ComboChain = ComboChain.new()
-	explosion_combo.chain_id = "combo_explosion"
-	explosion_combo.chain_name = "连锁爆炸"
-	explosion_combo.description = "火焰+爆炸关键词连锁，全体伤害"
-	explosion_combo.chain_type = ComboChain.ChainType.KEYWORD
-	explosion_combo.trigger_conditions = {"keywords": ["火焰", "爆炸"]}
-	explosion_combo.effect_type = ComboChain.ChainEffectType.DAMAGE_BONUS
-	explosion_combo.effect_value = 0.75
-	explosion_combo.priority = 30
-	combo_chains.append(explosion_combo)
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
 	
-	# 顺序连锁
-	var sequence_combo: ComboChain = ComboChain.new()
-	sequence_combo.chain_id = "combo_damage_heal"
-	sequence_combo.chain_name = "攻守兼备"
-	sequence_combo.description = "先伤害后治疗，返还1点能量"
-	sequence_combo.chain_type = ComboChain.ChainType.SEQUENCE
-	sequence_combo.trigger_conditions = {"sequence": [CardEnums.CardType.DIRECT_DAMAGE, CardEnums.CardType.BUFF_DEBUFF]}
-	sequence_combo.effect_type = ComboChain.ChainEffectType.ENERGY_REFUND
-	sequence_combo.effect_value = 1.0
-	sequence_combo.priority = 15
-	combo_chains.append(sequence_combo)
+	while file_name != "":
+		if file_name.ends_with(".json"):
+			_load_json_combos(combos_dir + file_name)
+		file_name = dir.get_next()
+	
+	# 加载完成后按优先级排序（只排序一次）
+	_sort_combos_by_priority()
+
+## 按优先级排序连击规则（降序，高优先级在前）
+func _sort_combos_by_priority() -> void:
+	combo_chains.sort_custom(func(a: ComboChain, b: ComboChain): return a.priority > b.priority)
+
+## 加载 JSON 格式连锁规则
+func _load_json_combos(json_path: String) -> void:
+	var file = FileAccess.open(json_path, FileAccess.READ)
+	if not file:
+		push_warning("[ComboChainManager] Cannot open JSON file: " + json_path)
+		return
+	
+	var json_string = file.get_as_text()
+	file.close()
+	
+	var json = JSON.new()
+	var error = json.parse(json_string)
+	if error != OK:
+		push_warning("[ComboChainManager] JSON parse error in " + json_path + ": " + json.get_error_message())
+		return
+	
+	var data = json.data
+	if not data is Dictionary or not data.has("combo_chains"):
+		push_warning("[ComboChainManager] Invalid JSON structure in " + json_path)
+		return
+	
+	for combo_dict in data["combo_chains"]:
+		var combo = _create_combo_from_dict(combo_dict)
+		if combo:
+			combo_chains.append(combo)
+
+## 从字典创建连锁规则
+func _create_combo_from_dict(data: Dictionary) -> ComboChain:
+	if not data.has("chain_id"):
+		push_warning("[ComboChainManager] Combo missing 'chain_id' field")
+		return null
+	
+	var combo = ComboChain.new()
+	combo.chain_id = data.get("chain_id", "")
+	combo.chain_name = data.get("chain_name", "")
+	combo.description = data.get("description", "")
+	combo.chain_type = data.get("chain_type", ComboChain.ChainType.CARD_TYPE)
+	combo.trigger_conditions = data.get("trigger_conditions", {})
+	combo.effect_type = data.get("effect_type", ComboChain.ChainEffectType.DAMAGE_BONUS)
+	combo.effect_value = data.get("effect_value", 0.5)
+	combo.priority = data.get("priority", 0)
+	return combo
 
 ## ==================== 连锁管理 ====================
 
-## 添加连锁规则
+## 添加连锁规则（保持优先级排序）
 func add_combo_chain(combo: ComboChain) -> void:
-	combo_chains.append(combo)
+	# 找到插入位置以保持排序
+	var insert_index: int = 0
+	for i in range(combo_chains.size()):
+		if combo.priority > combo_chains[i].priority:
+			insert_index = i
+			break
+		insert_index = i + 1
+	
+	combo_chains.insert(insert_index, combo)
 
 ## 移除连锁规则
 func remove_combo_chain(chain_id: String) -> void:
@@ -125,8 +150,7 @@ func _check_for_combos() -> void:
 	
 	var matched_combos: Array[ComboChain] = []
 	
-	# 按优先级排序
-	combo_chains.sort_custom(func(a: ComboChain, b: ComboChain): return a.priority > b.priority)
+	# combo_chains 已在加载时按优先级排序，无需再次排序
 	
 	# 检查每个连锁规则
 	for combo in combo_chains:

@@ -28,13 +28,35 @@ func _ready() -> void:
 
 ## ==================== 效果管理 ====================
 
-## 施加状态效果
+## 施加状态效果（ADR-0006：分层叠加规则）
 func apply_effect(effect: StatusEffect, target: Node) -> bool:
 	if effect == null:
 		push_warning("StatusEffectManager: 尝试施加空效果")
 		return false
 	
-	# 检查是否已存在相同效果
+	# 检查免疫
+	if _has_immunity(effect):
+		return false
+	
+	# 检查优先级
+	if _has_higher_priority_effect(effect):
+		return false
+	
+	# 根据叠加类型处理
+	match effect.stack_type:
+		StatusEffect.StackType.STACK:
+			return _stack_effect(effect, target)
+		StatusEffect.StackType.REFRESH:
+			return _refresh_effect(effect, target)
+		StatusEffect.StackType.OVERWRITE:
+			return _overwrite_effect(effect, target)
+		StatusEffect.StackType.IMMUNE:
+			return _apply_immunity_effect(effect, target)
+		_:
+			return _refresh_effect(effect, target)
+
+## 处理STACK类型效果（可叠加层数）
+func _stack_effect(effect: StatusEffect, target: Node) -> bool:
 	var existing_effect: StatusEffect = _find_effect_by_id(effect.effect_id)
 	
 	if existing_effect:
@@ -51,16 +73,72 @@ func apply_effect(effect: StatusEffect, target: Node) -> bool:
 			return false
 	else:
 		# 施加新效果
-		var new_effect: StatusEffect = effect.clone()
-		active_effects.append(new_effect)
-		
-		# 更新索引
-		if not effects_by_id.has(new_effect.effect_id):
-			effects_by_id[new_effect.effect_id] = []
-		effects_by_id[new_effect.effect_id].append(new_effect)
-		
-		effect_applied.emit(new_effect, target)
+		return _add_new_effect(effect, target)
+
+## 处理REFRESH类型效果（刷新持续时间）
+func _refresh_effect(effect: StatusEffect, target: Node) -> bool:
+	var existing_effect: StatusEffect = _find_effect_by_id(effect.effect_id)
+	
+	if existing_effect:
+		# 刷新持续时间
+		existing_effect.duration = maxi(existing_effect.duration, effect.duration)
+		effect_updated.emit(existing_effect, target)
 		return true
+	else:
+		# 施加新效果
+		return _add_new_effect(effect, target)
+
+## 处理OVERWRITE类型效果（覆盖已有效果）
+func _overwrite_effect(effect: StatusEffect, target: Node) -> bool:
+	var existing_effect: StatusEffect = _find_effect_by_id(effect.effect_id)
+	
+	if existing_effect:
+		# 移除旧效果
+		_remove_effect_from_list(existing_effect, target)
+	
+	# 施加新效果
+	return _add_new_effect(effect, target)
+
+## 处理IMMUNE类型效果（免疫效果）
+func _apply_immunity_effect(effect: StatusEffect, target: Node) -> bool:
+	var existing_effect: StatusEffect = _find_effect_by_id(effect.effect_id)
+	
+	if existing_effect:
+		# 刷新持续时间
+		existing_effect.duration = maxi(existing_effect.duration, effect.duration)
+		effect_updated.emit(existing_effect, target)
+		return true
+	else:
+		# 施加新免疫效果
+		return _add_new_effect(effect, target)
+
+## 添加新效果到列表
+func _add_new_effect(effect: StatusEffect, target: Node) -> bool:
+	var new_effect: StatusEffect = effect.clone()
+	active_effects.append(new_effect)
+	
+	# 更新索引
+	if not effects_by_id.has(new_effect.effect_id):
+		effects_by_id[new_effect.effect_id] = []
+	effects_by_id[new_effect.effect_id].append(new_effect)
+	
+	effect_applied.emit(new_effect, target)
+	return true
+
+## 检查是否有免疫效果
+func _has_immunity(effect: StatusEffect) -> bool:
+	for active_effect in active_effects:
+		if active_effect.is_immunity_effect() and active_effect.is_immune_to(effect.effect_type):
+			return true
+	return false
+
+## 检查是否有更高优先级的效果
+func _has_higher_priority_effect(effect: StatusEffect) -> bool:
+	for active_effect in active_effects:
+		if active_effect.effect_id == effect.effect_id:
+			if active_effect.priority > effect.priority:
+				return true
+	return false
 
 ## 移除状态效果
 func remove_effect(effect_id: String, target: Node) -> bool:
@@ -176,6 +254,37 @@ func get_total_buff_value(effect_type: StatusEffect.EffectType) -> int:
 ## 获取活动效果数量
 func get_effect_count() -> int:
 	return active_effects.size()
+
+## 获取所有免疫效果
+func get_all_immunity_effects() -> Array[StatusEffect]:
+	var immunity_effects: Array[StatusEffect] = []
+	for effect in active_effects:
+		if effect.is_immunity_effect():
+			immunity_effects.append(effect)
+	return immunity_effects
+
+## 检查是否对指定效果类型有免疫
+func has_immunity_for(effect_type: StatusEffect.EffectType) -> bool:
+	for effect in active_effects:
+		if effect.is_immunity_effect() and effect.is_immune_to(effect_type):
+			return true
+	return false
+
+## 获取指定类型的所有效果
+func get_effects_by_type(effect_type: StatusEffect.EffectType) -> Array[StatusEffect]:
+	var effects: Array[StatusEffect] = []
+	for effect in active_effects:
+		if effect.effect_type == effect_type:
+			effects.append(effect)
+	return effects
+
+## 获取指定叠加类型的所有效果
+func get_effects_by_stack_type(stack_type: StatusEffect.StackType) -> Array[StatusEffect]:
+	var effects: Array[StatusEffect] = []
+	for effect in active_effects:
+		if effect.stack_type == stack_type:
+			effects.append(effect)
+	return effects
 
 ## ==================== 内部方法 ====================
 

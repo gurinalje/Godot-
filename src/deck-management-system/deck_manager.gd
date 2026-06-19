@@ -45,7 +45,7 @@ func get_card_collection() -> Array[CardData]:
 func add_card_to_collection(card: CardData) -> void:
 	card_collection.append(card)
 	collection_updated.emit()
-	print("[DeckManager] Added card to collection: ", card.name)
+	print("[DeckManager] Added card to collection: ", card.display_name)
 
 ## 从收藏移除卡牌
 func remove_card_from_collection(card_index: int) -> bool:
@@ -138,7 +138,7 @@ func search_collection(query: String) -> Array[CardData]:
 	var lower_query = query.to_lower()
 	
 	for card in card_collection:
-		if card.name.to_lower().contains(lower_query):
+		if card.display_name.to_lower().contains(lower_query):
 			results.append(card)
 	
 	return results

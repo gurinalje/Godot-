@@ -181,7 +181,7 @@ func _get_card_data(card_id: String) -> Dictionary:
 		if card:
 			return {
 				"id": card.id,
-				"name": card.name,
+				"name": card.display_name,
 				"type": card.card_type,
 				"cost": card.cost,
 				"rarity": card.rarity

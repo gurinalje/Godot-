@@ -31,6 +31,9 @@ enum BattleState {
 	DEFEAT
 }
 
+## 游戏配置资源路径
+const GAME_CONFIG_PATH: String = "res://src/resources/game_config.tres"
+
 ## 当前战斗状态
 var battle_state: BattleState = BattleState.NOT_STARTED
 
@@ -40,6 +43,9 @@ var turn_number: int = 0
 ## 玩家能量
 var player_energy: int = 0
 var max_energy: int = 10
+
+## 每回合抽牌数（从配置加载）
+var draw_count: int = 5
 
 ## 玩家卡组
 var player_deck: Array[CardData] = []
@@ -60,14 +66,47 @@ var summon_manager: Node = null
 var environment_manager: Node = null
 var status_effect_manager: Node = null
 
+## 卡牌效果处理器映射（降低圈复杂度）
+var _effect_handlers: Dictionary = {}
+
 ## 初始化
 func _ready() -> void:
+	# 从配置加载游戏参数
+	_load_game_config()
+	
+	# 初始化效果处理器映射
+	_init_effect_handlers()
+	
 	# 获取子系统引用
 	damage_calculator = GameManager.get_system("DamageCalculator")
 	combo_manager = GameManager.get_system("ComboChainManager")
 	summon_manager = GameManager.get_system("SummonManager")
 	environment_manager = GameManager.get_system("EnvironmentManager")
 	status_effect_manager = GameManager.get_system("StatusEffectManager")
+
+## 加载游戏配置
+func _load_game_config() -> void:
+	if ResourceLoader.exists(GAME_CONFIG_PATH):
+		var config: GameConfig = load(GAME_CONFIG_PATH) as GameConfig
+		if config:
+			max_energy = config.default_max_energy
+			draw_count = config.default_draw_count
+			return
+	
+	# 使用默认值
+	max_energy = 10
+	draw_count = 5
+
+## 初始化效果处理器映射
+func _init_effect_handlers() -> void:
+	_effect_handlers = {
+		CardEnums.EffectType.DAMAGE: _apply_damage_effect,
+		CardEnums.EffectType.HEAL: _apply_heal_effect,
+		CardEnums.EffectType.SUMMON: _apply_summon_effect,
+		CardEnums.EffectType.BUFF: _apply_buff_effect,
+		CardEnums.EffectType.DEBUFF: _apply_debuff_effect,
+		CardEnums.EffectType.ENVIRONMENT_CHANGE: _apply_environment_effect,
+	}
 
 ## ==================== 战斗管理 ====================
 
@@ -86,8 +125,8 @@ func start_battle(deck: Array[CardData], enemy_list: Array[Node]) -> void:
 	# 初始化敌人
 	enemies = enemy_list
 	
-	# 抽初始手牌
-	for i in range(5):
+	# 抽初始手牌（从配置加载数量）
+	for i in range(draw_count):
 		draw_card()
 	
 	battle_started.emit()
@@ -121,6 +160,10 @@ func _execute_enemy_turn() -> void:
 	for enemy in enemies:
 		if enemy.has_method("take_action"):
 			enemy.take_action()
+	
+	# 检查战斗是否结束
+	if check_battle_end():
+		return
 	
 	# 开始新回合
 	_start_new_turn()
@@ -201,24 +244,23 @@ func play_card(card: CardData, target: Node = null) -> bool:
 	player_discard.append(card)
 	
 	card_played.emit(card, null)
+	
+	# 检查战斗是否结束
+	check_battle_end()
+	
 	return true
 
-## 应用卡牌效果
+## 应用卡牌效果（使用字典映射降低圈复杂度）
 func _apply_card_effects(card: CardData, target: Node) -> void:
 	for effect in card.effects:
-		match effect.effect_type:
-			CardEnums.EffectType.DAMAGE:
-				_apply_damage_effect(effect, card, target)
-			CardEnums.EffectType.HEAL:
-				_apply_heal_effect(effect, target)
-			CardEnums.EffectType.SUMMON:
-				_apply_summon_effect(effect, card)
-			CardEnums.EffectType.BUFF:
-				_apply_buff_effect(effect, target)
-			CardEnums.EffectType.DEBUFF:
-				_apply_debuff_effect(effect, target)
-			CardEnums.EffectType.ENVIRONMENT_CHANGE:
-				_apply_environment_effect(effect, card)
+		var handler: Callable = _effect_handlers.get(effect.effect_type)
+		if handler:
+			if effect.effect_type == CardEnums.EffectType.DAMAGE:
+				handler.call(effect, card, target)
+			elif effect.effect_type in [CardEnums.EffectType.SUMMON, CardEnums.EffectType.ENVIRONMENT_CHANGE]:
+				handler.call(effect, card)
+			else:
+				handler.call(effect, target)
 
 ## 应用伤害效果
 func _apply_damage_effect(effect: CardEffect, card: CardData, target: Node) -> void:
@@ -232,7 +274,7 @@ func _apply_damage_effect(effect: CardEffect, card: CardData, target: Node) -> v
 	
 	# 应用连锁加成
 	if combo_manager:
-		var matching_combos: Array = combo_manager.get_matching_combos()
+		var matching_combos: Array[ComboChain] = combo_manager.get_matching_combos()
 		for combo in matching_combos:
 			if combo.effect_type == ComboChain.ChainEffectType.DAMAGE_BONUS:
 				base_damage = int(float(base_damage) * (1.0 + combo.effect_value))
@@ -260,7 +302,7 @@ func _apply_summon_effect(effect: CardEffect, card: CardData) -> void:
 	
 	var unit: SummonUnit = SummonUnit.new()
 	unit.summon_id = "summon_" + str(randi())
-	unit.summon_name = card.name + " Summon"
+	unit.summon_name = card.display_name + " Summon"
 	unit.base_health = effect.value
 	unit.base_attack = effect.value / 2
 	unit.element = card.element
@@ -305,7 +347,7 @@ func _apply_environment_effect(effect: CardEffect, card: CardData) -> void:
 	
 	var env: EnvironmentEffect = EnvironmentEffect.new()
 	env.environment_id = "env_" + card.id
-	env.environment_name = card.name + " Environment"
+	env.environment_name = card.display_name + " Environment"
 	env.description = card.description
 	env.duration = effect.duration if effect.duration > 0 else 3
 	
@@ -336,6 +378,46 @@ func _get_default_target(target_type: int) -> Node:
 			if not enemies.is_empty():
 				return enemies[randi() % enemies.size()]
 	return null
+
+## ==================== 战斗结束条件检查 ====================
+
+## 检查战斗是否结束
+## 在每次关键操作后调用（出牌、敌人行动等）
+func check_battle_end() -> bool:
+	# 检查敌人是否全部死亡
+	if _are_all_enemies_defeated():
+		end_battle(true)
+		return true
+	
+	# 检查玩家是否死亡（需要外部传入玩家引用或使用GameManager）
+	if _is_player_defeated():
+		end_battle(false)
+		return true
+	
+	return false
+
+## 检查是否所有敌人已被击败
+func _are_all_enemies_defeated() -> bool:
+	if enemies.is_empty():
+		return false
+	
+	for enemy in enemies:
+		if enemy and is_instance_valid(enemy):
+			# 检查敌人是否有 is_alive 方法
+			if enemy.has_method("is_alive") and enemy.is_alive():
+				return false
+			# 检查敌人是否有 health 属性
+			elif enemy.has_method("get") and enemy.get("health", 0) > 0:
+				return false
+	return true
+
+## 检查玩家是否已被击败
+func _is_player_defeated() -> bool:
+	# 通过 GameManager 检查玩家状态
+	if GameManager and GameManager.has_method("get"):
+		var player_health: int = GameManager.get("player_health", 0)
+		return player_health <= 0
+	return false
 
 ## ==================== 查询接口 ====================
 

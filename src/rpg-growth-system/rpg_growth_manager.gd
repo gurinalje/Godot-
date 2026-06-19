@@ -1,8 +1,10 @@
 ## RPG成长管理器
 ## 管理角色升级和成长系统
-
 class_name RPGGrowthManager
 extends Node
+
+## 成长数据库引用（通过GameManager获取）
+var _growth_database: GrowthDatabase = null
 
 # 经验值和等级
 var current_level: int = 1
@@ -12,14 +14,8 @@ var exp_to_next_level: int = 100
 # 属性点
 var available_points: int = 0
 
-# 属性值
-var stats: Dictionary = {
-	"strength": 10,
-	"dexterity": 10,
-	"intelligence": 10,
-	"constitution": 10,
-	"luck": 10
-}
+# 属性值（从数据库动态初始化）
+var stats: Dictionary = {}
 
 # 信号
 signal level_up(new_level: int)
@@ -31,7 +27,16 @@ func _ready() -> void:
 	initialize()
 
 func initialize() -> void:
-	print("[RPGGrowthManager] Initialized")
+	# 通过GameManager获取GrowthDatabase引用
+	_growth_database = _get_growth_database()
+	if _growth_database == null:
+		push_warning("[RPGGrowthManager] GrowthDatabase not found, creating local instance")
+		_growth_database = GrowthDatabase.new()
+		_growth_database._ready()
+
+	# 从数据库初始化属性值
+	stats = _growth_database.get_all_default_values()
+	print("[RPGGrowthManager] Initialized with stats: ", stats)
 
 ## 获取当前等级
 func get_current_level() -> int:
@@ -107,49 +112,57 @@ func set_stat(stat_name: String, value: int) -> void:
 
 ## 重置属性
 func reset_stats() -> void:
-	var total_points = 0
-	for stat in stats.values():
+	var total_points: int = 0
+	for stat: int in stats.values():
 		total_points += stat - 10
 	
-	stats = {
-		"strength": 10,
-		"dexterity": 10,
-		"intelligence": 10,
-		"constitution": 10,
-		"luck": 10
-	}
+	# 从数据库重新加载默认值
+	stats = _growth_database.get_all_default_values()
 	
 	available_points = total_points
 	print("[RPGGrowthManager] Stats reset")
 
-## 获取属性名称
+## 获取属性名称（从数据库获取）
 func get_stat_name(stat_name: String) -> String:
-	match stat_name:
-		"strength":
-			return "Strength"
-		"dexterity":
-			return "Dexterity"
-		"intelligence":
-			return "Intelligence"
-		"constitution":
-			return "Constitution"
-		"luck":
-			return "Luck"
-		_:
-			return stat_name
+	if _growth_database:
+		return _growth_database.get_stat_display_name(stat_name)
+	return stat_name
 
-## 获取属性描述
+## 获取属性描述（从数据库获取）
 func get_stat_description(stat_name: String) -> String:
-	match stat_name:
-		"strength":
-			return "Increases physical attack power"
-		"dexterity":
-			return "Increases critical rate and evasion"
-		"intelligence":
-			return "Increases magic attack and mana"
-		"constitution":
-			return "Increases health and defense"
-		"luck":
-			return "Increases drop rate and critical damage"
-		_:
-			return ""
+	if _growth_database:
+		return _growth_database.get_stat_description(stat_name)
+	return ""
+
+## 获取属性配置（从数据库获取）
+func get_stat_config(stat_name: String) -> GrowthConfig:
+	if _growth_database:
+		return _growth_database.get_stat_definition(stat_name)
+	return null
+
+## 获取所有属性ID列表
+func get_all_stat_ids() -> Array[String]:
+	if _growth_database:
+		return _growth_database.get_all_stat_ids()
+	var ids: Array[String] = []
+	for stat_id: String in stats:
+		ids.append(stat_id)
+	return ids
+
+#region 系统引用获取（通过GameManager依赖注入）
+
+## 获取GrowthDatabase引用
+func _get_growth_database() -> GrowthDatabase:
+	var game_manager: Node = _get_game_manager()
+	if game_manager:
+		var db: Node = game_manager.get_node_or_null("GrowthDatabase")
+		if db is GrowthDatabase:
+			return db as GrowthDatabase
+	# 回退：检查自动加载
+	return get_node_or_null("/root/GrowthDatabase") as GrowthDatabase
+
+## 获取GameManager引用
+func _get_game_manager() -> Node:
+	return get_node_or_null("/root/GameManager")
+
+#endregion

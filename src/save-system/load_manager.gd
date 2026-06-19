@@ -98,11 +98,55 @@ func _perform_load(slot_id: int):
 		load_error.emit(result.error_message)
 
 # 恢复游戏状态
+## 遍历save_data中的系统数据，调用对应系统的load_data()方法
 func _restore_game_state(save_data: Dictionary):
-	# 这里应该将save_data分发到各个系统
-	# 暂时只是打印日志
-	print("LoadManager: Restoring game state from save data")
-	print("Save data keys: ", save_data.keys())
+	print("[LoadManager] Restoring game state from save data")
+	
+	# 获取GameManager单例
+	var game_manager = Engine.get_singleton("GameManager")
+	if game_manager == null:
+		# 尝试从场景树获取
+		var root = get_tree().get_root()
+		if root.has_node("GameManager"):
+			game_manager = root.get_node("GameManager")
+	
+	if game_manager == null:
+		push_error("[LoadManager] GameManager not found, cannot restore state")
+		return
+	
+	# 恢复玩家状态
+	if save_data.has("player"):
+		var player_data: Dictionary = save_data["player"]
+		game_manager.player_health = player_data.get("health", game_manager.player_health)
+		game_manager.player_max_health = player_data.get("max_health", game_manager.player_max_health)
+		game_manager.player_mana = player_data.get("mana", game_manager.player_mana)
+		game_manager.player_max_mana = player_data.get("max_mana", game_manager.player_max_mana)
+		game_manager.player_gold = player_data.get("gold", game_manager.player_gold)
+		game_manager.player_experience = player_data.get("experience", game_manager.player_experience)
+		game_manager.player_level = player_data.get("level", game_manager.player_level)
+		game_manager.player_attack = player_data.get("attack", game_manager.player_attack)
+		game_manager.player_defense = player_data.get("defense", game_manager.player_defense)
+		game_manager.current_area = player_data.get("current_area", game_manager.current_area)
+		game_manager.first_battle_completed = player_data.get("first_battle_completed", game_manager.first_battle_completed)
+		print("[LoadManager] Player state restored")
+	
+	# 恢复各系统状态
+	if save_data.has("systems"):
+		var systems_data: Dictionary = save_data["systems"]
+		var systems: Dictionary = game_manager.systems
+		
+		for system_name in systems_data:
+			var system = systems.get(system_name)
+			if system != null and system.has_method("load_data"):
+				var system_data: Dictionary = systems_data[system_name]
+				system.load_data(system_data)
+				print("[LoadManager] System restored: ", system_name)
+			elif system == null:
+				push_warning("[LoadManager] System not found: " + system_name)
+			else:
+				push_warning("[LoadManager] System has no load_data method: " + system_name)
+	
+	print("[LoadManager] Game state restoration complete")
 
 # 检查是否正在加载
 func is_loading() -> bool:

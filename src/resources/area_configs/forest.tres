@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AreaConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/resources/area_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+area_id = "forest"
+display_name = "幽暗森林"
+description = "浓密的森林，隐藏着各种危险..."
+background_color = Color(0.2, 0.4, 0.2, 1)
+enemies = Array[String](["野狼", "哥布林", "毒蜘蛛"])
+npcs = Array[String](["merchant", "quest_giver"])
+connections = Array[String](["castle"])
+unlock_level = 1

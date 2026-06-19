@@ -8,8 +8,8 @@ extends Resource
 ## 卡牌唯一标识符
 @export var id: String = ""
 
-## 卡牌显示名称
-@export var name: String = ""
+## 卡牌显示名称（避免与Resource.name冲突）
+@export var display_name: String = ""
 
 ## 卡牌效果描述
 @export var description: String = ""
@@ -124,7 +124,7 @@ func is_cost_balanced() -> bool:
 func clone() -> CardData:
 	var new_card: CardData = CardData.new()
 	new_card.id = id
-	new_card.name = name
+	new_card.display_name = display_name
 	new_card.description = description
 	new_card.card_type = card_type
 	new_card.cost = cost
@@ -151,7 +151,7 @@ func to_dict() -> Dictionary:
 	
 	return {
 		"id": id,
-		"name": name,
+		"display_name": display_name,
 		"description": description,
 		"card_type": card_type,
 		"cost": cost,
@@ -169,7 +169,7 @@ func to_dict() -> Dictionary:
 static func from_dict(data: Dictionary) -> CardData:
 	var card: CardData = CardData.new()
 	card.id = data.get("id", "")
-	card.name = data.get("name", "")
+	card.display_name = data.get("display_name", "")
 	card.description = data.get("description", "")
 	card.card_type = data.get("card_type", CardEnums.CardType.DIRECT_DAMAGE)
 	card.cost = data.get("cost", 1)

@@ -133,7 +133,7 @@ func search_deck(query: String) -> Array[CardData]:
 	var lower_query = query.to_lower()
 	
 	for card in current_deck:
-		if card.name.to_lower().contains(lower_query):
+		if card.display_name.to_lower().contains(lower_query):
 			results.append(card)
 	
 	return results

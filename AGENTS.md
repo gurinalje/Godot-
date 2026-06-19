@@ -1,217 +1,272 @@
-# OpenCode Game Studios
+# 命运卡牌局 (Destiny Card Game)
 
-Indie game development managed through 49 coordinated OpenCode agents.
-Each agent owns a specific domain, enforcing separation of concerns and quality.
+OpenCode驱动的独立游戏开发框架，通过49个协调的OpenCode代理管理。
 
-## Technology Stack
+## 项目概述
 
-- **Engine**: Godot 4.6.3
-- **Language**: GDScript (gameplay/UI scripting), C# (performance-critical systems), C++ via GDExtension (native only)
-- **Build System**: .NET SDK + Godot Export Templates
-- **Asset Pipeline**: Godot Import System + custom resource pipeline
+**游戏类型**: 2D卡牌RPG，融合《杀戮尖塔》、《游戏王》和《炉石传说》的机制
 
-> **Note**: Engine-specialist agents exist for Godot, Unity, Unreal, SFML 3,
-> and Raylib. Use the set matching your engine.
+**技术栈**:
+- **引擎**: Godot 4.6.3（注意：LLM训练数据仅覆盖到4.3版本，需要查阅引擎文档）
+- **语言**: GDScript（主要）、C#（性能关键系统）、C++ via GDExtension（仅原生）
+- **构建系统**: .NET SDK + Godot导出模板
+- **资产管道**: Godot导入系统 + 自定义资源管道
 
-## Project Structure
+**项目阶段**: Production（生产阶段状态文件：`production/stage.txt`）
+
+### 当前状态
+- **史诗任务**: 22个（全部待开始）
+- **故事任务**: 69个（全部待开始）
+- **源代码系统**: 22个（已创建）
+- **测试文件**: 67个（已创建，177个测试函数）
+
+### 当前优先级
+1. **运行测试验证**: 在Godot中运行所有测试
+2. **代码审查**: 运行 `/code-review` 审查实现
+3. **集成测试**: 运行 `/smoke-check` 验证系统集成
+4. **QA计划**: 运行 `/qa-plan` 创建测试计划
+5. **冲刺计划**: 运行 `/sprint-plan` 创建生产冲刺计划
+
+## 项目结构
 
 ```text
 /
-├── AGENTS.md                    # Project configuration
-├── opencode.json                # OpenCode config (permissions, plugins)
-├── .opencode/                   # Framework components
-│   ├── commands/                # 50 slash commands (routes to skills)
-│   ├── agents/                  # 51 agent definitions (was .claude/agents/)
-│   ├── skills/                  # 77 skills (was .claude/skills/)
-│   ├── plugins/                 # TypeScript plugins
-│   │   ├── ccgs-hooks.ts        # Session lifecycle, validation, logging
-│   │   ├── drift-detector.ts    # Template compliance detection
-│   │   ├── changelog-generator.ts
-│   │   └── tests/               # 11 plugin test suites
-│   └── rules/                   # 11 path-scoped coding standards
-├── docs/
-│   ├── architecture/            # Architecture Decision Records (ADRs)
-│   ├── engine-reference/        # Curated engine API snapshots (version-pinned)
-│   ├── authoring-agents.md      # Agent creation guide
-│   ├── authoring-skills.md      # Skill creation guide
-│   ├── hybrid-workflow.md       # Hybrid workflow reference
-│   └── CONTRIBUTING.md          # Framework contribution guide
-├── tests/
-│   ├── agents/                  # Agent framework validation
-│   │   ├── validate.mjs         # Structural compliance checker
-│   │   ├── validate-gdscript.mjs # GDScript snippet linter
-│   │   └── validation-report.md # Latest audit results
-│   ├── [game-specific tests]
-│   └── [spawned by test-setup]
-├── src/                         # Game source code
-├── assets/                      # Game assets
-├── design/                      # Game design documents
-├── tools/                       # Build and pipeline tools
-├── prototypes/                  # Throwaway prototypes
-└── production/                  # Sprint plans, milestones, session logs
+├── AGENTS.md                    # 本文件 - 项目配置和代理指南
+├── opencode.json                # OpenCode配置（权限、插件、MCP服务器）
+├── project.godot                # Godot项目文件（主场景：res://src/main.tscn）
+├── .opencode/                   # 框架组件
+│   ├── commands/                # 50个斜杠命令（路由到技能）
+│   ├── agents/                  # 51个代理定义
+│   ├── skills/                  # 77个技能
+│   ├── plugins/                 # TypeScript插件（生命周期钩子、验证、日志）
+│   └── rules/                   # 11个路径作用域的编码标准
+├── src/                         # 游戏源代码
+│   ├── autoload/                # 自动加载单例（GameManager, ResourceManager）
+│   ├── card-database/           # 卡牌数据库系统
+│   ├── damage-calculation/      # 伤害计算系统
+│   ├── status-effect-system/    # 状态效果系统
+│   └── ...                      # 25+游戏系统
+├── tests/                       # 测试目录
+│   ├── unit/                    # 单元测试（按系统组织）
+│   ├── integration/             # 集成测试
+│   └── workflow/                 # 工作流测试
+├── design/                      # 游戏设计文档
+│   └── gdd/                     # 30个游戏设计文档
+├── docs/                        # 文档
+│   ├── architecture/            # 架构决策记录（ADR）
+│   └── engine-reference/        # 引擎API快照（版本固定）
+├── production/                  # 生产文档
+│   ├── epics/                   # 史诗和故事文件
+│   └── session-state/           # 会话状态
+├── assets/                      # 游戏资产
+├── tools/                       # 开发工具
+└── scripts/                     # 自动化脚本
 ```
 
-## Modular Framework
+## 核心游戏系统（已实现）
 
-The framework is partitioned into installable theme modules.
+项目包含25+游戏系统，分为四个层次：
 
-**Core** (always installed): creative-director, technical-director, producer, /start, /help, /brainstorm, /setup-engine, validation suite.
+1. **基础层**: 卡牌数据库、伤害计算、状态效果、战斗日志
+2. **核心层**: 玩家系统、敌人AI、战斗系统、回合管理
+3. **功能层**: 商店系统、背包系统、任务系统、成就系统
+4. **表现层**: UI系统、动画系统、音效系统、粒子系统
 
-**Available modules:** art, design, architecture, stories, programming, ui, audio, narrative, level-design, qa, release, prototyping, live-ops, localization, data, engine-godot, engine-unity, engine-unreal, engine-sfml3, engine-raylib.
+## OpenCode框架使用
 
-**Install:** `node .opencode/modules/install.mjs add <name>`
-**Remove:** `node .opencode/modules/install.mjs remove <name>`
-**List:** `node .opencode/modules/install.mjs list`
+### 关键命令
 
-## Coordination Rules
+```bash
+# 项目设置
+/start                          # 引导式入门流程
+/setup-engine godot 4.6         # 配置引擎版本
+/project-stage-detect           # 分析现有项目
 
-1. **Vertical Delegation**: Leadership agents delegate to department leads, who
-   delegate to specialists. Never skip a tier for complex decisions.
-2. **Horizontal Consultation**: Agents at the same tier may consult each other
-   but must not make binding decisions outside their domain.
-3. **Conflict Resolution**: When two agents disagree, escalate to the shared
-   parent. If no shared parent, escalate to `creative-director` for design
-   conflicts or `technical-director` for technical conflicts.
-4. **Change Propagation**: When a design change affects multiple domains, the
-   `producer` agent coordinates the propagation.
-5. **No Unilateral Cross-Domain Changes**: An agent must never modify files
-   outside its designated directories without explicit delegation.
+# 设计阶段
+/brainstorm                     # 探索游戏创意
+/map-systems                    # 分解游戏系统
+/design-system                  # 设计单个系统
 
-## Collaboration Protocol
+# 开发阶段
+/create-architecture            # 创建架构文档
+/create-epics                   # 创建史诗
+/create-stories                 # 创建故事
+/dev-story                      # 实现故事
 
-**User-driven collaboration, not autonomous execution.**
-Every task follows: **Question -> Options -> Decision -> Draft -> Approval**
+# 测试阶段
+/test-setup                     # 设置测试框架
+/smoke-check                    # 关键路径测试
+/qa-plan                        # 创建QA计划
 
-- Agents MUST ask "May I write this to [filepath]?" before using Write/Edit tools
-- Agents MUST show drafts or summaries before requesting approval
-- Multi-file changes require explicit approval for the full changeset
-- No commits without user instruction
-
-## Coding Standards
-
-- All game code must include doc comments on public APIs
-- Every system must have a corresponding architecture decision record in `docs/architecture/`
-- Gameplay values must be data-driven (external config), never hardcoded
-- All public methods must be unit-testable (dependency injection over singletons)
-- Commits must reference the relevant design document or task ID
-- **Verification-driven development**: Write tests first when adding gameplay systems.
-  For UI changes, verify with screenshots. Compare expected output to actual output
-  before marking work complete. Every implementation should have a way to prove it works.
-
-## Context Management
-
-Context is the most critical resource in an OpenCode session. Manage it actively.
-
-**The file is the memory, not the conversation.** Conversations are ephemeral and
-will be compacted or lost. Files on disk persist across compactions and session crashes.
-
-Maintain `production/session-state/active.md` as a living checkpoint. Update it
-after each significant milestone:
-
-- Design section approved and written to file
-- Architecture decision made
-- Implementation milestone reached
-- Test results obtained
-
-The state file should contain: current task, progress checklist, key decisions
-made, files being worked on, and open questions.
-
-## Workflow Modes
-
-This project supports two workflow modes. Choose the one that fits your team size and project maturity:
-
-### Hybrid Workflow (Recommended for Indie Teams)
-
-- **Discovery Phase**: Rapid prototyping to find the fun. Low process overhead, minimal agents, throwaway code in `prototypes/`.
-- **Production Phase**: Full OCGS discipline once the design is proven. Formal GDDs, ADRs, tests, and quality gates.
-- **Best for**: Teams of 1–5, unknown designs, iterating to find the fun.
-- **See**: `docs/hybrid-workflow.md` for full details.
-
-### Full OCGS Workflow
-
-- **All phases formal**: Every feature goes through design → architecture → stories → code → tests → review.
-- **Best for**: Teams of 5–15, known designs, long timelines, publisher requirements.
-- **See**: Full documentation in `docs/` and `.opencode/skills/`.
-
-## Getting Started
-
-Run `/start` in OpenCode to begin the guided onboarding flow.
-Or jump directly to:
-- `/brainstorm` — explore game ideas from scratch
-- `/setup-engine godot 4.6` — configure your engine (also: unity, unreal, sfml3, raylib)
-- `/project-stage-detect` — analyze an existing project
-- `/prototype` — rapid prototype a concept
-- `/hybrid-prototype` — fast-lane prototype for discovery phase
-
-## Available Commands
-
-Type `/` in OpenCode to see all available commands. All 50 commands route to
-corresponding skills in `.opencode/skills/`.
-
-| Category | Commands |
-|----------|----------|
-| **Onboarding** | `/start`, `/help`, `/project-stage-detect`, `/setup-engine`, `/init-template` |
-| **Design** | `/brainstorm`, `/map-systems`, `/design-system`, `/quick-design`, `/design-review`, `/review-all-gdds` |
-| **Architecture** | `/create-architecture`, `/architecture-decision`, `/architecture-review`, `/create-control-manifest` |
-| **Stories** | `/create-epics`, `/create-stories`, `/story-readiness`, `/dev-story`, `/story-done`, `/code-review` |
-| **QA** | `/qa-plan`, `/smoke-check`, `/soak-test`, `/regression-suite`, `/test-setup`, `/test-helpers`, `/test-evidence-review`, `/test-flakiness` |
-| **Prototyping** | `/prototype`, `/reverse-document` |
-| **Team** | `/team-combat`, `/team-narrative`, `/team-ui`, `/team-level`, `/team-audio`, `/team-polish`, `/team-qa`, `/team-release` |
-| **Release** | `/sprint-plan`, `/sprint-status`, `/milestone-review`, `/release-checklist`, `/launch-checklist`, `/retrospective` |
-| **Ops** | `/hotfix`, `/day-one-patch`, `/bug-report`, `/bug-triage`, `/security-audit` |
-| **Other** | `/balance-check`, `/consistency-check`, `/content-audit`, `/asset-audit`, `/perf-profile`, `/scope-check`, `/gate-check`, `/changelog`, `/patch-notes`, `/localize`, `/onboard`, `/tech-debt`, `/propagate-design-change`, `/estimate`, `/art-bible`, `/asset-spec`, `/playtest-report`, `/automated-smoke-test` |
-
-## Studio Hierarchy
-
-```
-Tier 1 — Directors (Primary agents)
-  creative-director    technical-director    producer
-
-Tier 2 — Department Leads (Subagents)
-  game-designer        lead-programmer       art-director
-  audio-director       narrative-director    qa-lead
-  release-manager      localization-lead
-
-Tier 3 — Specialists (Subagents)
-  gameplay-programmer  engine-programmer     ai-programmer
-  network-programmer   tools-programmer      ui-programmer
-  systems-designer     level-designer        economy-designer
-  technical-artist     sound-designer        writer
-  world-builder        ux-designer           prototyper
-  performance-analyst  devops-engineer       analytics-engineer
-  security-engineer    qa-tester             accessibility-specialist
-  live-ops-designer    community-manager
+# 生产阶段
+/sprint-plan                    # 创建冲刺计划
+/sprint-status                  # 检查冲刺状态
+/release-checklist              # 发布检查清单
 ```
 
-## Engine Specialists
+### 代理使用指南
 
-- **Godot 4**: `godot-specialist` + `godot-gdscript-specialist`, `godot-csharp-specialist`, `godot-shader-specialist`, `godot-gdextension-specialist`
-- **Unity**: `unity-specialist` + `unity-dots-specialist`, `unity-shader-specialist`, `unity-addressables-specialist`, `unity-ui-specialist`
-- **Unreal Engine 5**: `unreal-specialist` + `ue-blueprint-specialist`, `ue-gas-specialist`, `ue-replication-specialist`, `ue-umg-specialist`
-- **SFML 3**: `sfml-specialist` (single agent — covers Graphics, Audio, Network, Window, System)
-- **Raylib**: `raylib-specialist` (single agent — covers core, rlgl, raudio, raymath, raygui)
+**代理层次结构**:
+- **Tier 1 - 总监**: creative-director, technical-director, producer
+- **Tier 2 - 部门主管**: game-designer, lead-programmer, art-director等
+- **Tier 3 - 专家**: gameplay-programmer, engine-programmer等
 
-## Quality Gates
+**关键规则**:
+1. **垂直委派**: 总监委派给部门主管，主管委派给专家
+2. **水平协商**: 同级代理可以协商，但不能在域外做约束性决定
+3. **冲突解决**: 设计冲突升级到creative-director，技术冲突升级到technical-director
+4. **变更传播**: 跨域变更由producer协调
 
-Before merging to `development`, the CI must pass:
+### 协作协议
 
-- **Agent validation** (`.github/workflows/agent-validation.yml`):
-  - All agent files have required frontmatter and sections
-  - All skill files have valid cross-references to existing agents
-  - All command files reference valid skill directories
-- **Plugin tests** (`node .opencode/plugins/tests/test-*.mjs`):
-  - 11 test suites, 129+ tests covering all hooks
+**用户驱动协作，非自主执行**:
+1. 每个任务遵循：**问题 → 选项 → 决策 → 草案 → 批准**
+2. 代理必须在写入文件前询问："我可以将此写入[文件路径]吗？"
+3. 多文件更改需要明确批准完整变更集
+4. 没有用户指令不提交代码
 
-## Notes
+## Godot 4.6.3 开发指南
 
-This is a port of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios)
-to OpenCode. The 77 skills are in `.opencode/skills/`, the 51 agents are in
-`.opencode/agents/`, and the 12 original bash hooks are implemented as a
-TypeScript plugin in `.opencode/plugins/ccgs-hooks.ts`.
+### 关键注意事项
 
-Additional plugins (`drift-detector.ts`, `changelog-generator.ts`) extend the
-framework beyond the original port. See `.opencode/plugins/README.md` for the
-plugin architecture guide.
+1. **引擎版本**: Godot 4.6.3，LLM训练数据仅覆盖到4.3版本
+   - 必须查阅`docs/engine-reference/godot/`中的API文档
+   - 使用`skill(name="setup-engine")`获取版本特定指导
 
-To contribute to the framework itself — adding agents, skills, commands, rules,
-or plugins — see `docs/CONTRIBUTING.md`.
+2. **自动加载系统**: 
+   - `GameManager`: 中央系统管理器，初始化25+游戏系统
+   - `ResourceManager`: 资源管理单例
+   - 在`project.godot`中配置
+
+3. **测试框架**:
+   - 使用GUT（Godot Unit Testing）框架
+   - 配置文件：`.gutconfig.json`
+   - 测试目录：`tests/unit/`和`tests/integration/`
+   - 运行测试：`tests/workflow/run-all.mjs`
+
+4. **场景管理**:
+   - 主场景：`res://src/main.tscn`
+   - 使用MCP Godot工具进行场景操作
+   - 场景文件格式：`.tscn`（文本格式）
+
+### MCP工具使用
+
+项目配置了两个MCP服务器：
+
+1. **Aseprite MCP** (`aseprite-mcp`):
+   - 用于创建和编辑2D艺术资产
+   - 支持精灵、动画、调色板管理
+   - 用法：`skill(name="art-generate")`生成占位符艺术
+
+2. **Godot MCP** (`godot`):
+   - 用于场景管理和项目操作
+   - 支持节点添加、场景保存、项目运行
+   - 用法：直接调用godot_*工具函数
+
+### 常见陷阱
+
+1. **不要硬编码游戏值**: 所有游戏值必须数据驱动（外部配置）
+2. **不要跳过测试**: 每个游戏系统都需要对应的单元测试
+3. **不要忽略文档**: 每个系统都需要架构决策记录（ADR）
+4. **不要跨域修改**: 代理不能修改其指定目录外的文件
+5. **不要自主提交**: 必须等待用户指令才能提交代码
+
+## 编码标准
+
+### 通用要求
+
+- 所有游戏代码必须包含公共API的文档注释
+- 每个系统必须在`docs/architecture/`中有对应的架构决策记录
+- 游戏值必须数据驱动（外部配置），永不硬编码
+- 所有公共方法必须可单元测试（依赖注入优于单例）
+- 提交必须引用相关设计文档或任务ID
+
+### 验证驱动开发
+
+- 添加游戏系统时首先编写测试
+- UI更改通过截图验证
+- 在标记工作完成前比较预期输出与实际输出
+- 每个实现都应该有方法证明其工作正常
+
+### GDScript特定标准
+
+- 使用静态类型（`var health: int = 100`）
+- 遵循Godot命名约定（PascalCase类名，snake_case变量）
+- 使用信号进行系统间通信
+- 避免在热路径中使用`get_node()`，缓存节点引用
+
+## 上下文管理
+
+上下文是OpenCode会话中最关键的资源。主动管理。
+
+**文件是记忆，不是对话**：对话是临时的，会被压缩或丢失。磁盘上的文件在压缩和会话崩溃时持久存在。
+
+维护`production/session-state/active.md`作为实时检查点，在每个重要里程碑后更新：
+- 设计部分批准并写入文件
+- 架构决策制定
+- 实现里程碑达成
+- 测试结果获得
+
+状态文件应包含：当前任务、进度检查清单、关键决策、正在处理的文件和开放问题。
+
+## 工作流程模式
+
+### 混合工作流（推荐用于独立团队）
+
+- **发现阶段**: 快速原型设计以找到乐趣。低流程开销，最少代理，`prototypes/`中的可丢弃代码。
+- **生产阶段**: 设计验证后使用完整OCGS纪律。正式GDD、ADR、测试和质量门。
+- **适用**: 1-5人团队，未知设计，迭代寻找乐趣。
+- **详情**: `docs/hybrid-workflow.md`
+
+### 完整OCGS工作流
+
+- **所有阶段正式**: 每个功能都经过设计→架构→故事→代码→测试→审查。
+- **适用**: 5-15人团队，已知设计，长时间线，发布商要求。
+- **详情**: `docs/`和`.opencode/skills/`
+
+## 质量门
+
+在合并到`development`之前，CI必须通过：
+
+1. **代理验证**: 所有代理文件具有必需的前置内容和部分
+2. **技能验证**: 所有技能文件具有指向现有代理的有效交叉引用
+3. **插件测试**: `node .opencode/plugins/tests/test-*.mjs`
+4. **游戏测试**: `node tests/workflow/run-all.mjs`
+
+## 快速参考
+
+### 常用文件位置
+
+- **游戏设计文档**: `design/gdd/`
+- **架构决策记录**: `docs/architecture/`
+- **测试文件**: `tests/unit/[系统名]/`
+- **生产文档**: `production/epics/`
+- **会话状态**: `production/session-state/active.md`
+
+### 常用技能
+
+- **设计**: `brainstorm`, `design-system`, `map-systems`
+- **架构**: `create-architecture`, `architecture-decision`
+- **实现**: `dev-story`, `create-stories`
+- **测试**: `test-setup`, `smoke-check`, `qa-plan`
+- **生产**: `sprint-plan`, `sprint-status`, `release-checklist`
+
+### 常用代理
+
+- **设计**: game-designer, systems-designer, economy-designer
+- **编程**: gameplay-programmer, ui-programmer, ai-programmer
+- **艺术**: art-director, technical-artist, sound-designer
+- **质量**: qa-lead, qa-tester, performance-analyst
+
+## 注意事项
+
+这是从[Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios)
+到OpenCode的移植。77个技能在`.opencode/skills/`中，51个代理在
+`.opencode/agents/`中，12个原始bash钩子在TypeScript插件中实现。
+
+要贡献框架本身——添加代理、技能、命令、规则或插件——请参阅`docs/CONTRIBUTING.md`。
+
+要了解游戏特定信息，请参阅：
+- `README.md`: 项目概述和已实现系统
+- `docs/architecture/architecture.md`: 主架构文档
+- `design/gdd/`: 游戏设计文档集合

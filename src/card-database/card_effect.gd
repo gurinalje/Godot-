@@ -83,6 +83,7 @@ func clone() -> CardEffect:
 	new_effect.value = value
 	new_effect.target = target
 	new_effect.duration = duration
+	new_effect.secondary_value = secondary_value
 	new_effect.condition = condition
 	new_effect.description_template = description_template
 	return new_effect
@@ -94,6 +95,7 @@ func to_dict() -> Dictionary:
 		"value": value,
 		"target": target,
 		"duration": duration,
+		"secondary_value": secondary_value,
 		"condition": condition
 	}
 
@@ -104,5 +106,6 @@ static func from_dict(data: Dictionary) -> CardEffect:
 	effect.value = data.get("value", 0)
 	effect.target = data.get("target", CardEnums.TargetType.ENEMY)
 	effect.duration = data.get("duration", 0)
+	effect.secondary_value = data.get("secondary_value", 0)
 	effect.condition = data.get("condition", "")
 	return effect

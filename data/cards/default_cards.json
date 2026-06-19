@@ -1,0 +1,190 @@
+{
+  "cards": [
+    {
+      "id": "item_health_potion",
+      "display_name": "小型生命药水",
+      "description": "消耗10点MP，恢复30点HP",
+      "card_type": "BUFF_DEBUFF",
+      "element": "NONE",
+      "cost": 0,
+      "hp_cost": 0,
+      "mp_cost": 10,
+      "is_single_use": true,
+      "rarity": "COMMON",
+      "effects": [
+        {
+          "effect_type": "HEAL",
+          "value": 30,
+          "target": "SELF"
+        }
+      ]
+    },
+    {
+      "id": "item_rage_potion",
+      "display_name": "恶魔药水",
+      "description": "消耗20点HP，获得15点护甲",
+      "card_type": "BUFF_DEBUFF",
+      "element": "NONE",
+      "cost": 0,
+      "hp_cost": 20,
+      "mp_cost": 0,
+      "is_single_use": true,
+      "rarity": "UNCOMMON",
+      "effects": [
+        {
+          "effect_type": "BUFF",
+          "value": 15,
+          "target": "SELF"
+        }
+      ]
+    },
+    {
+      "id": "item_elixir",
+      "display_name": "无消耗秘药",
+      "description": "获得8点护甲，无消耗且一次性",
+      "card_type": "BUFF_DEBUFF",
+      "element": "NONE",
+      "cost": 0,
+      "hp_cost": 0,
+      "mp_cost": 0,
+      "is_single_use": true,
+      "rarity": "COMMON",
+      "effects": [
+        {
+          "effect_type": "BUFF",
+          "value": 8,
+          "target": "SELF"
+        }
+      ]
+    },
+    {
+      "id": "fireball",
+      "display_name": "火球术",
+      "description": "造成8点火焰伤害",
+      "card_type": "DIRECT_DAMAGE",
+      "element": "FIRE",
+      "cost": 2,
+      "rarity": "COMMON",
+      "effects": [
+        {
+          "effect_type": "DAMAGE",
+          "value": 8,
+          "target": "ENEMY"
+        }
+      ]
+    },
+    {
+      "id": "blizzard",
+      "display_name": "暴风雪",
+      "description": "对所有敌人造成5点冰霜伤害",
+      "card_type": "ENVIRONMENT",
+      "element": "WATER",
+      "cost": 3,
+      "rarity": "RARE",
+      "effects": [
+        {
+          "effect_type": "DAMAGE",
+          "value": 5,
+          "target": "ALL_ENEMIES"
+        }
+      ]
+    },
+    {
+      "id": "lightning",
+      "display_name": "闪电箭",
+      "description": "造成6点雷电伤害",
+      "card_type": "DIRECT_DAMAGE",
+      "element": "LIGHTNING",
+      "cost": 1,
+      "rarity": "COMMON",
+      "effects": [
+        {
+          "effect_type": "DAMAGE",
+          "value": 6,
+          "target": "ENEMY"
+        }
+      ]
+    },
+    {
+      "id": "earthquake",
+      "display_name": "地震术",
+      "description": "对所有敌人造成4点土系伤害",
+      "card_type": "ENVIRONMENT",
+      "element": "EARTH",
+      "cost": 2,
+      "rarity": "RARE",
+      "effects": [
+        {
+          "effect_type": "DAMAGE",
+          "value": 4,
+          "target": "ALL_ENEMIES"
+        }
+      ]
+    },
+    {
+      "id": "summon_skeleton",
+      "display_name": "召唤骷髅",
+      "description": "召唤一个骷髅战士",
+      "card_type": "SUMMON",
+      "element": "EARTH",
+      "cost": 3,
+      "rarity": "COMMON",
+      "effects": [
+        {
+          "effect_type": "SUMMON",
+          "value": 10,
+          "target": "SELF"
+        }
+      ]
+    },
+    {
+      "id": "holy_blessing",
+      "display_name": "神圣祝福",
+      "description": "恢复10点生命值",
+      "card_type": "BUFF_DEBUFF",
+      "element": "WATER",
+      "cost": 2,
+      "rarity": "COMMON",
+      "effects": [
+        {
+          "effect_type": "HEAL",
+          "value": 10,
+          "target": "SELF"
+        }
+      ]
+    },
+    {
+      "id": "shield",
+      "display_name": "护盾",
+      "description": "获得5点护甲",
+      "card_type": "BUFF_DEBUFF",
+      "element": "EARTH",
+      "cost": 1,
+      "rarity": "COMMON",
+      "effects": [
+        {
+          "effect_type": "BUFF",
+          "value": 5,
+          "target": "SELF"
+        }
+      ]
+    },
+    {
+      "id": "dark_curse",
+      "display_name": "黑暗诅咒",
+      "description": "使目标受到伤害增加50%",
+      "card_type": "BUFF_DEBUFF",
+      "element": "NONE",
+      "cost": 2,
+      "rarity": "RARE",
+      "effects": [
+        {
+          "effect_type": "DEBUFF",
+          "value": 50,
+          "target": "ENEMY",
+          "duration": 3
+        }
+      ]
+    }
+  ]
+}

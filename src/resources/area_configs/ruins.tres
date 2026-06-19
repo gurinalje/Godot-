@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AreaConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/resources/area_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+area_id = "ruins"
+display_name = "远古遗迹"
+description = "神秘的遗迹，蕴含着强大的力量..."
+background_color = Color(0.5, 0.4, 0.3, 1)
+enemies = Array[String](["石像鬼", "元素精灵", "远古守卫"])
+npcs = Array[String](["merchant"])
+connections = Array[String](["castle", "void"])
+unlock_level = 10

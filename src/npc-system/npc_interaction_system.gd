@@ -480,13 +480,13 @@ func _add_card_to_deck(card_id: String) -> void:
 	var deck_manager = GameManager.get_system("DeckBuildingManager")
 	if deck_manager and deck_manager.has_method("add_card_to_collection"):
 		deck_manager.add_card_to_collection(card_data)
-		_show_notification("获得卡牌: " + card_data.name)
+		_show_notification("获得卡牌: " + card_data.display_name)
 	else:
 		# 回退：直接通知玩家
-		_show_notification("获得卡牌: " + card_data.name + " (已加入收藏)")
+		_show_notification("获得卡牌: " + card_data.display_name + " (已加入收藏)")
 	
 	# 发送信号
-	item_purchased.emit(card_data.name, 0)
+	item_purchased.emit(card_data.display_name, 0)
 
 ## 装备物品
 func _equip_item(item: Dictionary) -> void:

@@ -24,21 +24,25 @@ func _ready() -> void:
 	print("[SaveSystem] Initialized")
 
 ## 保存数据到指定槽位
+## 注意：不会修改传入的save_data字典，而是创建副本
 func save_to_slot(slot_id: int, save_data: Dictionary) -> bool:
 	# 验证槽位
 	if slot_id < 0 or slot_id >= SaveSlotManager.MAX_SLOTS:
 		save_error.emit("无效的存档槽位: " + str(slot_id))
 		return false
 	
+	# 复制字典以避免修改传入参数（消除副作用）
+	var data_copy: Dictionary = save_data.duplicate(true)
+	
 	# 添加版本信息和时间戳
-	save_data["version"] = SAVE_VERSION
-	save_data["timestamp"] = Time.get_datetime_string_from_system()
+	data_copy["version"] = SAVE_VERSION
+	data_copy["timestamp"] = Time.get_datetime_string_from_system()
 	
 	# 获取文件路径
-	var file_path = SaveSlotManager.get_slot_file_path(slot_id)
+	var file_path: String = SaveSlotManager.get_slot_file_path(slot_id)
 	
 	# 序列化为JSON
-	var json_string = JSON.stringify(save_data, "\t")
+	var json_string: String = JSON.stringify(data_copy, "\t")
 	
 	# 写入文件
 	var file = FileAccess.open(file_path, FileAccess.WRITE)

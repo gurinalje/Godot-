@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AreaConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/resources/area_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+area_id = "void"
+display_name = "虚空领域"
+description = "扭曲的空间，充满了混沌能量..."
+background_color = Color(0.3, 0.2, 0.4, 1)
+enemies = Array[String](["虚空行者", "混沌使者", "末日守卫"])
+npcs = Array[String]([])
+connections = Array[String](["ruins"])
+unlock_level = 15

@@ -7,86 +7,81 @@ extends Node
 signal area_changed(old_area: String, new_area: String)
 signal transition_started()
 signal transition_completed()
+## 请求UI系统播放过渡动画，由UI系统负责实际的动画播放
+signal transition_animation_requested(from_area: String, to_area: String)
+## 请求UI系统显示通知消息
+signal notification_requested(message: String)
 
-# 区域配置
-var area_config: Dictionary = {
-	"forest": {
-		"name": "幽暗森林",
-		"description": "浓密的森林，隐藏着各种危险...",
-		"background_color": Color(0.2, 0.4, 0.2),
-		"enemies": ["野狼", "哥布林", "毒蜘蛛"],
-		"npcs": ["merchant", "quest_giver"],
-		"connections": ["castle"],
-		"unlock_level": 1
-	},
-	"castle": {
-		"name": "废弃城堡",
-		"description": "曾经辉煌的城堡，如今只剩下残垣断壁...",
-		"background_color": Color(0.4, 0.4, 0.5),
-		"enemies": ["骷髅士兵", "暗影骑士", "死灵法师"],
-		"npcs": ["blacksmith"],
-		"connections": ["forest", "ruins"],
-		"unlock_level": 5
-	},
-	"ruins": {
-		"name": "远古遗迹",
-		"description": "神秘的遗迹，蕴含着强大的力量...",
-		"background_color": Color(0.5, 0.4, 0.3),
-		"enemies": ["石像鬼", "元素精灵", "远古守卫"],
-		"npcs": ["merchant"],
-		"connections": ["castle", "void"],
-		"unlock_level": 10
-	},
-	"void": {
-		"name": "虚空领域",
-		"description": "扭曲的空间，充满了混沌能量...",
-		"background_color": Color(0.3, 0.2, 0.4),
-		"enemies": ["虚空行者", "混沌使者", "末日守卫"],
-		"npcs": [],
-		"connections": ["ruins"],
-		"unlock_level": 15
-	}
+# 区域配置数据（从外部Resource文件加载）
+var _area_configs: Dictionary = {}
+
+# 区域配置资源路径映射（可在此处扩展新区域）
+@export var area_resource_paths: Dictionary = {
+	"forest": "res://src/resources/area_configs/forest.tres",
+	"castle": "res://src/resources/area_configs/castle.tres",
+	"ruins": "res://src/resources/area_configs/ruins.tres",
+	"void": "res://src/resources/area_configs/void.tres",
 }
 
 # 当前区域
 var current_area: String = "forest"
 var unlocked_areas: Array[String] = ["forest"]
 
+# 内部信号，用于协调过渡动画的异步等待
+signal _transition_animation_finished()
+
+## 初始化：加载所有区域配置资源
+func _ready() -> void:
+	_load_area_configs()
+
+## 加载所有区域配置
+func _load_area_configs() -> void:
+	for area_id: String in area_resource_paths:
+		var path: String = area_resource_paths[area_id]
+		if ResourceLoader.exists(path):
+			var config: AreaConfig = load(path) as AreaConfig
+			if config:
+				_area_configs[area_id] = config
+			else:
+				push_warning("[AreaTransitionSystem] Failed to load AreaConfig: " + path)
+		else:
+			push_warning("[AreaTransitionSystem] Area config file not found: " + path)
+
 ## 检查是否可以传送到目标区域
 func can_transition_to(target_area: String) -> Dictionary:
-	if not area_config.has(target_area):
+	if not _area_configs.has(target_area):
 		return {"allowed": false, "reason": "区域不存在"}
 	
-	var config = area_config[target_area]
-	var player_level = _get_player_level()
+	var config: AreaConfig = _area_configs[target_area]
+	var player_level: int = _get_player_level()
 	
 	# 检查等级要求
-	if player_level < config["unlock_level"]:
-		return {"allowed": false, "reason": "需要等级 " + str(config["unlock_level"])}
+	if player_level < config.unlock_level:
+		return {"allowed": false, "reason": "需要等级 " + str(config.unlock_level)}
 	
 	# 检查是否已解锁
 	if not unlocked_areas.has(target_area):
 		return {"allowed": false, "reason": "区域未解锁"}
 	
 	# 检查连接
-	var current_config = area_config[current_area]
-	if not current_config["connections"].has(target_area):
+	var current_config: AreaConfig = _area_configs[current_area]
+	if not current_config.connections.has(target_area):
 		return {"allowed": false, "reason": "无法从当前区域传送到目标区域"}
 	
 	return {"allowed": true, "reason": ""}
 
 ## 执行区域传送
 func transition_to(target_area: String) -> bool:
-	var check = can_transition_to(target_area)
+	var check: Dictionary = can_transition_to(target_area)
 	if not check["allowed"]:
-		_show_notification(check["reason"])
+		notification_requested.emit(check["reason"])
 		return false
 	
-	var old_area = current_area
+	var old_area: String = current_area
 	current_area = target_area
 	
-	# 播放传送动画
-	await _play_transition_animation()
+	# 通过信号请求UI系统播放传送动画
+	await _request_transition_animation(old_area, target_area)
 	
 	# 发送信号
 	area_changed.emit(old_area, target_area)
@@ -94,101 +89,78 @@ func transition_to(target_area: String) -> bool:
 	
 	return true
 
+## 请求过渡动画并等待完成
+func _request_transition_animation(from_area: String, to_area: String) -> void:
+	transition_started.emit()
+	transition_animation_requested.emit(from_area, to_area)
+	await _transition_animation_finished
+
+## 由UI系统调用，通知过渡动画已完成
+func notify_transition_animation_finished() -> void:
+	_transition_animation_finished.emit()
+
 ## 解锁新区域
 func unlock_area(area: String) -> void:
-	if not unlocked_areas.has(area):
+	if not unlocked_areas.has(area) and _area_configs.has(area):
+		var config: AreaConfig = _area_configs[area]
 		unlocked_areas.append(area)
-		_show_notification("解锁新区域：" + area_config[area]["name"])
+		notification_requested.emit("解锁新区域：" + config.display_name)
 
 ## 检查并解锁所有符合条件的区域
 func check_and_unlock_areas(player_level: int) -> void:
-	for area_id in area_config:
-		var config = area_config[area_id]
-		if player_level >= config["unlock_level"] and not unlocked_areas.has(area_id):
+	for area_id: String in _area_configs:
+		var config: AreaConfig = _area_configs[area_id]
+		if player_level >= config.unlock_level and not unlocked_areas.has(area_id):
 			unlock_area(area_id)
 
 ## 获取区域信息
-func get_area_info(area: String) -> Dictionary:
-	return area_config.get(area, {})
+func get_area_info(area: String) -> AreaConfig:
+	return _area_configs.get(area, null)
+
+## 获取区域配置字典（兼容旧接口）
+func get_area_info_dict(area: String) -> Dictionary:
+	var config: AreaConfig = _area_configs.get(area, null)
+	if config == null:
+		return {}
+	return {
+		"id": config.area_id,
+		"name": config.display_name,
+		"description": config.description,
+		"background_color": config.background_color,
+		"enemies": config.enemies,
+		"npcs": config.npcs,
+		"connections": config.connections,
+		"unlock_level": config.unlock_level,
+	}
 
 ## 获取可传送区域
 func get_available_areas() -> Array[Dictionary]:
 	var available: Array[Dictionary] = []
-	var current_config = area_config[current_area]
+	var current_config: AreaConfig = _area_configs[current_area]
+	var player_level: int = _get_player_level()
 	
-	for connection in current_config["connections"]:
-		var config = area_config[connection]
-		var player_level = _get_player_level()
-		
+	for connection: String in current_config.connections:
+		var config: AreaConfig = _area_configs[connection]
 		available.append({
 			"id": connection,
-			"name": config["name"],
-			"description": config["description"],
-			"unlock_level": config["unlock_level"],
+			"name": config.display_name,
+			"description": config.description,
+			"unlock_level": config.unlock_level,
 			"unlocked": unlocked_areas.has(connection),
-			"can_transition": player_level >= config["unlock_level"] and unlocked_areas.has(connection)
+			"can_transition": player_level >= config.unlock_level and unlocked_areas.has(connection)
 		})
 	
 	return available
 
-## 播放传送动画
-func _play_transition_animation() -> void:
-	transition_started.emit()
-	
-	# 创建黑屏过渡
-	var fade = ColorRect.new()
-	fade.color = Color.BLACK
-	fade.set_anchors_preset(Control.PRESET_FULL_RECT)
-	fade.modulate.a = 0.0
-	
-	var canvas_layer = CanvasLayer.new()
-	canvas_layer.layer = 20
-	canvas_layer.add_child(fade)
-	get_tree().root.add_child(canvas_layer)
-	
-	# 淡入
-	var tween = create_tween()
-	tween.tween_property(fade, "modulate:a", 1.0, 0.5)
-	await tween.finished
-	
-	# 等待一小段时间
-	await get_tree().create_timer(0.3).timeout
-	
-	# 淡出
-	tween = create_tween()
-	tween.tween_property(fade, "modulate:a", 0.0, 0.5)
-	await tween.finished
-	
-	# 清理
-	canvas_layer.queue_free()
-
-## 获取玩家等级
+## 获取玩家等级（通过GameManager依赖注入）
 func _get_player_level() -> int:
-	# 尝试从父节点获取（area_transition_system是WorldExploration的子节点）
-	var parent = get_parent()
-	if parent and parent.has_method("get") and parent.get("player_level") != null:
-		return parent.get("player_level")
-	# 回退：尝试从GameManager获取
-	var game_manager = get_node_or_null("/root/GameManager")
-	if game_manager:
-		var world = game_manager.get_node_or_null("WorldExploration")
-		if world and world.get("player_level") != null:
-			return world.get("player_level")
+	# GameManager是autoload单例，通过场景树路径访问
+	var game_manager: Node = get_tree().root.get_node_or_null("GameManager")
+	if game_manager and game_manager.get("player_level") != null:
+		return game_manager.get("player_level") as int
+	push_warning("[AreaTransitionSystem] GameManager not found, returning default level 1")
 	return 1
 
-## 显示通知
+## 显示通知（已重构为信号发射，此方法保留兼容性）
 func _show_notification(message: String) -> void:
-	var notification = Label.new()
-	notification.text = message
-	notification.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	notification.set_anchors_preset(Control.PRESET_CENTER)
-	
-	var canvas_layer = CanvasLayer.new()
-	canvas_layer.layer = 15
-	canvas_layer.add_child(notification)
-	get_tree().root.add_child(canvas_layer)
-	
-	# 2秒后消失
-	await get_tree().create_timer(2.0).timeout
-	notification.queue_free()
-	canvas_layer.queue_free()
+	notification_requested.emit(message)

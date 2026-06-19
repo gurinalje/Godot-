@@ -147,10 +147,8 @@ func test_cancel_save():
 ## 测试游戏状态收集
 func test_game_state_collection():
 	var state = manual_save_manager._collect_game_state()
-	assert_true(state.has("version"), "应包含version字段")
-	assert_true(state.has("timestamp"), "应包含timestamp字段")
+	assert_true(state.has("systems"), "应包含systems字段")
 	assert_true(state.has("player"), "应包含player字段")
-	assert_true(state.has("cards"), "应包含cards字段")
-	assert_true(state.has("worlds"), "应包含worlds字段")
-	assert_true(state.has("stories"), "应包含stories字段")
-	assert_true(state.has("marks"), "应包含marks字段")
+	assert_true(state.player.has("health"), "player应包含health字段")
+	assert_true(state.player.has("level"), "player应包含level字段")
+	assert_true(state.player.has("gold"), "player应包含gold字段")

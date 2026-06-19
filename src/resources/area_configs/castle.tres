@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AreaConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/resources/area_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+area_id = "castle"
+display_name = "废弃城堡"
+description = "曾经辉煌的城堡，如今只剩下残垣断壁..."
+background_color = Color(0.4, 0.4, 0.5, 1)
+enemies = Array[String](["骷髅士兵", "暗影骑士", "死灵法师"])
+npcs = Array[String](["blacksmith"])
+connections = Array[String](["forest", "ruins"])
+unlock_level = 5

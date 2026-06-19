@@ -386,7 +386,7 @@ func _play_card(card_index: int) -> void:
 	# 移动到弃牌堆，或者若是一次性卡牌则直接移出战斗手牌且不进弃牌堆
 	hand.remove_at(card_index)
 	if card.is_single_use:
-		_add_log("道具「" + card.name + "」已被消耗销毁")
+		_add_log("道具「" + card.display_name + "」已被消耗销毁")
 	else:
 		discard_pile.append(card)
 	
@@ -398,7 +398,7 @@ func _play_card(card_index: int) -> void:
 	_update_hand_ui()
 	
 	# 添加日志
-	_add_log("打出卡牌: " + card.name)
+	_add_log("打出卡牌: " + card.display_name)
 	
 	# 打出卡牌的视觉反馈
 	_shake_screen(5.0)  # 中等震动
@@ -564,9 +564,9 @@ func _execute_environment_card(card: CardData) -> void:
 					enemy["effects"] = []
 				enemy["effects"].append(dot_effect)
 		
-		_add_log("施放环境效果：" + card.name + "，持续 " + str(effect_duration) + " 回合")
+		_add_log("施放环境效果：" + card.display_name + "，持续 " + str(effect_duration) + " 回合")
 	else:
-		_add_log("使用环境卡牌：" + card.name)
+		_add_log("使用环境卡牌：" + card.display_name)
 
 ## 执行增益卡牌
 func _execute_buff_card(card: CardData) -> void:
@@ -591,7 +591,7 @@ func _execute_buff_card(card: CardData) -> void:
 	
 	# 应用增益效果
 	_apply_buff(buff_type, buff_value, buff_duration)
-	_add_log("使用增益卡牌：" + card.name)
+	_add_log("使用增益卡牌：" + card.display_name)
 
 ## 计算伤害
 func _calculate_damage(card: CardData, target: Dictionary) -> int:
@@ -870,7 +870,7 @@ func _create_card_ui(card: CardData, index: int) -> Control:
 	
 	# 卡牌名称（带颜色标识）
 	var name_label = Label.new()
-	name_label.text = card.name
+	name_label.text = card.display_name
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	name_label.add_theme_font_size_override("font_size", 14)
 	name_label.add_theme_color_override("font_color", _get_card_color(card.card_type))
@@ -1024,7 +1024,7 @@ func _on_turn_ended(turn_number: int) -> void:
 
 ## 卡牌打出事件
 func _on_card_played(card: CardData) -> void:
-	print("[CardBattle] Card played: ", card.name)
+	print("[CardBattle] Card played: ", card.display_name)
 
 ## 敌人击败事件
 func _on_enemy_defeated(enemy_index: int) -> void:

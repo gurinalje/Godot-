@@ -1,0 +1,52 @@
+{
+  "combo_chains": [
+    {
+      "chain_id": "combo_summon_buff",
+      "chain_name": "召唤强化",
+      "description": "召唤生物后施加增益，伤害增加50%",
+      "chain_type": 0,
+      "trigger_conditions": {
+        "card_types": [0, 3]
+      },
+      "effect_type": 0,
+      "effect_value": 0.5,
+      "priority": 10
+    },
+    {
+      "chain_id": "combo_fire_wind",
+      "chain_name": "风火轮",
+      "description": "火+风元素连锁，触发火焰风暴",
+      "chain_type": 1,
+      "trigger_conditions": {
+        "elements": [1, 4]
+      },
+      "effect_type": 1,
+      "effect_value": 0.0,
+      "priority": 20
+    },
+    {
+      "chain_id": "combo_explosion",
+      "chain_name": "连锁爆炸",
+      "description": "火焰+爆炸关键词连锁，全体伤害",
+      "chain_type": 2,
+      "trigger_conditions": {
+        "keywords": ["火焰", "爆炸"]
+      },
+      "effect_type": 0,
+      "effect_value": 0.75,
+      "priority": 30
+    },
+    {
+      "chain_id": "combo_damage_heal",
+      "chain_name": "攻守兼备",
+      "description": "先伤害后治疗，返还1点能量",
+      "chain_type": 3,
+      "trigger_conditions": {
+        "sequence": [1, 3]
+      },
+      "effect_type": 2,
+      "effect_value": 1.0,
+      "priority": 15
+    }
+  ]
+}

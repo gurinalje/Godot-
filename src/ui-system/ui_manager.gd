@@ -1,51 +1,78 @@
 ## UI管理器
 ## 管理游戏中的所有UI界面
-
 class_name UIManager
 extends Node
 
-# UI层级
-var ui_layers: Dictionary = {}
+## 游戏配置资源路径
+const GAME_CONFIG_PATH: String = "res://src/resources/game_config.tres"
 
-# 当前打开的UI
+# 依赖注入
+@export var game_config: GameConfig
+
+## UI层级字典（键为层级名称，值为对应的CanvasLayer节点）
+var ui_layers: Dictionary[String, CanvasLayer] = {}
+
+## 当前打开的UI列表
 var open_uis: Array[String] = []
 
-# 信号
+## 信号：UI被打开
 signal ui_opened(ui_name: String)
+
+## 信号：UI被关闭
 signal ui_closed(ui_name: String)
 
 func _ready() -> void:
 	initialize()
 
+## 初始化UI管理器
+## 加载游戏配置并创建UI层级结构
 func initialize() -> void:
-	print("[UIManager] Initialized")
+	_load_game_config()
 	_create_ui_layers()
+	print("[UIManager] Initialized")
+
+## 加载游戏配置
+## 尝试从资源文件加载GameConfig，如果失败则创建默认配置
+func _load_game_config() -> void:
+	if game_config:
+		return
+	
+	# 尝试从资源文件加载
+	if ResourceLoader.exists(GAME_CONFIG_PATH):
+		var config: GameConfig = load(GAME_CONFIG_PATH) as GameConfig
+		if config:
+			game_config = config
+			return
+	
+	# 创建默认配置
+	game_config = GameConfig.new()
+	push_warning("[UIManager] Using default GameConfig")
+
+## 设置GameConfig依赖
+func set_game_config(config: GameConfig) -> void:
+	game_config = config
 
 ## 创建UI层级
+## 根据GameConfig中的ui_layers配置创建对应的CanvasLayer层级
 func _create_ui_layers() -> void:
-	# 创建基础层级
-	var base_layer = CanvasLayer.new()
-	base_layer.name = "BaseUILayer"
-	base_layer.layer = 10
-	add_child(base_layer)
-	ui_layers["base"] = base_layer
+	var layer_names: Array[String] = game_config.ui_layers
+	var layer_index: int = 10
 	
-	# 创建弹窗层级
-	var popup_layer = CanvasLayer.new()
-	popup_layer.name = "PopupUILayer"
-	popup_layer.layer = 20
-	add_child(popup_layer)
-	ui_layers["popup"] = popup_layer
-	
-	# 创建提示层级
-	var tooltip_layer = CanvasLayer.new()
-	tooltip_layer.name = "TooltipUILayer"
-	tooltip_layer.layer = 30
-	add_child(tooltip_layer)
-	ui_layers["tooltip"] = tooltip_layer
+	for layer_name in layer_names:
+		var layer = CanvasLayer.new()
+		layer.name = layer_name.capitalize() + "UILayer"
+		layer.layer = layer_index
+		add_child(layer)
+		ui_layers[layer_name] = layer
+		layer_index += 10
 
 ## 打开UI
-func open_ui(ui_name: String, layer: String = "base") -> bool:
+## [param ui_name] 要打开的UI名称
+## [param layer] UI层级名称，默认使用配置中的第一个层级
+## [return] 是否成功打开
+func open_ui(ui_name: String, layer: String = "") -> bool:
+	if layer.is_empty():
+		layer = game_config.ui_layers[0] if game_config.ui_layers.size() > 0 else "base"
 	if ui_name in open_uis:
 		push_warning("[UIManager] UI already open: " + ui_name)
 		return false

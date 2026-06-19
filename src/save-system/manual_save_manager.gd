@@ -108,31 +108,49 @@ func _perform_save(slot_id: int):
 		save_error.emit("保存失败，请重试")
 
 # 收集游戏状态
+## 遍历GameManager中的所有系统，调用它们的save_data()方法收集状态
 func _collect_game_state() -> Dictionary:
-	# 这里应该收集所有系统的游戏状态
-	# 暂时返回一个基本结构
-	return {
-		"version": "1.0",
-		"timestamp": Time.get_datetime_string_from_system(),
-		"player": {
-			"level": 1,
-			"experience": 0,
-			"attributes": {},
-			"gold": 0
-		},
-		"cards": {
-			"collection": [],
-			"deck": [],
-			"levels": {}
-		},
-		"worlds": {},
-		"stories": {},
-		"marks": {
-			"good": 0,
-			"evil": 0,
-			"neutral": 0
-		}
+	var save_data: Dictionary = {
+		"systems": {}
 	}
+	
+	# 获取GameManager单例
+	var game_manager = Engine.get_singleton("GameManager")
+	if game_manager == null:
+		# 尝试从场景树获取
+		var root = get_tree().get_root()
+		if root.has_node("GameManager"):
+			game_manager = root.get_node("GameManager")
+	
+	if game_manager == null:
+		push_error("[ManualSaveManager] GameManager not found")
+		return save_data
+	
+	# 遍历所有系统，收集有save_data方法的系统数据
+	var systems: Dictionary = game_manager.systems
+	for system_name in systems:
+		var system = systems[system_name]
+		if system != null and system.has_method("save_data"):
+			var system_data: Dictionary = system.save_data()
+			if not system_data.is_empty():
+				save_data["systems"][system_name] = system_data
+	
+	# 保存玩家状态
+	save_data["player"] = {
+		"health": game_manager.player_health,
+		"max_health": game_manager.player_max_health,
+		"mana": game_manager.player_mana,
+		"max_mana": game_manager.player_max_mana,
+		"gold": game_manager.player_gold,
+		"experience": game_manager.player_experience,
+		"level": game_manager.player_level,
+		"attack": game_manager.player_attack,
+		"defense": game_manager.player_defense,
+		"current_area": game_manager.current_area,
+		"first_battle_completed": game_manager.first_battle_completed
+	}
+	
+	return save_data
 
 # 检查是否正在保存
 func is_saving() -> bool:

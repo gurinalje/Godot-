@@ -1,37 +1,81 @@
 ## 音频管理器
 ## 管理游戏中的所有音频播放
-
 class_name AudioManager
 extends Node
 
-# 音频播放器
+## 游戏配置资源路径
+const GAME_CONFIG_PATH: String = "res://src/resources/game_config.tres"
+
+# 依赖注入
+@export var game_config: GameConfig
+
+## BGM播放器
 var bgm_player: AudioStreamPlayer
+
+## SFX播放器池
 var sfx_players: Array[AudioStreamPlayer] = []
 
-# 音量设置
+## 主音量（0.0 ~ 1.0）
 var master_volume: float = 1.0
+
+## BGM音量（0.0 ~ 1.0）
 var bgm_volume: float = 0.8
+
+## SFX音量（0.0 ~ 1.0）
 var sfx_volume: float = 1.0
 
-# 当前播放的BGM
+## 当前播放的BGM名称
 var current_bgm: String = ""
 
-# 音频缓存
-var audio_cache: Dictionary = {}
+## 音频缓存（键为音频名称，值为AudioStream资源）
+var audio_cache: Dictionary[String, AudioStream] = {}
 
-# 信号
+## 信号：BGM切换
 signal bgm_changed(track_name: String)
+
+## 信号：音效播放
 signal sfx_played(sfx_name: String)
 
 func _ready() -> void:
 	initialize()
 
+## 初始化音频管理器
+## 加载游戏配置，创建音频播放器并加载音频缓存
 func initialize() -> void:
-	print("[AudioManager] Initialized")
+	_load_game_config()
 	_create_audio_players()
 	_load_audio_cache()
+	print("[AudioManager] Initialized")
+
+## 加载游戏配置
+## 尝试从资源文件加载GameConfig，如果失败则创建默认配置
+func _load_game_config() -> void:
+	if game_config:
+		return
+	
+	# 尝试从资源文件加载
+	if ResourceLoader.exists(GAME_CONFIG_PATH):
+		var config: GameConfig = load(GAME_CONFIG_PATH) as GameConfig
+		if config:
+			game_config = config
+			# 应用配置中的默认音量
+			bgm_volume = config.default_bgm_volume
+			sfx_volume = config.default_sfx_volume
+			return
+	
+	# 创建默认配置
+	game_config = GameConfig.new()
+	push_warning("[AudioManager] Using default GameConfig")
+
+## 设置GameConfig依赖
+func set_game_config(config: GameConfig) -> void:
+	game_config = config
+	# 应用配置中的默认音量
+	bgm_volume = config.default_bgm_volume
+	sfx_volume = config.default_sfx_volume
 
 ## 创建音频播放器
+## 创建BGM播放器和SFX播放器池
 func _create_audio_players() -> void:
 	# 创建BGM播放器
 	bgm_player = AudioStreamPlayer.new()
@@ -50,9 +94,10 @@ func _create_audio_players() -> void:
 		sfx_players.append(sfx_player)
 
 ## 加载音频缓存
+## 扫描配置中指定的音频目录，加载所有音频文件到缓存
 func _load_audio_cache() -> void:
 	# 扫描音频目录
-	var audio_dir = "res://assets/audio/"
+	var audio_dir: String = game_config.audio_path
 	_scan_audio_directory(audio_dir + "sfx/")
 	_scan_audio_directory(audio_dir + "music/")
 
@@ -126,11 +171,12 @@ func _get_audio(audio_name: String) -> AudioStream:
 		return audio_cache[audio_name]
 	
 	# 尝试加载
+	var audio_dir: String = game_config.audio_path
 	var paths = [
-		"res://assets/audio/sfx/" + audio_name + ".wav",
-		"res://assets/audio/sfx/" + audio_name + ".ogg",
-		"res://assets/audio/music/" + audio_name + ".wav",
-		"res://assets/audio/music/" + audio_name + ".ogg"
+		audio_dir + "sfx/" + audio_name + ".wav",
+		audio_dir + "sfx/" + audio_name + ".ogg",
+		audio_dir + "music/" + audio_name + ".wav",
+		audio_dir + "music/" + audio_name + ".ogg"
 	]
 	
 	for path in paths:
@@ -179,3 +225,9 @@ func pause_bgm() -> void:
 ## 恢复BGM
 func resume_bgm() -> void:
 	bgm_player.stream_paused = false
+
+## 清理音频缓存
+## 释放所有缓存的音频资源，释放内存
+func clear_cache() -> void:
+	audio_cache.clear()
+	print("[AudioManager] Audio cache cleared")
