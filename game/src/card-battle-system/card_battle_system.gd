@@ -200,11 +200,11 @@ func _init_player_stats(stats: Dictionary) -> void:
 	if stats.is_empty():
 		# 从GameManager获取
 		if GameManager:
-			player_health = GameManager.get("player_health", 100)
-			player_max_health = GameManager.get("player_max_health", 100)
-			player_mana = GameManager.get("player_mana", 100)
-			player_max_mana = GameManager.get("player_max_mana", 100)
-			player_defense = GameManager.get("player_defense", 0)
+			player_health = GameManager.player_health
+			player_max_health = GameManager.player_max_health
+			player_mana = GameManager.player_mana
+			player_max_mana = GameManager.player_max_mana
+			player_defense = GameManager.player_defense
 		else:
 			player_health = 100
 			player_max_health = 100

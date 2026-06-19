@@ -36,9 +36,9 @@ static func from_dict(quest_id: String, data: Dictionary) -> QuestData:
 	quest.quest_name = data.get("name", "")
 	quest.description = data.get("description", "")
 	quest.giver = data.get("giver", "")
-	quest.objectives = data.get("objectives", [])
+	quest.objectives.assign(data.get("objectives", []))
 	quest.rewards = data.get("rewards", {})
-	quest.prerequisites = data.get("prerequisites", [])
+	quest.prerequisites.assign(data.get("prerequisites", []))
 	quest.level_required = data.get("level_required", 1)
 	return quest
 

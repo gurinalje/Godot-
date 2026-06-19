@@ -1068,8 +1068,8 @@ func _check_portal() -> void:
 			# 显示传送门信息
 			var target_area = portal.target_area
 			var area_info = area_transition_system.get_area_info(target_area)
-			var area_name = area_info.get("name", target_area)
-			var required_level = area_info.get("unlock_level", 1)
+			var area_name = area_info.display_name
+			var required_level = area_info.unlock_level
 			
 			# 检查是否可以传送
 			var check = area_transition_system.can_transition_to(target_area)
@@ -1672,7 +1672,7 @@ func _spawn_portals() -> void:
 	
 	# 获取当前区域配置
 	var area_info = area_transition_system.get_area_info(current_area)
-	var connections = area_info.get("connections", [])
+	var connections = area_info.connections
 	
 	# 为每个连接创建传送门
 	for i in range(connections.size()):
@@ -1680,7 +1680,7 @@ func _spawn_portals() -> void:
 		var portal = PortalScript.new()
 		portal.name = "Portal_" + target_area_id
 		portal.target_area = target_area_id
-		portal.portal_name = "前往 " + area_transition_system.get_area_info(target_area_id).get("name", target_area_id)
+		portal.portal_name = "前往 " + area_transition_system.get_area_info(target_area_id).display_name
 		
 		# 设置位置（在地图边缘）
 		var angle = (i * TAU) / connections.size()
@@ -1726,7 +1726,7 @@ func _update_area_display() -> void:
 	var area_label = hud.get_node_or_null("TopPanel/MarginContainer/VBox/AreaLabel") if hud else null
 	if area_label:
 		var area_info = area_transition_system.get_area_info(current_area)
-		area_label.text = area_info.get("name", current_area)
+		area_label.text = area_info.display_name
 
 ## 屏幕震动效果
 func _shake_screen(intensity: float) -> void:

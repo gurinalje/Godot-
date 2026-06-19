@@ -37,6 +37,8 @@ var shake_decay: float = 5.0
 
 ## ==================== 信号 ====================
 
+signal battle_won()
+signal battle_lost()
 signal battle_fled()
 
 ## ==================== 初始化 ====================
@@ -138,11 +140,11 @@ func _initialize_battle() -> void:
 	var player_stats = {}
 	if GameManager:
 		player_stats = {
-			"health": GameManager.get("player_health", 100),
-			"max_health": GameManager.get("player_max_health", 100),
-			"mana": GameManager.get("player_mana", 100),
-			"max_mana": GameManager.get("player_max_mana", 100),
-			"defense": GameManager.get("player_defense", 0)
+			"health": GameManager.player_health,
+			"max_health": GameManager.player_max_health,
+			"mana": GameManager.player_mana,
+			"max_mana": GameManager.player_max_mana,
+			"defense": GameManager.player_defense
 		}
 	
 	# 创建敌人UI
@@ -191,7 +193,8 @@ func _create_default_deck() -> Array[CardData]:
 ## 获取敌人数据
 func _get_enemies() -> Array[Dictionary]:
 	if not enemy_data.is_empty():
-		var enemies = [enemy_data.duplicate()]
+		var enemies: Array[Dictionary] = []
+		enemies.append(enemy_data.duplicate())
 		if not enemies[0].has("max_health"):
 			enemies[0]["max_health"] = enemies[0].get("health", 50)
 		return enemies
@@ -491,6 +494,10 @@ func _on_battle_started() -> void:
 
 func _on_battle_ended(victory: bool) -> void:
 	_show_battle_result(victory)
+	if victory:
+		battle_won.emit()
+	else:
+		battle_lost.emit()
 
 func _on_turn_started(turn_number: int) -> void:
 	_update_player_ui()

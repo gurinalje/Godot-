@@ -33,7 +33,7 @@ static func from_dict(skill_id: String, category: String, data: Dictionary) -> S
 	skill.skill_name = data.get("name", "")
 	skill.description = data.get("description", "")
 	skill.cost = data.get("cost", 1)
-	skill.prerequisites = data.get("requires", [])
+	skill.prerequisites.assign(data.get("requires", []))
 	skill.effects = data.get("effects", {})
 	return skill
 

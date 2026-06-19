@@ -52,8 +52,14 @@ func _ready() -> void:
 func _initialize_quests() -> void:
 	var definitions: Dictionary = _quest_database.get_all_definitions()
 	for quest_id: String in definitions:
-		var quest_def: QuestData = definitions[quest_id]
-		var quest_data: Dictionary = quest_def.to_dict()
+		var quest_def = definitions[quest_id]
+		if quest_def == null:
+			push_warning("[QuestSystem] Quest definition is null for: ", quest_id)
+			continue
+		if not quest_def is QuestData:
+			push_warning("[QuestSystem] Quest definition is not QuestData for: ", quest_id)
+			continue
+		var quest_data: Dictionary = quest_def.to_dict().duplicate(true)
 		quest_data["status"] = QuestStatus.AVAILABLE
 		# 初始化目标进度
 		for objective: Dictionary in quest_data["objectives"]:
