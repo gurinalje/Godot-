@@ -1075,6 +1075,8 @@ func _check_portal() -> void:
 			var area_info = area_transition_system.get_area_info(target_area)
 			var area_name = area_info.display_name
 			
+			print("[Portal] target=", target_area, " current=", area_transition_system.current_area)
+			
 			# 检查是否可以传送
 			var check = area_transition_system.can_transition_to(target_area)
 			if check["allowed"]:

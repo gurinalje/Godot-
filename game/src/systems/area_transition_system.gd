@@ -65,6 +65,7 @@ func can_transition_to(target_area: String) -> Dictionary:
 	
 	# 检查连接
 	var current_config: AreaConfig = _area_configs[current_area]
+	print("[AreaTransition] current_area=", current_area, " connections=", current_config.connections, " target=", target_area)
 	if not current_config.connections.has(target_area):
 		return {"allowed": false, "reason": "无法从当前区域传送到目标区域"}
 	
