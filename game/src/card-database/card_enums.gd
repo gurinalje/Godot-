@@ -123,6 +123,24 @@ static func get_element_modifier(
 		return 0.75  # 被克制
 	return 1.0  # 普通
 
+## 从字符串解析元素枚举（支持大小写）
+## [param element_string] 元素字符串，如 "fire", "FIRE", "earth"
+## [return] 对应的 Element 枚举值
+static func parse_element(element_string: String) -> Element:
+	match element_string.to_lower():
+		"fire":
+			return Element.FIRE
+		"water":
+			return Element.WATER
+		"earth":
+			return Element.EARTH
+		"wind":
+			return Element.WIND
+		"lightning":
+			return Element.LIGHTNING
+		_:
+			return Element.NONE
+
 ## 获取元素名称
 ## [param element] 元素类型
 ## [return] 元素名称字符串

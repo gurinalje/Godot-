@@ -641,10 +641,12 @@ func _apply_damage_effect(effect: CardEffect, card: CardData) -> void:
 	var is_critical = false
 	
 	if damage_calculator:
+		var defense_element_str: String = target.get("element", "none")
+		var defense_element: CardEnums.Element = CardEnums.parse_element(defense_element_str)
 		var result = damage_calculator.calculate_damage_from_stats(
 			base_damage,
 			card.element,
-			target.get("element", CardEnums.Element.NONE),
+			defense_element,
 			target.get("defense", 0),
 			crit_rate,
 			crit_damage
