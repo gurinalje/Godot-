@@ -42,10 +42,12 @@ func _load_area_configs() -> void:
 			var config: AreaConfig = load(path) as AreaConfig
 			if config:
 				_area_configs[area_id] = config
+				print("[AreaTransition] Loaded config: ", area_id, " connections=", config.connections, " unlock_level=", config.unlock_level)
 			else:
 				push_warning("[AreaTransitionSystem] Failed to load AreaConfig: " + path)
 		else:
 			push_warning("[AreaTransitionSystem] Area config file not found: " + path)
+	print("[AreaTransition] Total configs loaded: ", _area_configs.size(), " keys=", _area_configs.keys())
 
 ## 检查是否可以传送到目标区域
 func can_transition_to(target_area: String) -> Dictionary:
@@ -109,8 +111,10 @@ func unlock_area(area: String) -> void:
 
 ## 检查并解锁所有符合条件的区域
 func check_and_unlock_areas(player_level: int) -> void:
+	print("[AreaTransition] check_and_unlock_areas: level=", player_level, " configs=", _area_configs.keys())
 	for area_id: String in _area_configs:
 		var config: AreaConfig = _area_configs[area_id]
+		print("[AreaTransition]   area=", area_id, " unlock_level=", config.unlock_level, " already_unlocked=", unlocked_areas.has(area_id))
 		if player_level >= config.unlock_level and not unlocked_areas.has(area_id):
 			unlock_area(area_id)
 
