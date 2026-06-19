@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bm3ixo1dienl7"
-path="res://.godot/imported/vampire_mage_portrait.png-1d45e2bb15bc3ac26afd4f7e888442f0.ctex"
+path="res://.godot/imported/vampire_mage_portrait.png-89dd94929118c379a653fc75bc34bde1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://vampire_mage_portrait.png"
-dest_files=["res://.godot/imported/vampire_mage_portrait.png-1d45e2bb15bc3ac26afd4f7e888442f0.ctex"]
+source_file="res://assets/sprites/vampire/vampire_mage_portrait.png"
+dest_files=["res://.godot/imported/vampire_mage_portrait.png-89dd94929118c379a653fc75bc34bde1.ctex"]
 
 [params]
 

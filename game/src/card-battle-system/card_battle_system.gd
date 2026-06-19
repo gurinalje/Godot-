@@ -334,7 +334,8 @@ func set_current_target(index: int) -> void:
 ## 检查是否所有敌人已被击败
 func _are_all_enemies_defeated() -> bool:
 	if enemies.is_empty():
-		return false
+		# 没有敌人 = 所有敌人已被击败
+		return true
 	for enemy in enemies:
 		if enemy.get("health", 0) > 0:
 			return false

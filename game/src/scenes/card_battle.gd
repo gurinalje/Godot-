@@ -132,9 +132,13 @@ func _initialize_battle() -> void:
 	
 	# 初始化卡组
 	var deck = _get_deck()
+	print("[CardBattle] Deck size: ", deck.size())
 	
 	# 初始化敌人
 	var enemies = _get_enemies()
+	print("[CardBattle] Enemies count: ", enemies.size())
+	for i in range(enemies.size()):
+		print("[CardBattle] Enemy ", i, ": ", enemies[i].get("name", "unknown"), " HP:", enemies[i].get("health", 0))
 	
 	# 获取玩家状态
 	var player_stats = {}
@@ -155,6 +159,7 @@ func _initialize_battle() -> void:
 	
 	# 开始战斗
 	battle_system.start_battle(deck, enemies, player_stats)
+	print("[CardBattle] Battle started successfully")
 
 ## 获取卡组
 func _get_deck() -> Array[CardData]:
@@ -199,17 +204,17 @@ func _get_enemies() -> Array[Dictionary]:
 			enemies[0]["max_health"] = enemies[0].get("health", 50)
 		return enemies
 	
-	return [
-		{
-			"id": "skeleton",
-			"name": "骷髅战士",
-			"health": 50,
-			"max_health": 50,
-			"attack": 8,
-			"defense": 3,
-			"element": "earth"
-		}
-	]
+	var default_enemies: Array[Dictionary] = []
+	default_enemies.append({
+		"id": "skeleton",
+		"name": "骷髅战士",
+		"health": 50,
+		"max_health": 50,
+		"attack": 8,
+		"defense": 3,
+		"element": "earth"
+	})
+	return default_enemies
 
 ## 检查Boss战斗
 func _check_boss_battle(enemies: Array[Dictionary]) -> void:
@@ -225,6 +230,7 @@ func _check_boss_battle(enemies: Array[Dictionary]) -> void:
 ## ==================== 敌人UI ====================
 
 func _create_enemy_ui(enemies: Array[Dictionary]) -> void:
+	print("[CardBattle] Creating enemy UI for ", enemies.size(), " enemies")
 	for child in enemy_container.get_children():
 		child.queue_free()
 	
@@ -253,6 +259,7 @@ func _create_enemy_ui(enemies: Array[Dictionary]) -> void:
 		enemy_ui.add_child(name_label)
 		
 		enemy_container.add_child(enemy_ui)
+		print("[CardBattle] Created enemy UI: ", enemy.get("name", "unknown"))
 
 func _create_enemy_placeholder(element: String) -> ImageTexture:
 	var image = Image.create(32, 32, false, Image.FORMAT_RGBA8)
@@ -589,12 +596,22 @@ func _on_turn_indicator(text: String) -> void:
 ## ==================== 用户输入 ====================
 
 func _on_card_clicked(index: int) -> void:
-	if battle_system:
-		battle_system.play_card_by_index(index)
+	if not battle_system:
+		return
+	# 检查是否在玩家回合
+	if battle_system.battle_state != CardBattleSystem.BattleState.PLAYER_TURN:
+		_show_turn_indicator("现在不是你的回合！")
+		return
+	battle_system.play_card_by_index(index)
 
 func _on_end_turn_pressed() -> void:
-	if battle_system:
-		battle_system.end_player_turn()
+	if not battle_system:
+		return
+	# 检查是否在玩家回合
+	if battle_system.battle_state != CardBattleSystem.BattleState.PLAYER_TURN:
+		_show_turn_indicator("现在不是你的回合！")
+		return
+	battle_system.end_player_turn()
 
 ## ==================== 日志和提示 ====================
 
@@ -659,12 +676,12 @@ func _check_and_show_tutorial() -> void:
 	var game_manager = get_node_or_null("/root/GameManager")
 	var is_first_battle = true
 	
-	if game_manager and game_manager.has_method("get"):
+	if game_manager:
 		is_first_battle = game_manager.get("first_battle_completed") != true
 	
 	if is_first_battle:
 		_show_battle_tutorial()
-		if game_manager and game_manager.has_method("set"):
+		if game_manager:
 			game_manager.set("first_battle_completed", true)
 
 func _show_battle_tutorial() -> void:
@@ -936,14 +953,15 @@ func _on_flee_pressed() -> void:
 ## ==================== 场景退出 ====================
 
 func _exit_tree() -> void:
-	var all_tweens = get_tree().get_processed_tweens()
-	for tween in all_tweens:
-		if tween.is_valid():
-			tween.kill()
-	print("[CardBattle] Resources cleaned up")
+	# 只清理本节点创建的 tween，不要杀死全局 tween
+	# Godot 会在节点退出树时自动清理其绑定的 tween
+	print("[CardBattle] Scene exiting tree")
 
 func _on_return_to_world() -> void:
+	# 同步状态回 GameManager
 	if GameManager and battle_system:
 		GameManager.player_health = battle_system.player_health
 		GameManager.player_mana = battle_system.player_mana
+	elif GameManager:
+		push_warning("[CardBattle] Battle system not available for state sync")
 	queue_free()

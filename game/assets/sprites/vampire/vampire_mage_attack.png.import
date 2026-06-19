@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://n8ym31prj6sf"
-path="res://.godot/imported/vampire_mage_attack.png-87cc4349aa8c58c5099a9d12e9bd069f.ctex"
+path="res://.godot/imported/vampire_mage_attack.png-01950fa1c8fcd32f28c4f512498f867d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://vampire_mage_attack.png"
-dest_files=["res://.godot/imported/vampire_mage_attack.png-87cc4349aa8c58c5099a9d12e9bd069f.ctex"]
+source_file="res://assets/sprites/vampire/vampire_mage_attack.png"
+dest_files=["res://.godot/imported/vampire_mage_attack.png-01950fa1c8fcd32f28c4f512498f867d.ctex"]
 
 [params]
 
