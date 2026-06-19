@@ -1,6 +1,6 @@
 ---
 name: quick-design
-description: "Lightweight design spec for small changes â€” tuning adjustments, minor mechanics, balance tweaks. Skips full GDD authoring when a system GDD already exists or the change is too small to warrant one. Produces a Quick Design Spec that embeds directly into story files."
+description: "Lightweight design spec for small changes â€?tuning adjustments, minor mechanics, balance tweaks. Skips full GDD authoring when a system GDD already exists or the change is too small to warrant one. Produces a Quick Design Spec that embeds directly into story files."
 argument-hint: "[brief description of the change]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit
@@ -10,7 +10,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit
 
 This is the **lightweight design path** for changes that don't need a full GDD.
 Full GDD authoring via `/design-system` is the heavyweight path. Use this skill
-for work under approximately 4 hours of implementation â€” tuning adjustments,
+for work under approximately 4 hours of implementation â€?tuning adjustments,
 minor behavioral tweaks, small additions to existing systems, or standalone
 features too small to warrant a full document.
 
@@ -25,22 +25,22 @@ meaningful to implement without a written rationale.
 
 First, read the argument and determine which category this change falls into:
 
-- **Tuning** â€” changing numbers or balance values in an existing system with no
+- **Tuning** â€?changing numbers or balance values in an existing system with no
   behavioral change (most minimal path). Example: "increase jump height from 5
   to 6 units", "reduce enemy patrol speed by 10%".
-- **Tweak** â€” a small behavioral change to an existing system that introduces no
+- **Tweak** â€?a small behavioral change to an existing system that introduces no
   new states, branches, or systems. Example: "make dash invincible on frame 1",
   "allow combo to cancel into roll".
-- **Addition** â€” adding a small mechanic to an existing system that may introduce
+- **Addition** â€?adding a small mechanic to an existing system that may introduce
   1-2 new states or interactions. Example: "add a parry window to the block
   mechanic", "add a charge variant to the basic attack".
-- **New Small System** â€” a standalone feature small enough that it has no
+- **New Small System** â€?a standalone feature small enough that it has no
   existing GDD and is under approximately one week of implementation work.
   Example: "achievement popup system", "simple day/night visual cycle".
 
-If the change does NOT fit these categories â€” it introduces a new system with
+If the change does NOT fit these categories â€?it introduces a new system with
 significant cross-system dependencies, requires more than one week of
-implementation, or fundamentally alters an existing system's core rules â€” stop
+implementation, or fundamentally alters an existing system's core rules â€?stop
 and redirect to `/design-system` instead.
 
 Present the classification to the user and confirm it is correct before
@@ -52,14 +52,14 @@ proceeding. If there is no argument, ask the user to describe the change.
 
 Before drafting anything, read the relevant context:
 
-- Search `design/gdd/` for the GDD most relevant to this change. Read the
+- Search `game/design/gdd/` for the GDD most relevant to this change. Read the
   sections that this change would affect.
-- Check whether `design/gdd/systems-index.md` exists. If it does, read it to
+- Check whether `game/design/gdd/systems-index.md` exists. If it does, read it to
   understand where this system sits in the dependency graph and what tier it
-  belongs to. If it does not exist, note "No systems index found â€” skipping
+  belongs to. If it does not exist, note "No systems index found â€?skipping
   dependency tier check." and continue.
 - Check `design/quick-specs/` for any prior quick specs that touched this
-  system â€” avoid contradicting them.
+  system â€?avoid contradicting them.
 - If this is a Tuning change, also check `assets/data/` for the data file that
   holds the relevant values.
 
@@ -81,7 +81,7 @@ Produce a single table:
 
 **Type**: Tuning
 **System**: [System name]
-**GDD Reference**: `design/gdd/[filename].md` â€” Tuning Knobs section
+**GDD Reference**: `game/design/gdd/[filename].md` â€?Tuning Knobs section
 **Date**: [today]
 
 ## Change
@@ -110,7 +110,7 @@ New value is [within / at the edge of / outside] the documented range.
 
 **Type**: [Tweak / Addition]
 **System**: [System name]
-**GDD Reference**: `design/gdd/[filename].md`
+**GDD Reference**: `game/design/gdd/[filename].md`
 **Date**: [today]
 
 ## Change Summary
@@ -124,7 +124,7 @@ Reference the relevant MDA aesthetic or player feedback if applicable.]
 
 ## Design Delta
 
-Current GDD says (quoting `design/gdd/[filename].md`, [section]):
+Current GDD says (quoting `game/design/gdd/[filename].md`, [section]):
 
 > [exact quote of the relevant rule or description]
 
@@ -160,7 +160,7 @@ new states, list them. If it introduces new parameters, define their ranges.]
 ### For New Small System changes
 
 Use a trimmed GDD structure. Include only the sections that are directly
-necessary â€” skip Player Fantasy, full Formulas, and Edge Cases unless the
+necessary â€?skip Player Fantasy, full Formulas, and Edge Cases unless the
 system specifically requires them.
 
 ```markdown
@@ -194,15 +194,15 @@ All values must live in `assets/data/[appropriate-file].json`, not hardcoded.
 
 - [ ] [Functional criterion: does the right thing]
 - [ ] [Functional criterion: handles the edge case]
-- [ ] [Experiential criterion: feels right â€” what a playtest validates]
+- [ ] [Experiential criterion: feels right â€?what a playtest validates]
 - [ ] [Regression criterion: does not break adjacent system]
 
 ## Systems Index
 
-This system is not currently in `design/gdd/systems-index.md`.
+This system is not currently in `game/design/gdd/systems-index.md`.
 [If it should be added: suggest which layer and priority tier.]
 [If it is too small to track: state "This system is below systems-index
-tracking threshold â€” quick spec is sufficient."]
+tracking threshold â€?quick spec is sufficient."]
 ```
 
 ---
@@ -225,7 +225,7 @@ If a GDD update is required (flagged in the spec), ask separately after
 writing the quick spec:
 
 "This spec modifies rules in [System Name]. May I update
-`design/gdd/[filename].md` â€” specifically the [section name] section?"
+`game/design/gdd/[filename].md` â€?specifically the [section name] section?"
 
 Show the exact text that would be changed (old vs. new) before asking. Do not
 make GDD edits without explicit approval.
@@ -240,7 +240,7 @@ After writing the file, output:
 Quick Design Spec written to: design/quick-specs/[filename].md
 Type: [Tuning / Tweak / Addition / New Small System]
 System: [system name]
-GDD update: [Required â€” pending approval / Applied / Not required]
+GDD update: [Required â€?pending approval / Applied / Not required]
 
 Next step: This spec is ready for `/story-readiness` validation before
 implementation. Reference this spec in the story's GDD Reference field.
@@ -248,7 +248,7 @@ implementation. Reference this spec in the story's GDD Reference field.
 
 ### Pipeline Notes
 
-Verdict: **COMPLETE** â€” quick design spec written and ready for implementation.
+Verdict: **COMPLETE** â€?quick design spec written and ready for implementation.
 
 Quick Design Specs **bypass** `/design-review` and `/review-all-gdds` by
 design. They are for small, low-risk, well-scoped changes where the cost of
@@ -269,6 +269,6 @@ using `/design-system` to author a full GDD for this."
 
 ## Recommended Next Steps
 
-- Run `/story-readiness [story-path]` to validate the story before implementation begins â€” reference this spec in the story's GDD Reference field
+- Run `/story-readiness [story-path]` to validate the story before implementation begins â€?reference this spec in the story's GDD Reference field
 - Run `/dev-story [story-path]` to implement once the story passes readiness checks
 - If the change is larger than expected, run `/design-system [system-name]` to author a full GDD instead

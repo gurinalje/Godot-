@@ -11,11 +11,11 @@ agent: economy-designer
 
 Determine the balance domain from `$ARGUMENTS`:
 
-- **Combat** â†’ weapon/ability DPS, time-to-kill, damage type interactions
-- **Economy** â†’ resource faucets/sinks, acquisition rates, item pricing
-- **Progression** â†’ XP/power curves, dead zones, power spikes
-- **Loot** â†’ rarity distribution, pity timers, inventory pressure
-- **File path given** â†’ load that file directly and infer domain from content
+- **Combat** â†?weapon/ability DPS, time-to-kill, damage type interactions
+- **Economy** â†?resource faucets/sinks, acquisition rates, item pricing
+- **Progression** â†?XP/power curves, dead zones, power spikes
+- **Loot** â†?rarity distribution, pity timers, inventory pressure
+- **File path given** â†?load that file directly and infer domain from content
 
 If no argument, use `question`:
 - "Which system should I check for balance?"
@@ -28,13 +28,13 @@ If no argument, use `question`:
 Run these in parallel using Glob/Grep:
 
 ```
-Glob pattern="assets/data/**/*.json" â†’ find all data files
-Glob pattern="assets/data/**/*.tres" â†’ find Godot resource data files
-Grep pattern="balance" path="design/gdd/" â†’ find relevant GDDs
-Glob pattern="design/balance/**/*.md" â†’ find previous balance reports
+Glob pattern="assets/data/**/*.json" â†?find all data files
+Glob pattern="assets/data/**/*.tres" â†?find Godot resource data files
+Grep pattern="balance" path="game/design/gdd/" â†?find relevant GDDs
+Glob pattern="design/balance/**/*.md" â†?find previous balance reports
 ```
 
-- Read the GDD for the identified domain from `design/gdd/`
+- Read the GDD for the identified domain from `game/design/gdd/`
 - Read all relevant data files from `assets/data/`
 - Extract intended design targets, tuning knobs, and expected value ranges from the GDD
 
@@ -44,7 +44,7 @@ Glob pattern="design/balance/**/*.md" â†’ find previous balance reports
 
 Spawn specialist agents via Task in **parallel** for the identified domain. Pass the full GDD content and data file content to each agent.
 
-### Combat balance â†’ spawn `systems-designer`
+### Combat balance â†?spawn `systems-designer`
 Ask them to:
 - Calculate DPS for all weapons/abilities at each power tier
 - Check time-to-kill at each tier
@@ -53,7 +53,7 @@ Ask them to:
 - Verify damage type/resistance interactions are balanced
 - Produce a table of outliers with expected vs actual values
 
-### Economy balance â†’ spawn `economy-designer`
+### Economy balance â†?spawn `economy-designer`
 Ask them to:
 - Map all resource faucets and sinks with flow rates
 - Project resource accumulation over time
@@ -62,7 +62,7 @@ Ask them to:
 - Check if any items are never worth purchasing
 - Produce a resource flow diagram in table form
 
-### Progression balance â†’ spawn `systems-designer`
+### Progression balance â†?spawn `systems-designer`
 Ask them to:
 - Plot the XP curve and power curve
 - Check for dead zones (no meaningful progression for too long)
@@ -71,7 +71,7 @@ Ask them to:
 - Check if skip/grind strategies break intended pacing
 - Produce a progression curve health assessment
 
-### Loot balance â†’ spawn `economy-designer`
+### Loot balance â†?spawn `economy-designer`
 Ask them to:
 - Calculate expected time to acquire each rarity tier
 - Check pity timer math
@@ -139,7 +139,7 @@ If yes, write the file (create `design/balance/` directory if needed).
 After writing the report, use `question`:
 
 > "Would you like to fix any of these balance issues now?"
-> - Options: `[A] Yes â€” fix the highest-priority issue` / `[B] Yes â€” let me pick which one` / `[C] No â€” save the report for later`
+> - Options: `[A] Yes â€?fix the highest-priority issue` / `[B] Yes â€?let me pick which one` / `[C] No â€?save the report for later`
 
 If yes:
 - Ask which issue to address first (refer to the Recommendations table by priority row)
@@ -153,7 +153,7 @@ If no:
 
 ## Recommended Next Steps
 
-- `/propagate-design-change [gdd-file]` â€” if fixes changed GDD-defined values
-- `/consistency-check` â€” verify fixed values don't conflict with other GDDs
-- `/design-review [gdd-file]` â€” if the balance changes require design re-validation
-- `/architecture-decision` â€” if a balance fix requires a new technical pattern
+- `/propagate-design-change [gdd-file]` â€?if fixes changed GDD-defined values
+- `/consistency-check` â€?verify fixed values don't conflict with other GDDs
+- `/design-review [gdd-file]` â€?if the balance changes require design re-validation
+- `/architecture-decision` â€?if a balance fix requires a new technical pattern

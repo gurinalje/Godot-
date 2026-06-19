@@ -1,9 +1,9 @@
 # Epic: choice-system
 
 > **Layer**: feature
-> **GDD**: design/gdd/choice-system.md
+> **GDD**: game/design/gdd/choice-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories choice-system`
+> **Stories**: Not yet created â€?run `/create-stories choice-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the choice-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-choice-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-choice-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-choice-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-choice-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

@@ -1,10 +1,10 @@
-# Director Gates â€” Shared Review Pattern
+# Director Gates â€?Shared Review Pattern
 
 This document defines the standard gate prompts for all director and lead reviews
 across every workflow stage. Skills reference gate IDs from this document instead
-of embedding full prompts inline â€” eliminating drift when prompts need updating.
+of embedding full prompts inline â€?eliminating drift when prompts need updating.
 
-**Scope**: All 7 production stages (Concept â†’ Release), all 3 Tier 1 directors,
+**Scope**: All 7 production stages (Concept â†?Release), all 3 Tier 1 directors,
 all key Tier 2 leads. Any skill, team orchestrator, or workflow may invoke these gates.
 
 ---
@@ -28,7 +28,7 @@ the verdict using the **Verdict handling** rules below.
 Review intensity controls whether director gates run. It can be set globally
 (persists across sessions) or overridden per skill run.
 
-**Global config**: `production/review-mode.txt` â€” one word: `full`, `lean`, or `solo`.
+**Global config**: `production/review-mode.txt` â€?one word: `full`, `lean`, or `solo`.
 Set once during `/start`. Edit the file directly to change it at any time.
 
 **Per-run override**: any gate-using skill accepts `--review [full|lean|solo]` as an
@@ -36,18 +36,18 @@ argument. This overrides the global config for that run only.
 
 Examples:
 ```
-/brainstorm space horror           â†’ uses global mode
-/brainstorm space horror --review full   â†’ forces full mode this run
-/architecture-decision --review solo     â†’ skips all gates this run
+/brainstorm space horror           â†?uses global mode
+/brainstorm space horror --review full   â†?forces full mode this run
+/architecture-decision --review solo     â†?skips all gates this run
 ```
 
 | Mode | What runs | Best for |
 |------|-----------|----------|
-| `full` | All gates active â€” every workflow step reviewed | Teams, learning users, or when you want thorough director feedback at every step |
-| `lean` | PHASE-GATEs only (`/gate-check`) â€” per-skill gates skipped | **Default** â€” solo devs and small teams; directors review at milestones only |
+| `full` | All gates active â€?every workflow step reviewed | Teams, learning users, or when you want thorough director feedback at every step |
+| `lean` | PHASE-GATEs only (`/gate-check`) â€?per-skill gates skipped | **Default** â€?solo devs and small teams; directors review at milestones only |
 | `solo` | No director gates anywhere | Game jams, prototypes, maximum speed |
 
-**Check pattern â€” apply before every gate spawn:**
+**Check pattern â€?apply before every gate spawn:**
 
 ```
 Before spawning gate [GATE-ID]:
@@ -56,10 +56,10 @@ Before spawning gate [GATE-ID]:
 3. Else default to full
 
 Apply the resolved mode:
-- solo â†’ skip all gates. Note: "[GATE-ID] skipped â€” Solo mode"
-- lean â†’ skip unless this is a PHASE-GATE (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE)
-         Note: "[GATE-ID] skipped â€” Lean mode"
-- full â†’ spawn as normal
+- solo â†?skip all gates. Note: "[GATE-ID] skipped â€?Solo mode"
+- lean â†?skip unless this is a PHASE-GATE (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE)
+         Note: "[GATE-ID] skipped â€?Lean mode"
+- full â†?spawn as normal
 ```
 
 ---
@@ -72,9 +72,9 @@ Apply the resolved mode:
 3. Else default to `lean`
 
 Apply the resolved mode:
-- `solo` â†’ **skip all gates**. Note in output: `[GATE-ID] skipped â€” Solo mode`
-- `lean` â†’ **skip unless this is a PHASE-GATE** (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE, AD-PHASE-GATE). Note: `[GATE-ID] skipped â€” Lean mode`
-- `full` â†’ spawn as normal
+- `solo` â†?**skip all gates**. Note in output: `[GATE-ID] skipped â€?Solo mode`
+- `lean` â†?**skip unless this is a PHASE-GATE** (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE, AD-PHASE-GATE). Note: `[GATE-ID] skipped â€?Lean mode`
+- `full` â†?spawn as normal
 
 ```
 # Apply mode check, then:
@@ -88,7 +88,7 @@ For parallel spawning (multiple directors at the same gate point):
 
 ```
 # Apply mode check for each gate first, then spawn all that survive:
-Spawn all [N] agents simultaneously via Task â€” issue all Task calls before
+Spawn all [N] agents simultaneously via Task â€?issue all Task calls before
 waiting for any result. Collect all verdicts before proceeding.
 ```
 
@@ -101,11 +101,11 @@ All gates return one of three verdicts. Skills must handle all three:
 | Verdict | Meaning | Default action |
 |---------|---------|----------------|
 | **APPROVE / READY** | No issues. Proceed. | Continue the workflow |
-| **CONCERNS [list]** | Issues present but not blocking. | Surface to user via `question` â€” options: `Revise flagged items` / `Accept and proceed` / `Discuss further` |
+| **CONCERNS [list]** | Issues present but not blocking. | Surface to user via `question` â€?options: `Revise flagged items` / `Accept and proceed` / `Discuss further` |
 | **REJECT / NOT READY [blockers]** | Blocking issues. Do not proceed. | Surface blockers to user. Do not write files or advance stage until resolved. |
 
 **Escalation rule**: When multiple directors are spawned in parallel, apply the
-strictest verdict â€” one NOT READY overrides all READY verdicts.
+strictest verdict â€?one NOT READY overrides all READY verdicts.
 
 ---
 
@@ -122,13 +122,13 @@ For phase gates, record in `docs/architecture/architecture.md` or
 
 ---
 
-## Tier 1 â€” Creative Director Gates
+## Tier 1 â€?Creative Director Gates
 
 Agent: `creative-director` | Model tier: Opus | Domain: Vision, pillars, player experience
 
 ---
 
-### CD-PILLARS â€” Pillar Stress Test
+### CD-PILLARS â€?Pillar Stress Test
 
 **Trigger**: After game pillars and anti-pillars are defined (brainstorm Phase 4,
 or any time pillars are revised)
@@ -140,25 +140,25 @@ or any time pillars are revised)
 - Unique hook ("Like X, AND ALSO Y")
 
 **Prompt**:
-> "Review these game pillars. Are they falsifiable â€” could a real design decision
+> "Review these game pillars. Are they falsifiable â€?could a real design decision
 > actually fail this pillar? Do they create meaningful tension with each other? Do
 > they differentiate this game from its closest comparables? Would they help resolve
 > a design disagreement in practice, or are they too vague to be useful? Return
 > specific feedback for each pillar and an overall verdict: APPROVE (strong), CONCERNS
-> [list] (needs sharpening), or REJECT (weak â€” pillars do not carry weight)."
+> [list] (needs sharpening), or REJECT (weak â€?pillars do not carry weight)."
 
 **Verdicts**: APPROVE / CONCERNS / REJECT
 
 ---
 
-### CD-GDD-ALIGN â€” GDD Pillar Alignment Check
+### CD-GDD-ALIGN â€?GDD Pillar Alignment Check
 
 **Trigger**: After a system GDD is authored (design-system, quick-design, or any
 workflow that produces a GDD)
 
 **Context to pass**:
 - GDD file path
-- Game pillars (from `design/gdd/game-concept.md` or `design/gdd/game-pillars.md`)
+- Game pillars (from `game/design/gdd/game-concept.md` or `game/design/gdd/game-pillars.md`)
 - MDA aesthetics target for this game
 - System's stated Player Fantasy section
 
@@ -173,33 +173,32 @@ workflow that produces a GDD)
 
 ---
 
-### CD-SYSTEMS â€” Systems Decomposition Vision Check
+### CD-SYSTEMS â€?Systems Decomposition Vision Check
 
-**Trigger**: After the systems index is written by `/map-systems` â€” validates the
+**Trigger**: After the systems index is written by `/map-systems` â€?validates the
 complete system set before GDD authoring begins
 
 **Context to pass**:
-- Systems index path (`design/gdd/systems-index.md`)
-- Game pillars and core fantasy (from `design/gdd/game-concept.md`)
+- Systems index path (`game/design/gdd/systems-index.md`)
+- Game pillars and core fantasy (from `game/design/gdd/game-concept.md`)
 - Priority tier assignments (MVP / Vertical Slice / Alpha / Full Vision)
 - Any high-risk or bottleneck systems identified in the dependency map
 
 **Prompt**:
 > "Review this systems decomposition against the game's design pillars. Does the
 > full set of MVP-tier systems collectively deliver the core fantasy? Are there
-> systems whose mechanics don't serve any stated pillar â€” indicating they may be
+> systems whose mechanics don't serve any stated pillar â€?indicating they may be
 > scope creep? Are there pillar-critical player experiences that have no system
 > assigned to deliver them? Are any systems missing that the core loop requires?
 > Return APPROVE (systems serve the vision), CONCERNS [specific gaps or
-> misalignments with their pillar implications], or REJECT [fundamental gaps â€”
-> the decomposition misses critical design intent and must be revised before GDD
+> misalignments with their pillar implications], or REJECT [fundamental gaps â€?> the decomposition misses critical design intent and must be revised before GDD
 > authoring begins]."
 
 **Verdicts**: APPROVE / CONCERNS / REJECT
 
 ---
 
-### CD-NARRATIVE â€” Narrative Consistency Check
+### CD-NARRATIVE â€?Narrative Consistency Check
 
 **Trigger**: After narrative GDDs, lore documents, dialogue specs, or world-building
 documents are authored (team-narrative, design-system for story systems, writer
@@ -222,7 +221,7 @@ deliverables)
 
 ---
 
-### CD-PLAYTEST â€” Player Experience Validation
+### CD-PLAYTEST â€?Player Experience Validation
 
 **Trigger**: After playtest reports are generated (`/playtest-report`), or after
 any session that produces player feedback
@@ -235,18 +234,17 @@ any session that produces player feedback
 **Prompt**:
 > "Review this playtest report against the game's design pillars and core fantasy.
 > Is the player experience matching the intended fantasy? Are there systematic issues
-> that represent pillar drift â€” mechanics that feel fine in isolation but undermine
+> that represent pillar drift â€?mechanics that feel fine in isolation but undermine
 > the intended experience? Return APPROVE (core fantasy is landing), CONCERNS [gaps
-> between intended and actual experience], or REJECT [core fantasy is not present â€”
-> redesign needed before further playtesting]."
+> between intended and actual experience], or REJECT [core fantasy is not present â€?> redesign needed before further playtesting]."
 
 **Verdicts**: APPROVE / CONCERNS / REJECT
 
 ---
 
-### CD-PHASE-GATE â€” Creative Readiness at Phase Transition
+### CD-PHASE-GATE â€?Creative Readiness at Phase Transition
 
-**Trigger**: Always at `/gate-check` â€” spawn in parallel with TD-PHASE-GATE and PR-PHASE-GATE
+**Trigger**: Always at `/gate-check` â€?spawn in parallel with TD-PHASE-GATE and PR-PHASE-GATE
 
 **Context to pass**:
 - Target phase name
@@ -264,16 +262,16 @@ any session that produces player feedback
 
 ---
 
-## Tier 1 â€” Technical Director Gates
+## Tier 1 â€?Technical Director Gates
 
 Agent: `technical-director` | Model tier: Opus | Domain: Architecture, engine risk, performance
 
 ---
 
-### TD-SYSTEM-BOUNDARY â€” System Boundary Architecture Review
+### TD-SYSTEM-BOUNDARY â€?System Boundary Architecture Review
 
 **Trigger**: After `/map-systems` Phase 3 dependency mapping is agreed but before
-GDD authoring begins â€” validates that the system structure is architecturally
+GDD authoring begins â€?validates that the system structure is architecturally
 sound before teams invest in writing GDDs against it
 
 **Context to pass**:
@@ -285,22 +283,22 @@ sound before teams invest in writing GDDs against it
 
 **Prompt**:
 > "Review this systems decomposition from an architectural perspective before GDD
-> authoring begins. Are the system boundaries clean â€” does each system own a
+> authoring begins. Are the system boundaries clean â€?does each system own a
 > distinct concern with minimal overlap? Are there God Object risks (systems doing
 > too much)? Does the dependency ordering create implementation-sequencing problems?
 > Are there implicit shared-state problems in the proposed boundaries that will
 > cause tight coupling when implemented? Are any Foundation-layer systems actually
 > dependent on Feature-layer systems (inverted dependency)? Return APPROVE
-> (boundaries are architecturally sound â€” proceed to GDD authoring), CONCERNS
+> (boundaries are architecturally sound â€?proceed to GDD authoring), CONCERNS
 > [specific boundary issues to address in the GDDs themselves], or REJECT
-> [fundamental boundary problems â€” the system structure will cause architectural
+> [fundamental boundary problems â€?the system structure will cause architectural
 > issues and must be restructured before any GDD is written]."
 
 **Verdicts**: APPROVE / CONCERNS / REJECT
 
 ---
 
-### TD-FEASIBILITY â€” Technical Feasibility Assessment
+### TD-FEASIBILITY â€?Technical Feasibility Assessment
 
 **Trigger**: After biggest technical risks are identified during scope/feasibility
 (brainstorm Phase 6, quick-design, or any early-stage concept with technical unknowns)
@@ -323,7 +321,7 @@ sound before teams invest in writing GDDs against it
 
 ---
 
-### TD-ARCHITECTURE â€” Architecture Sign-Off
+### TD-ARCHITECTURE â€?Architecture Sign-Off
 
 **Trigger**: After the master architecture document is drafted (`/create-architecture`
 Phase 7), and after any major architecture revision
@@ -346,7 +344,7 @@ Phase 7), and after any major architecture revision
 
 ---
 
-### TD-ADR â€” Architecture Decision Review
+### TD-ADR â€?Architecture Decision Review
 
 **Trigger**: After an individual ADR is authored (`/architecture-decision`), before
 it is marked Accepted
@@ -368,7 +366,7 @@ it is marked Accepted
 
 ---
 
-### TD-ENGINE-RISK â€” Engine Version Risk Review
+### TD-ENGINE-RISK â€?Engine Version Risk Review
 
 **Trigger**: When making architecture decisions that touch post-cutoff engine APIs,
 or before finalizing any engine-specific implementation approach
@@ -383,15 +381,15 @@ or before finalizing any engine-specific implementation approach
 > in [engine version]? Has its signature, behaviour, or namespace changed since the
 > LLM knowledge cutoff? Are there known deprecations or post-cutoff alternatives?
 > Return APPROVE (safe to use as described), CONCERNS [verify before implementing],
-> or REJECT [API has changed â€” provide corrected approach]."
+> or REJECT [API has changed â€?provide corrected approach]."
 
 **Verdicts**: APPROVE / CONCERNS / REJECT
 
 ---
 
-### TD-PHASE-GATE â€” Technical Readiness at Phase Transition
+### TD-PHASE-GATE â€?Technical Readiness at Phase Transition
 
-**Trigger**: Always at `/gate-check` â€” spawn in parallel with CD-PHASE-GATE and PR-PHASE-GATE
+**Trigger**: Always at `/gate-check` â€?spawn in parallel with CD-PHASE-GATE and PR-PHASE-GATE
 
 **Context to pass**:
 - Target phase name
@@ -410,13 +408,13 @@ or before finalizing any engine-specific implementation approach
 
 ---
 
-## Tier 1 â€” Producer Gates
+## Tier 1 â€?Producer Gates
 
 Agent: `producer` | Model tier: Opus | Domain: Scope, timeline, dependencies, production risk
 
 ---
 
-### PR-SCOPE â€” Scope and Timeline Validation
+### PR-SCOPE â€?Scope and Timeline Validation
 
 **Trigger**: After scope tiers are defined (brainstorm Phase 6, quick-design, or
 any workflow that produces an MVP definition and timeline estimate)
@@ -430,17 +428,17 @@ any workflow that produces an MVP definition and timeline estimate)
 
 **Prompt**:
 > "Review this scope estimate. Is the MVP achievable in the stated timeline for
-> the stated team size? Are the scope tiers correctly ordered by risk â€” does each
+> the stated team size? Are the scope tiers correctly ordered by risk â€?does each
 > tier deliver a shippable product if work stops there? What is the most likely
 > cut point under time pressure, and is it a graceful fallback or a broken product?
 > Return REALISTIC (scope matches capacity), OPTIMISTIC [specific adjustments
-> recommended], or UNREALISTIC [blockers â€” timeline or MVP must be revised]."
+> recommended], or UNREALISTIC [blockers â€?timeline or MVP must be revised]."
 
 **Verdicts**: REALISTIC / OPTIMISTIC / UNREALISTIC
 
 ---
 
-### PR-SPRINT â€” Sprint Feasibility Review
+### PR-SPRINT â€?Sprint Feasibility Review
 
 **Trigger**: Before finalising a sprint plan (`/sprint-plan`), and after any
 mid-sprint scope change
@@ -457,13 +455,13 @@ mid-sprint scope change
 > dependencies between stories that could block the sprint mid-way? Are any stories
 > underestimated given their technical complexity? Return REALISTIC (plan is
 > achievable), CONCERNS [specific risks], or UNREALISTIC [sprint must be
-> descoped â€” identify which stories to defer]."
+> descoped â€?identify which stories to defer]."
 
 **Verdicts**: REALISTIC / CONCERNS / UNREALISTIC
 
 ---
 
-### PR-MILESTONE â€” Milestone Risk Assessment
+### PR-MILESTONE â€?Milestone Risk Assessment
 
 **Trigger**: At milestone review (`/milestone-review`), at mid-sprint retrospectives,
 or when a scope change is proposed that affects the milestone
@@ -479,17 +477,17 @@ or when a scope change is proposed that affects the milestone
 > will this milestone hit its target date? What are the top 3 production risks
 > between now and the milestone? Are there scope items that should be cut to protect
 > the milestone date vs. items that are non-negotiable? Return ON TRACK, AT RISK
-> [specific mitigations], or OFF TRACK [date must slip or scope must cut â€” provide
+> [specific mitigations], or OFF TRACK [date must slip or scope must cut â€?provide
 > both options]."
 
 **Verdicts**: ON TRACK / AT RISK / OFF TRACK
 
 ---
 
-### PR-EPIC â€” Epic Structure Feasibility Review
+### PR-EPIC â€?Epic Structure Feasibility Review
 
 **Trigger**: After epics are defined by `/create-epics`, before stories are
-broken out â€” validates the epic structure is producible before `/create-stories`
+broken out â€?validates the epic structure is producible before `/create-stories`
 is invoked
 
 **Context to pass**:
@@ -501,23 +499,23 @@ is invoked
 
 **Prompt**:
 > "Review this epic structure for production feasibility before story breakdown
-> begins. Are the epic boundaries scoped appropriately â€” could each epic realistically
+> begins. Are the epic boundaries scoped appropriately â€?could each epic realistically
 > complete before a milestone deadline? Are epics correctly ordered by system
-> dependency â€” does any epic require another epic's output before it can start?
+> dependency â€?does any epic require another epic's output before it can start?
 > Are any epics underscoped (too small, should merge) or overscoped (too large,
 > should split into 2-3 focused epics)? Are the Foundation-layer epics scoped to
 > allow Core-layer epics to begin at the start of the next sprint after Foundation
 > completes? Return REALISTIC (epic structure is producible), CONCERNS [specific
 > structural adjustments before stories are written], or UNREALISTIC [epics must
-> be split, merged, or reordered â€” story breakdown cannot begin until resolved]."
+> be split, merged, or reordered â€?story breakdown cannot begin until resolved]."
 
 **Verdicts**: REALISTIC / CONCERNS / UNREALISTIC
 
 ---
 
-### PR-PHASE-GATE â€” Production Readiness at Phase Transition
+### PR-PHASE-GATE â€?Production Readiness at Phase Transition
 
-**Trigger**: Always at `/gate-check` â€” spawn in parallel with CD-PHASE-GATE and TD-PHASE-GATE
+**Trigger**: Always at `/gate-check` â€?spawn in parallel with CD-PHASE-GATE and TD-PHASE-GATE
 
 **Context to pass**:
 - Target phase name
@@ -536,13 +534,13 @@ is invoked
 
 ---
 
-## Tier 1 â€” Art Director Gates
+## Tier 1 â€?Art Director Gates
 
 Agent: `art-director` | Model tier: Sonnet | Domain: Visual identity, art bible, visual production readiness
 
 ---
 
-### AD-CONCEPT-VISUAL â€” Visual Identity Anchor
+### AD-CONCEPT-VISUAL â€?Visual Identity Anchor
 
 **Trigger**: After game pillars are locked (brainstorm Phase 4), in parallel with CD-PILLARS
 
@@ -558,15 +556,15 @@ Agent: `art-director` | Model tier: Sonnet | Domain: Visual identity, art bible,
 > all visual decisions (e.g., 'everything must move', 'beauty is in the decay'), (2)
 > mood and atmosphere targets, (3) shape language (sharp/rounded/organic/geometric
 > emphasis), (4) color philosophy (palette direction, what colors mean in this world).
-> Be specific â€” avoid generic descriptions. One direction should directly serve the
+> Be specific â€?avoid generic descriptions. One direction should directly serve the
 > primary design pillar. Name each direction. Recommend which best serves the stated
 > pillars and explain why."
 
-**Verdicts**: CONCEPTS (multiple valid options â€” user selects) / STRONG (one direction clearly dominant) / CONCERNS (pillars don't provide enough direction to differentiate visual identity yet)
+**Verdicts**: CONCEPTS (multiple valid options â€?user selects) / STRONG (one direction clearly dominant) / CONCERNS (pillars don't provide enough direction to differentiate visual identity yet)
 
 ---
 
-### AD-ART-BIBLE â€” Art Bible Sign-Off
+### AD-ART-BIBLE â€?Art Bible Sign-Off
 
 **Trigger**: After the art bible is drafted (`/art-bible`), before asset production begins
 
@@ -574,7 +572,7 @@ Agent: `art-director` | Model tier: Sonnet | Domain: Visual identity, art bible,
 - Art bible path (`design/art/art-bible.md`)
 - Game pillars and core fantasy
 - Platform and performance constraints (from `.opencode/docs/technical-preferences.md` if configured)
-- Visual identity anchor chosen during brainstorm (from `design/gdd/game-concept.md`)
+- Visual identity anchor chosen during brainstorm (from `game/design/gdd/game-concept.md`)
 
 **Prompt**:
 > "Review this art bible for completeness and internal consistency. Does the color
@@ -591,14 +589,14 @@ Agent: `art-director` | Model tier: Sonnet | Domain: Visual identity, art bible,
 
 ---
 
-### AD-PHASE-GATE â€” Visual Readiness at Phase Transition
+### AD-PHASE-GATE â€?Visual Readiness at Phase Transition
 
-**Trigger**: Always at `/gate-check` â€” spawn in parallel with CD-PHASE-GATE, TD-PHASE-GATE, and PR-PHASE-GATE
+**Trigger**: Always at `/gate-check` â€?spawn in parallel with CD-PHASE-GATE, TD-PHASE-GATE, and PR-PHASE-GATE
 
 **Context to pass**:
 - Target phase name
 - List of all art/visual artifacts present (file paths)
-- Visual identity anchor from `design/gdd/game-concept.md` (if present)
+- Visual identity anchor from `game/design/gdd/game-concept.md` (if present)
 - Art bible path if it exists (`design/art/art-bible.md`)
 
 **Prompt**:
@@ -609,21 +607,21 @@ Agent: `art-director` | Model tier: Sonnet | Domain: Visual identity, art bible,
 > rework later? Are there visual decisions that are being deferred past their latest
 > responsible moment? Return READY, CONCERNS [specific visual direction gaps that
 > could cause production rework], or NOT READY [visual blockers that must exist
-> before this phase can succeed â€” specify what artifact is missing and why it
+> before this phase can succeed â€?specify what artifact is missing and why it
 > matters at this stage]."
 
 **Verdicts**: READY / CONCERNS / NOT READY
 
 ---
 
-## Tier 2 â€” Lead Gates
+## Tier 2 â€?Lead Gates
 
 These gates are invoked by orchestration skills and senior skills when a domain
 specialist's feasibility sign-off is needed. Tier 2 leads use Sonnet (default).
 
 ---
 
-### LP-FEASIBILITY â€” Lead Programmer Implementation Feasibility
+### LP-FEASIBILITY â€?Lead Programmer Implementation Feasibility
 
 **Trigger**: After the master architecture document is written (`/create-architecture`
 Phase 7b), or when a new architectural pattern is proposed
@@ -645,7 +643,7 @@ Phase 7b), or when a new architectural pattern is proposed
 
 ---
 
-### LP-CODE-REVIEW â€” Lead Programmer Code Review
+### LP-CODE-REVIEW â€?Lead Programmer Code Review
 
 **Trigger**: After a dev story is implemented (`/dev-story`, `/story-done`), or
 as part of `/code-review`
@@ -667,9 +665,9 @@ as part of `/code-review`
 
 ---
 
-### QL-STORY-READY â€” QA Lead Story Readiness Check
+### QL-STORY-READY â€?QA Lead Story Readiness Check
 
-**Trigger**: Before a story is accepted into a sprint â€” invoked by `/create-stories`,
+**Trigger**: Before a story is accepted into a sprint â€?invoked by `/create-stories`,
 `/story-readiness`, and `/sprint-plan` during story selection
 
 **Context to pass**:
@@ -687,16 +685,16 @@ as part of `/code-review`
 > against, and flag criteria that require a full game build to test (mark these
 > DEFERRED, not BLOCKED). Return ADEQUATE (criteria are implementable as written),
 > GAPS [specific criteria needing refinement], or INADEQUATE [criteria are too
-> vague â€” story must be revised before sprint inclusion]."
+> vague â€?story must be revised before sprint inclusion]."
 
 **Verdicts**: ADEQUATE / GAPS / INADEQUATE
 
 ---
 
-### QL-TEST-COVERAGE â€” QA Lead Test Coverage Review
+### QL-TEST-COVERAGE â€?QA Lead Test Coverage Review
 
 **Trigger**: After implementation stories are complete, before marking an epic
-done, or at `/gate-check` Production â†’ Polish
+done, or at `/gate-check` Production â†?Polish
 
 **Context to pass**:
 - List of implemented stories with story types (Logic / Integration / Visual / UI / Config)
@@ -709,13 +707,13 @@ done, or at `/gate-check` Production â†’ Polish
 > tests or documented playtests? Are the GDD acceptance criteria each mapped to at
 > least one test? Are there untested edge cases from the GDD Edge Cases section?
 > Return ADEQUATE (coverage meets standards), GAPS [specific missing tests], or
-> INADEQUATE [critical logic is untested â€” do not advance]."
+> INADEQUATE [critical logic is untested â€?do not advance]."
 
 **Verdicts**: ADEQUATE / GAPS / INADEQUATE
 
 ---
 
-### ND-CONSISTENCY â€” Narrative Director Consistency Check
+### ND-CONSISTENCY â€?Narrative Director Consistency Check
 
 **Trigger**: After writer deliverables (dialogue, lore, item descriptions) are
 authored, or when a design decision has narrative implications
@@ -738,7 +736,7 @@ authored, or when a design decision has narrative implications
 
 ---
 
-### AD-VISUAL â€” Art Director Visual Consistency Review
+### AD-VISUAL â€?Art Director Visual Consistency Review
 
 **Trigger**: After art direction decisions are made, when new asset types are
 introduced, or when a tech art decision affects visual style
@@ -767,15 +765,15 @@ at `/gate-check`), spawn all agents simultaneously:
 
 ```
 Spawn in parallel (issue all Task calls before waiting for any result):
-1. creative-director  â†’ gate CD-PHASE-GATE
-2. technical-director â†’ gate TD-PHASE-GATE
-3. producer           â†’ gate PR-PHASE-GATE
-4. art-director       â†’ gate AD-PHASE-GATE
+1. creative-director  â†?gate CD-PHASE-GATE
+2. technical-director â†?gate TD-PHASE-GATE
+3. producer           â†?gate PR-PHASE-GATE
+4. art-director       â†?gate AD-PHASE-GATE
 
 Collect all four verdicts, then apply escalation rules:
-- Any NOT READY / REJECT â†’ overall verdict minimum FAIL
-- Any CONCERNS â†’ overall verdict minimum CONCERNS
-- All READY / APPROVE â†’ eligible for PASS (still subject to artifact checks)
+- Any NOT READY / REJECT â†?overall verdict minimum FAIL
+- Any CONCERNS â†?overall verdict minimum CONCERNS
+- All READY / APPROVE â†?eligible for PASS (still subject to artifact checks)
 ```
 
 ---
@@ -786,10 +784,10 @@ When a new gate is needed for a new skill or workflow:
 
 1. Assign a gate ID: `[DIRECTOR-PREFIX]-[DESCRIPTIVE-SLUG]`
    - Prefixes: `CD-` `TD-` `PR-` `LP-` `QL-` `ND-` `AD-`
-   - Add new prefixes for new agents: `AudioDirector` â†’ `AU-`, `UX` â†’ `UX-`
+   - Add new prefixes for new agents: `AudioDirector` â†?`AU-`, `UX` â†?`UX-`
 2. Add the gate under the appropriate director section with all five fields:
    Trigger, Context to pass, Prompt, Verdicts, and any special handling notes
-3. Reference it in skills by ID only â€” never copy the prompt text into the skill
+3. Reference it in skills by ID only â€?never copy the prompt text into the skill
 
 ---
 

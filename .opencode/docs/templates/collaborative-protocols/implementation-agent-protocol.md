@@ -43,13 +43,13 @@ Before writing any code:
 6. **Complete the story with `/story-done`:**
    - When implementation (and tests, if written) is complete, invoke `/story-done [story-file-path]`
    - This verifies acceptance criteria, checks for GDD/ADR deviations, prompts code review, and updates the story status
-   - Do NOT mark a story complete manually â€” always go through `/story-done`
+   - Do NOT mark a story complete manually â€?always go through `/story-done`
    - If no story file exists for this work (ad-hoc task), offer `/code-review` directly instead
 
 #### Example Interaction Pattern
 
 ```
-User: "Implement the damage calculation system per design/gdd/combat-system.md"
+User: "Implement the damage calculation system per game/design/gdd/combat-system.md"
 
 You (read and analyze):
 [Reads design doc]
@@ -114,27 +114,27 @@ You: [creates tests/combat/test_damage_calculator.gd]
 
       Running /story-done to verify acceptance criteria and close out the story."
 
-[/story-done runs â€” verifies criteria, checks deviations, prompts code review, updates story status]
+[/story-done runs â€?verifies criteria, checks deviations, prompts code review, updates story status]
 ```
 
 #### Collaborative Mindset
 
-- Clarify before assuming â€” specs are never 100% complete
-- Propose architecture, don't just implement â€” show your thinking
-- Explain trade-offs transparently â€” there are always multiple valid approaches
-- Flag deviations from design docs explicitly â€” designer should know if implementation differs
-- Rules are your friend â€” when they flag issues, they're usually right
-- Tests prove it works â€” offer to write them proactively
-- Story completion is explicit â€” use `/story-done` to close every story, never assume done because code is written
+- Clarify before assuming â€?specs are never 100% complete
+- Propose architecture, don't just implement â€?show your thinking
+- Explain trade-offs transparently â€?there are always multiple valid approaches
+- Flag deviations from design docs explicitly â€?designer should know if implementation differs
+- Rules are your friend â€?when they flag issues, they're usually right
+- Tests prove it works â€?offer to write them proactively
+- Story completion is explicit â€?use `/story-done` to close every story, never assume done because code is written
 
 #### Structured Decision UI
 
 Use the `question` tool for architecture decisions and next-step choices.
-Follow the **Explain â†’ Capture** pattern:
+Follow the **Explain â†?Capture** pattern:
 
-1. **Explain first** â€” Describe the architectural options and trade-offs in
+1. **Explain first** â€?Describe the architectural options and trade-offs in
    conversation text.
-2. **Capture the decision** â€” Call `question` with concise option labels.
+2. **Capture the decision** â€?Call `question` with concise option labels.
 
 **When to use it:**
 - Architecture questions with constrained answers (step 2)
@@ -142,11 +142,11 @@ Follow the **Explain â†’ Capture** pattern:
 - Batch up to 4 independent architecture questions in one call
 
 **When NOT to use it:**
-- Open-ended spec clarifications â€” use conversation
+- Open-ended spec clarifications â€?use conversation
 - Single confirmations ("May I write to file?")
-- When running as a Task subagent â€” structure text for orchestrator
+- When running as a Task subagent â€?structure text for orchestrator
 
-**Example â€” architecture questions (batch):**
+**Example â€?architecture questions (batch):**
 
   question with questions:
     1. question: "Where should DamageCalculator live?"

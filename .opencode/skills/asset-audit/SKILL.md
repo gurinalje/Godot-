@@ -10,10 +10,10 @@ allowed-tools: Read, Glob, Grep, Write, Bash, Task, question
 
 Read the art bible or asset standards from the relevant design docs:
 
-- `design/art/art-bible.md` â€” visual and naming standards
-- `design/gdd/asset-manifest.md` â€” expected asset list if it exists
-- `.opencode/rules/data-files.md` â€” data file standards
-- `AGENTS.md` â€” project naming conventions
+- `design/art/art-bible.md` â€?visual and naming standards
+- `game/design/gdd/asset-manifest.md` â€?expected asset list if it exists
+- `.opencode/rules/data-files.md` â€?data file standards
+- `AGENTS.md` â€?project naming conventions
 
 If no art bible exists, note: "No art bible found. Auditing against general game industry conventions." and proceed.
 
@@ -72,7 +72,7 @@ Flag files exceeding their budget. Calculate total category size and flag if exc
 ### 3c: Format Verification
 
 - Textures: Check for power-of-two dimensions (use Bash `identify` from ImageMagick if available, or note manual verification needed)
-- Audio: Expected format â€” OGG for SFX, OGG/MP3 for music. Flag `.wav` files (should be compressed for shipping)
+- Audio: Expected format â€?OGG for SFX, OGG/MP3 for music. Flag `.wav` files (should be compressed for shipping)
 - Data: Validate JSON with `Bash: python -m json.tool file.json` (dry-run). Validate YAML with Grep for common errors
 - Shaders: File extension must match `shader_type` declaration in `.gdshader` files
 
@@ -106,16 +106,16 @@ For each `res://` reference found, verify the file exists at that path using Glo
 
 Spawn specialist agents via Task in **parallel**:
 
-- **Art assets** â†’ spawn `technical-artist`: provide the naming violations and size violations. Ask for:
+- **Art assets** â†?spawn `technical-artist`: provide the naming violations and size violations. Ask for:
   - Verification that flagged issues are actually problems (not intentional exceptions)
   - Texture format and compression recommendations for flagged files
   - Priority ranking: which violations affect performance most
 
-- **Audio assets** â†’ spawn `sound-designer`: provide the audio format and naming issues. Ask for:
+- **Audio assets** â†?spawn `sound-designer`: provide the audio format and naming issues. Ask for:
   - Format recommendations for flagged files
   - Whether flagged sample rates are intentional
 
-- **Data files** â†’ spawn `systems-designer`: provide the data file issues. Ask for:
+- **Data files** â†?spawn `systems-designer`: provide the data file issues. Ask for:
   - Schema validation for game data files
   - Whether flagged orphaned/missing data files affect game balance
 
@@ -128,7 +128,7 @@ Collect all specialist outputs. Surface any disagreements between specialists an
 Present the synthesized report:
 
 ```markdown
-# Asset Audit Report â€” [Category] â€” [Date]
+# Asset Audit Report â€?[Category] â€?[Date]
 
 ## Summary
 - **Total assets scanned**: [N]

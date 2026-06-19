@@ -8,7 +8,7 @@
 
 ## Context
 
-**GDD**: `design/gdd/skill-tree-system.md`
+**GDD**: `game/design/gdd/skill-tree-system.md`
 **Requirement**: `TR-skill-tree-system-003`
 
 **ADR Governing Implementation**: ADR-0001
@@ -26,11 +26,11 @@
 
 ## Acceptance Criteria
 
-*From GDD `design/gdd/skill-tree-system.md`, scoped to this story:*
+*From GDD `game/design/gdd/skill-tree-system.md`, scoped to this story:*
 
-- [ ] [Criterion 1 — implement core functionality]
-- [ ] [Criterion 2 — handle edge cases]
-- [ ] [Performance criterion — within budget]
+- [ ] [Criterion 1 �?implement core functionality]
+- [ ] [Criterion 2 �?handle edge cases]
+- [ ] [Performance criterion �?within budget]
 
 ---
 
@@ -47,7 +47,7 @@
 
 ## Out of Scope
 
-*Handled by neighbouring stories — do not implement here:*
+*Handled by neighbouring stories �?do not implement here:*
 
 - Other system integrations
 - UI implementation
@@ -57,9 +57,9 @@
 
 ## QA Test Cases
 
-*Written by qa-lead at story creation. The developer implements against these — do not invent new test cases during implementation.*
+*Written by qa-lead at story creation. The developer implements against these �?do not invent new test cases during implementation.*
 
-**[For Logic / Integration stories — automated test specs]:**
+**[For Logic / Integration stories �?automated test specs]:**
 
 - **AC-1**: [criterion text]
   - Given: [precondition]
@@ -73,8 +73,8 @@
 
 **Story Type**: Visual/Feel
 **Required evidence**:
-- Logic: `tests/unit/skill-tree-system/skill-tree-system-visual-feedback_test.gd` — must exist and pass
-- Integration: `tests/integration/skill-tree-system/skill-tree-system-visual-feedback_test.gd` OR playtest doc
+- Logic: `game/tests/unit/skill-tree-system/skill-tree-system-visual-feedback_test.gd` �?must exist and pass
+- Integration: `game/tests/integration/skill-tree-system/skill-tree-system-visual-feedback_test.gd` OR playtest doc
 - Visual/Feel: `production/qa/evidence/skill-tree-system-visual-feedback-evidence.md` + sign-off
 
 **Status**: [ ] Not yet created
@@ -96,12 +96,11 @@
 **Test Evidence**: D:\ziyuan\Games\OpenCodeGameStudios-master\tests\unit\skill-tree-system\skill-tree-system-visual-feedback_test.gd
 **Code Review**: Complete
 
-### 实现的文件
-
+### 实现的文�?
 - D:\ziyuan\Games\OpenCodeGameStudios-master\src\skill-tree-system\skill-tree-system-visual-feedback.gd
 
 ### 验收标准覆盖
 
-- [Criterion 1 — implement core functionality]
-- [Criterion 2 — handle edge cases]
-- [Performance criterion — within budget]
+- [Criterion 1 �?implement core functionality]
+- [Criterion 2 �?handle edge cases]
+- [Performance criterion �?within budget]

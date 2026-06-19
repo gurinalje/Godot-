@@ -13,21 +13,21 @@ with specific observation goals. Unlike a smoke check (broad critical path,
 ~10 min) or a single-feature playtest (~30 min), a soak test runs for **30
 minutes to several hours** to surface:
 
-- **Memory leaks** â€” gradual heap growth that only appears after scene transitions
-- **Performance drift** â€” frame time degradation that worsens over time
-- **State accumulation bugs** â€” issues that only appear after N repetitions
+- **Memory leaks** â€?gradual heap growth that only appears after scene transitions
+- **Performance drift** â€?frame time degradation that worsens over time
+- **State accumulation bugs** â€?issues that only appear after N repetitions
   of a mechanic (inventory full, score overflow, AI state corruption)
-- **Fun fatigue** â€” mechanics that feel good in a first session but grow
+- **Fun fatigue** â€?mechanics that feel good in a first session but grow
   repetitive over extended play
-- **Content exhaustion** â€” the point where players run out of novel content
+- **Content exhaustion** â€?the point where players run out of novel content
 
-**This skill generates the observation protocol and analysis harness â€” the
+**This skill generates the observation protocol and analysis harness â€?the
 human does the actual playing.**
 
 **Output:** `production/qa/soak-test-[date]-[duration].md`
 
 **When to run:**
-- Polish phase â€” before `/gate-check release`
+- Polish phase â€?before `/gate-check release`
 - After fixing a memory or stability issue (regression soak)
 - When extended play has not been formally tracked
 
@@ -36,29 +36,29 @@ human does the actual playing.**
 ## 1. Parse Arguments
 
 **Duration** (default: `1h`):
-- `30m` â€” short soak; suitable for testing a single mechanic or scene
-- `1h` â€” standard soak; covers most common leak categories
-- `2h` â€” extended soak; recommended for first full Polish soak
-- `4h` â€” deep soak; required for games with long session design (RPGs, sims)
+- `30m` â€?short soak; suitable for testing a single mechanic or scene
+- `1h` â€?standard soak; covers most common leak categories
+- `2h` â€?extended soak; recommended for first full Polish soak
+- `4h` â€?deep soak; required for games with long session design (RPGs, sims)
 
 **Focus** (default: `all`):
-- `memory` â€” focus on heap size, object count, leak patterns
-- `stability` â€” focus on crash/freeze/hang detection
-- `balance` â€” focus on fun fatigue, content exhaustion, difficulty perception
-- `all` â€” all of the above
+- `memory` â€?focus on heap size, object count, leak patterns
+- `stability` â€?focus on crash/freeze/hang detection
+- `balance` â€?focus on fun fatigue, content exhaustion, difficulty perception
+- `all` â€?all of the above
 
 ---
 
 ## 2. Load Context
 
 Read:
-- `.opencode/docs/technical-preferences.md` â€” engine (for engine-specific memory
+- `.opencode/docs/technical-preferences.md` â€?engine (for engine-specific memory
   monitoring guidance), performance budgets (memory ceiling, target FPS)
-- `design/gdd/game-concept.md` â€” intended session length (for comparison against
+- `game/design/gdd/game-concept.md` â€?intended session length (for comparison against
   soak duration), core loop description
-- Most recent file in `production/playtests/` â€” prior playtest findings
+- Most recent file in `production/playtests/` â€?prior playtest findings
   (to avoid re-documenting known issues)
-- Most recent file in `production/qa/qa-plan-*.md` â€” current sprint test coverage
+- Most recent file in `production/qa/qa-plan-*.md` â€?current sprint test coverage
   (to understand what has been formally tested vs. what the soak covers)
 
 Note any performance budget targets from technical-preferences.md:
@@ -89,8 +89,8 @@ Phase 4.
 Engine-specific monitoring guidance:
 
 **Godot 4:**
-- Open Debugger â†’ Monitors tab; track `Memory â†’ Static Memory` and
-  `Object Count â†’ Objects` across checkpoints
+- Open Debugger â†?Monitors tab; track `Memory â†?Static Memory` and
+  `Object Count â†?Objects` across checkpoints
 - Record: Static Memory (KB), Object Count, Orphan Nodes count
 - Alert threshold: Memory growth > 20% from T+0 after the first 15 minutes
   (some growth on load is expected; sustained growth indicates a leak)
@@ -98,7 +98,7 @@ Engine-specific monitoring guidance:
   in Godot 4.6
 
 **Unity:**
-- Open Memory Profiler (Window â†’ Analysis â†’ Memory Profiler)
+- Open Memory Profiler (Window â†?Analysis â†?Memory Profiler)
 - Record: Total Reserved Memory (MB), GC Allocated (MB), Object Count at each checkpoint
 - Alert threshold: GC Allocated growing monotonically across 3+ checkpoints
 
@@ -147,7 +147,7 @@ Before starting the soak:
 - [ ] Game is running from a **fresh launch** (not resumed from a prior session)
 - [ ] All background applications closed (minimise OS memory interference)
 - [ ] Performance monitoring tool open and recording:
-  - **Godot**: Debugger â†’ Monitors tab â†’ Memory section visible
+  - **Godot**: Debugger â†?Monitors tab â†?Memory section visible
   - **Unity**: Memory Profiler window open
   - **Unreal**: `stat memory` ready in console
 - [ ] Soak target confirmed: [session design intent from game concept]
@@ -155,7 +155,7 @@ Before starting the soak:
 
 ---
 
-## Baseline (T+0) â€” Record Before Playing
+## Baseline (T+0) â€?Record Before Playing
 
 | Metric | Baseline Value |
 |--------|---------------|
@@ -190,7 +190,7 @@ Before starting the soak:
 - Core mechanic still rewarding: Y / N
 - Difficulty perception: too easy / appropriate / too hard
 - Notable moments: [note any peak engagement or frustration]
-- Content exhaustion signs: Y / N â€” [describe]
+- Content exhaustion signs: Y / N â€?[describe]
 
 **Free observations**:
 *(Note anything unexpected observed since the last checkpoint)*
@@ -244,8 +244,8 @@ Difficulty arc: [appropriate / too easy throughout / difficulty spike at T+N]
 
 ## Sign-Off
 
-- **Tester**: [name] â€” [date]
-- **QA Lead review**: [name] â€” [date]
+- **Tester**: [name] â€?[date]
+- **QA Lead review**: [name] â€?[date]
 ```
 
 ---
@@ -274,10 +274,10 @@ If the verdict is FAIL, run `/smoke-check` again after fixing the issues."
 
 ## Collaborative Protocol
 
-- **This skill generates a protocol â€” humans run it** â€” never attempt to
+- **This skill generates a protocol â€?humans run it** â€?never attempt to
   run a soak test automatically. The observations require a human observer.
-- **Duration should match the game's session design** â€” a 5-minute game
+- **Duration should match the game's session design** â€?a 5-minute game
   doesn't need a 4h soak; a city-builder might. Use judgment and ask if unclear.
-- **First soak should be `all` focus** â€” narrow focus (memory-only) is for
+- **First soak should be `all` focus** â€?narrow focus (memory-only) is for
   regression soaks after a specific fix, not the first pass
-- **Ask before writing** â€” always confirm before creating the protocol file
+- **Ask before writing** â€?always confirm before creating the protocol file

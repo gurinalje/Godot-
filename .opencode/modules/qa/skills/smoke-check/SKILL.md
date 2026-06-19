@@ -25,16 +25,16 @@ Handing a broken build to QA wastes their time and demoralises the team.
 Arguments can be combined: `/smoke-check sprint --platform console`
 
 **Base mode** (first argument, default: `sprint`):
-- `sprint` â€” full smoke check against the current sprint's stories
-- `quick` â€” skip coverage scan (Phase 3) and Batch 3; use for rapid re-checks
+- `sprint` â€?full smoke check against the current sprint's stories
+- `quick` â€?skip coverage scan (Phase 3) and Batch 3; use for rapid re-checks
 
 **Platform flag** (`--platform`, default: none):
-- `--platform pc` â€” add PC-specific checks (keyboard, mouse, windowed mode)
-- `--platform console` â€” add console-specific checks (gamepad, TV safe zones,
+- `--platform pc` â€?add PC-specific checks (keyboard, mouse, windowed mode)
+- `--platform console` â€?add console-specific checks (gamepad, TV safe zones,
   platform certification requirements)
-- `--platform mobile` â€” add mobile-specific checks (touch, portrait/landscape,
+- `--platform mobile` â€?add mobile-specific checks (touch, portrait/landscape,
   battery/thermal behaviour)
-- `--platform all` â€” add all platform variants; output per-platform verdict table
+- `--platform all` â€?add all platform variants; output per-platform verdict table
 
 If `--platform` is provided, Phase 4 adds platform-specific batches and
 Phase 5 outputs a per-platform verdict table in addition to the overall verdict.
@@ -63,7 +63,7 @@ Before running anything, understand the environment:
    plan (Phase 4 fallback).
 
 5. **QA plan check**: glob `production/qa/qa-plan-*.md` and take the most
-   recently modified file. If found, note the path â€” it will be used in
+   recently modified file. If found, note the path â€?it will be used in
    Phase 3 and Phase 4. If not found, note: "No QA plan found. Run
    `/qa-plan sprint` before smoke-checking for best results."
 
@@ -85,7 +85,7 @@ If the GDUnit4 runner script does not exist at that path, try:
 ```bash
 godot --headless -s addons/gdunit4/GdUnitRunner.gd 2>&1
 ```
-If neither path exists, note: "GDUnit4 runner not found â€” confirm the runner
+If neither path exists, note: "GDUnit4 runner not found â€?confirm the runner
 path for your test framework."
 
 **Unity:**
@@ -112,10 +112,10 @@ Frontend or CI pipeline. Please confirm test status manually."
 **If the test runner is not available in this environment** (engine binary not
 on PATH, runner script not found, etc.), report clearly:
 
-"Automated tests could not be executed â€” engine binary not found on PATH.
+"Automated tests could not be executed â€?engine binary not found on PATH.
 Status will be recorded as NOT RUN. Confirm test results from your local IDE
 or CI pipeline. Unconfirmed NOT RUN is treated as PASS WITH WARNINGS, not
-FAIL â€” the developer must manually confirm results."
+FAIL â€?the developer must manually confirm results."
 
 Do not treat NOT RUN as an automatic FAIL. Record it as a warning. The
 developer's manual confirmation in Phase 4 can resolve it.
@@ -137,14 +137,14 @@ Draw the story list from, in priority order:
 2. The current sprint plan from `production/sprints/` (most recently modified
    file)
 3. If the `quick` argument was passed, skip this phase entirely and note:
-   "Coverage scan skipped â€” run `/smoke-check sprint` for full coverage
+   "Coverage scan skipped â€?run `/smoke-check sprint` for full coverage
    analysis."
 
 For each story in scope:
 
 1. Extract the system slug from the story's file path
-   (e.g., `production/epics/combat/story-001.md` â†’ `combat`)
-2. Glob `tests/unit/[system]/` and `tests/integration/[system]/` for files
+   (e.g., `production/epics/combat/story-001.md` â†?`combat`)
+2. Glob `game/tests/unit/[system]/` and `game/tests/integration/[system]/` for files
    whose name contains the story slug or a closely related term
 3. Check the story file itself for a `Test file:` header field or a
    "Test Evidence" section
@@ -156,7 +156,7 @@ Assign a coverage status to each story:
 | **COVERED** | A test file was found matching this story's system and scope |
 | **MANUAL** | Story type is Visual/Feel or UI; a test evidence document was found |
 | **MISSING** | Logic or Integration story with no matching test file |
-| **EXPECTED** | Config/Data story â€” no test file required; spot-check is sufficient |
+| **EXPECTED** | Config/Data story â€?no test file required; spot-check is sufficient |
 | **UNKNOWN** | Story file missing or unreadable |
 
 MISSING entries are advisory gaps. They do not cause a FAIL verdict but must
@@ -179,40 +179,40 @@ sprint's stories.
 
 Use `question` to batch-verify. Keep to at most 3 calls.
 
-**Batch 1 â€” Core stability (always run):**
+**Batch 1 â€?Core stability (always run):**
 ```
-question: "Smoke check â€” Batch 1: Core stability. Please verify each:"
+question: "Smoke check â€?Batch 1: Core stability. Please verify each:"
 options:
-  - "Game launches to main menu without crash â€” PASS"
-  - "Game launches to main menu without crash â€” FAIL"
-  - "New game / session starts successfully â€” PASS"
-  - "New game / session starts successfully â€” FAIL"
-  - "Main menu responds to all inputs â€” PASS"
-  - "Main menu responds to all inputs â€” FAIL"
+  - "Game launches to main menu without crash â€?PASS"
+  - "Game launches to main menu without crash â€?FAIL"
+  - "New game / session starts successfully â€?PASS"
+  - "New game / session starts successfully â€?FAIL"
+  - "Main menu responds to all inputs â€?PASS"
+  - "Main menu responds to all inputs â€?FAIL"
 ```
 
-**Batch 2 â€” Sprint mechanic and regression (always run):**
+**Batch 2 â€?Sprint mechanic and regression (always run):**
 ```
-question: "Smoke check â€” Batch 2: This sprint's changes and regression check:"
+question: "Smoke check â€?Batch 2: This sprint's changes and regression check:"
 options:
-  - "[Primary mechanic this sprint] â€” PASS"
-  - "[Primary mechanic this sprint] â€” FAIL: [describe what broke]"
-  - "[Second notable change this sprint, if any] â€” PASS"
-  - "[Second notable change this sprint] â€” FAIL"
-  - "Previous sprint's features still work (no regressions) â€” PASS"
-  - "Previous sprint's features â€” regression found: [brief description]"
+  - "[Primary mechanic this sprint] â€?PASS"
+  - "[Primary mechanic this sprint] â€?FAIL: [describe what broke]"
+  - "[Second notable change this sprint, if any] â€?PASS"
+  - "[Second notable change this sprint] â€?FAIL"
+  - "Previous sprint's features still work (no regressions) â€?PASS"
+  - "Previous sprint's features â€?regression found: [brief description]"
 ```
 
-**Batch 3 â€” Data integrity and performance (run unless `quick` argument):**
+**Batch 3 â€?Data integrity and performance (run unless `quick` argument):**
 ```
-question: "Smoke check â€” Batch 3: Data integrity and performance:"
+question: "Smoke check â€?Batch 3: Data integrity and performance:"
 options:
-  - "Save / load completes without data loss â€” PASS"
-  - "Save / load â€” FAIL: [describe what broke]"
-  - "Save / load â€” N/A (save system not yet implemented)"
-  - "No new frame rate drops or hitches observed â€” PASS"
-  - "Frame rate drops or hitches found â€” FAIL: [where]"
-  - "Performance â€” not checked in this session"
+  - "Save / load completes without data loss â€?PASS"
+  - "Save / load â€?FAIL: [describe what broke]"
+  - "Save / load â€?N/A (save system not yet implemented)"
+  - "No new frame rate drops or hitches observed â€?PASS"
+  - "Frame rate drops or hitches found â€?FAIL: [where]"
+  - "Performance â€?not checked in this session"
 ```
 
 Record each response verbatim for the Phase 5 report.
@@ -221,44 +221,44 @@ Record each response verbatim for the Phase 5 report.
 
 **PC platform** (`--platform pc` or `--platform all`):
 ```
-question: "Smoke check â€” PC Platform: Verify platform-specific behaviour:"
+question: "Smoke check â€?PC Platform: Verify platform-specific behaviour:"
 options:
-  - "Keyboard controls work correctly across all menus and gameplay â€” PASS"
-  - "Keyboard controls â€” FAIL: [describe issue]"
-  - "Mouse input and cursor visibility correct in all states â€” PASS"
-  - "Mouse input â€” FAIL: [describe issue]"
-  - "Windowed and fullscreen modes function without graphical issues â€” PASS"
-  - "Windowed/fullscreen â€” FAIL: [describe issue]"
-  - "Resolution changes apply correctly â€” PASS"
-  - "Resolution changes â€” FAIL: [describe issue]"
+  - "Keyboard controls work correctly across all menus and gameplay â€?PASS"
+  - "Keyboard controls â€?FAIL: [describe issue]"
+  - "Mouse input and cursor visibility correct in all states â€?PASS"
+  - "Mouse input â€?FAIL: [describe issue]"
+  - "Windowed and fullscreen modes function without graphical issues â€?PASS"
+  - "Windowed/fullscreen â€?FAIL: [describe issue]"
+  - "Resolution changes apply correctly â€?PASS"
+  - "Resolution changes â€?FAIL: [describe issue]"
 ```
 
 **Console platform** (`--platform console` or `--platform all`):
 ```
-question: "Smoke check â€” Console Platform: Verify platform-specific behaviour:"
+question: "Smoke check â€?Console Platform: Verify platform-specific behaviour:"
 options:
-  - "Gamepad input works correctly for all actions â€” PASS"
-  - "Gamepad input â€” FAIL: [describe issue]"
-  - "UI fits within TV safe zone margins (no text clipped) â€” PASS"
-  - "TV safe zone â€” FAIL: [describe what is clipped]"
-  - "No keyboard/mouse-only fallbacks shown to gamepad user â€” PASS"
-  - "Input prompt inconsistency â€” FAIL: [describe]"
-  - "Game boots correctly from cold start (no prior save) â€” PASS"
-  - "Cold start â€” FAIL: [describe issue]"
+  - "Gamepad input works correctly for all actions â€?PASS"
+  - "Gamepad input â€?FAIL: [describe issue]"
+  - "UI fits within TV safe zone margins (no text clipped) â€?PASS"
+  - "TV safe zone â€?FAIL: [describe what is clipped]"
+  - "No keyboard/mouse-only fallbacks shown to gamepad user â€?PASS"
+  - "Input prompt inconsistency â€?FAIL: [describe]"
+  - "Game boots correctly from cold start (no prior save) â€?PASS"
+  - "Cold start â€?FAIL: [describe issue]"
 ```
 
 **Mobile platform** (`--platform mobile` or `--platform all`):
 ```
-question: "Smoke check â€” Mobile Platform: Verify platform-specific behaviour:"
+question: "Smoke check â€?Mobile Platform: Verify platform-specific behaviour:"
 options:
-  - "Touch controls work correctly for all primary actions â€” PASS"
-  - "Touch controls â€” FAIL: [describe issue]"
-  - "Game handles orientation change (portrait â†” landscape) correctly â€” PASS"
-  - "Orientation change â€” FAIL: [describe what breaks]"
-  - "Background / foreground transitions (home button) handled gracefully â€” PASS"
-  - "Background/foreground â€” FAIL: [describe issue]"
-  - "No visible performance issues on target device (no thermal throttling signs) â€” PASS"
-  - "Mobile performance â€” FAIL: [describe issue]"
+  - "Touch controls work correctly for all primary actions â€?PASS"
+  - "Touch controls â€?FAIL: [describe issue]"
+  - "Game handles orientation change (portrait â†?landscape) correctly â€?PASS"
+  - "Orientation change â€?FAIL: [describe what breaks]"
+  - "Background / foreground transitions (home button) handled gracefully â€?PASS"
+  - "Background/foreground â€?FAIL: [describe issue]"
+  - "No visible performance issues on target device (no thermal throttling signs) â€?PASS"
+  - "Mobile performance â€?FAIL: [describe issue]"
 ```
 
 ---
@@ -272,7 +272,7 @@ Assemble the full smoke check report:
 **Date**: [date]
 **Sprint**: [sprint name / number, or "Not identified"]
 **Engine**: [engine]
-**QA Plan**: [path, or "Not found â€” run /qa-plan first"]
+**QA Plan**: [path, or "Not found â€?run /qa-plan first"]
 **Argument**: [sprint | quick | blank]
 
 ---
@@ -283,7 +283,7 @@ Assemble the full smoke check report:
 NOT RUN ([reason])]
 
 [If FAIL, list failing tests:]
-- `[test name]` â€” [brief failure description from runner output]
+- `[test name]` â€?[brief failure description from runner output]
 
 [If NOT RUN:]
 "Manual confirmation required: did tests pass in your local IDE or CI? This
@@ -295,10 +295,10 @@ will determine whether the automated test row contributes to a FAIL verdict."
 
 | Story | Type | Test File | Coverage Status |
 |-------|------|-----------|----------------|
-| [title] | Logic | `tests/unit/[system]/[slug]_test.[ext]` | COVERED |
+| [title] | Logic | `game/tests/unit/[system]/[slug]_test.[ext]` | COVERED |
 | [title] | Visual/Feel | `tests/evidence/[slug]-screenshots.md` | MANUAL |
-| [title] | Logic | â€” | MISSING âš  |
-| [title] | Config/Data | â€” | EXPECTED |
+| [title] | Logic | â€?| MISSING âš?|
+| [title] | Config/Data | â€?| EXPECTED |
 
 **Summary**: [N] covered, [N] manual, [N] missing, [N] expected.
 
@@ -306,12 +306,12 @@ will determine whether the automated test row contributes to a FAIL verdict."
 
 ### Manual Smoke Checks
 
-- [x] Game launches without crash â€” PASS
-- [x] New game starts â€” PASS
-- [x] [Core mechanic] â€” PASS
-- [ ] [Other check] â€” FAIL: [user's description]
-- [x] Save / load â€” PASS
-- [-] Performance â€” not checked this session
+- [x] Game launches without crash â€?PASS
+- [x] New game starts â€?PASS
+- [x] [Core mechanic] â€?PASS
+- [ ] [Other check] â€?FAIL: [user's description]
+- [x] Save / load â€?PASS
+- [-] Performance â€?not checked this session
 
 ---
 
@@ -320,8 +320,8 @@ will determine whether the automated test row contributes to a FAIL verdict."
 Stories that must have test evidence before they can be marked COMPLETE via
 `/story-done`:
 
-- **[story title]** (`[path]`) â€” Logic story has no test file.
-  Expected location: `tests/unit/[system]/[story-slug]_test.[ext]`
+- **[story title]** (`[path]`) â€?Logic story has no test file.
+  Expected location: `game/tests/unit/[system]/[story-slug]_test.[ext]`
 
 [If none:] "All Logic and Integration stories have test coverage."
 
@@ -343,7 +343,7 @@ Any platform with one or more FAIL checks contributes to the overall FAIL verdic
 
 ### Verdict: [PASS | PASS WITH WARNINGS | FAIL]
 
-[Verdict rules â€” first matching rule wins:]
+[Verdict rules â€?first matching rule wins:]
 
 **FAIL** if ANY of:
 - Automated test suite ran and reported one or more test failures
@@ -403,15 +403,15 @@ agent to begin manual verification."
 
 ## Collaborative Protocol
 
-- **Never treat NOT RUN as automatic FAIL** â€” record it as NOT RUN and let
+- **Never treat NOT RUN as automatic FAIL** â€?record it as NOT RUN and let
   the developer confirm status manually. Unconfirmed NOT RUN contributes to
   PASS WITH WARNINGS, not FAIL.
-- **Never auto-fix failures** â€” report them and state what must be resolved.
+- **Never auto-fix failures** â€?report them and state what must be resolved.
   Do not attempt to edit source code or test files.
-- **PASS WITH WARNINGS does not block QA hand-off** â€” it records advisory
+- **PASS WITH WARNINGS does not block QA hand-off** â€?it records advisory
   gaps for `/story-done` to follow up on.
 - **`quick` argument** skips Phase 3 (coverage scan) and Phase 4 Batch 3.
   Use it for rapid re-checks after fixing a specific failure.
 - Use `question` for all manual smoke check verification.
-- **Never write the report without asking** â€” Phase 6 requires explicit
+- **Never write the report without asking** â€?Phase 6 requires explicit
   approval before any file is created.

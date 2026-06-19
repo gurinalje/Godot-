@@ -13,14 +13,14 @@ When a GDD changes, architectural decisions written against it may no longer be
 valid. This skill finds every affected ADR, compares what the ADR assumed against
 what the GDD now says, and guides the user through resolution.
 
-**Usage:** `/propagate-design-change design/gdd/combat-system.md`
+**Usage:** `/propagate-design-change game/design/gdd/combat-system.md`
 
 ---
 
 ## 1. Validate Argument
 
 A GDD path argument is **required**. If missing, fail with:
-> "Usage: `/propagate-design-change design/gdd/[system].md`
+> "Usage: `/propagate-design-change game/design/gdd/[system].md`
 > Provide the path to the GDD that was changed."
 
 Verify the file exists. If not, fail with:
@@ -39,11 +39,11 @@ Read the current GDD in full.
 Run git to get the previous committed version:
 
 ```bash
-git show HEAD:design/gdd/[filename].md
+git show HEAD:game/design/gdd/[filename].md
 ```
 
 If the file has no git history (new file), report:
-> "No previous version in git â€” this appears to be a new GDD, not a revision.
+> "No previous version in git â€?this appears to be a new GDD, not a revision.
 > Nothing to propagate."
 
 If git returns the previous version, do a conceptual diff:
@@ -57,13 +57,13 @@ If git returns the previous version, do a conceptual diff:
 Date of revision: [today]
 
 Changed sections:
-- [Section name]: [what changed â€” new rule, removed rule, formula modified, etc.]
+- [Section name]: [what changed â€?new rule, removed rule, formula modified, etc.]
 
 Unchanged sections:
 - [Section name]
 
 Key changes affecting architecture:
-- [Change 1 â€” likely to affect ADRs]
+- [Change 1 â€?likely to affect ADRs]
 - [Change 2]
 ```
 
@@ -89,7 +89,7 @@ For each ADR that references the changed GDD:
 Compare the ADR's "GDD Requirements Addressed" entries against the changed sections
 of the GDD. For each referenced requirement:
 
-1. **Locate the requirement** in the current GDD â€” does it still exist?
+1. **Locate the requirement** in the current GDD â€?does it still exist?
 2. **Compare**: What did the GDD say when the ADR was written vs. what it says now?
 3. **Assess the ADR decision**: Is the architectural decision still valid?
 
@@ -97,8 +97,8 @@ Classify each affected ADR as one of:
 
 | Status | Meaning |
 |--------|---------|
-| âœ… **Still Valid** | The GDD change doesn't affect what this ADR decided |
-| âš ï¸ **Needs Review** | The GDD change may affect this ADR â€” human judgment needed |
+| âœ?**Still Valid** | The GDD change doesn't affect what this ADR decided |
+| âš ï¸ **Needs Review** | The GDD change may affect this ADR â€?human judgment needed |
 | ðŸ”´ **Likely Superseded** | The GDD change directly contradicts what this ADR assumed |
 
 For each affected ADR, produce an impact entry:
@@ -145,12 +145,12 @@ ADRs referencing this GDD: [M]
 
 ---
 
-## 6b. Director Gate â€” Technical Impact Review
+## 6b. Director Gate â€?Technical Impact Review
 
-**Review mode check** â€” apply before spawning TD-CHANGE-IMPACT:
-- `solo` â†’ skip. Note: "TD-CHANGE-IMPACT skipped â€” Solo mode." Proceed to Phase 7.
-- `lean` â†’ skip. Note: "TD-CHANGE-IMPACT skipped â€” Lean mode." Proceed to Phase 7.
-- `full` â†’ spawn as normal.
+**Review mode check** â€?apply before spawning TD-CHANGE-IMPACT:
+- `solo` â†?skip. Note: "TD-CHANGE-IMPACT skipped â€?Solo mode." Proceed to Phase 7.
+- `lean` â†?skip. Note: "TD-CHANGE-IMPACT skipped â€?Lean mode." Proceed to Phase 7.
+- `full` â†?spawn as normal.
 
 Spawn `technical-director` via Task using gate **TD-CHANGE-IMPACT** (`.opencode/docs/director-gates.md`).
 
@@ -162,9 +162,9 @@ The technical-director reviews whether:
 - Any cascading effects on other ADRs or systems were missed
 
 Apply the verdict:
-- **APPROVE** â†’ proceed to Phase 7 resolution workflow
-- **CONCERNS** â†’ surface the specific ADRs or recommendations flagged; use `question` with options: `Revise the impact assessment` / `Accept with noted concerns` / `Discuss further`
-- **REJECT** â†’ do not proceed to resolution; re-analyze the impact before continuing
+- **APPROVE** â†?proceed to Phase 7 resolution workflow
+- **CONCERNS** â†?surface the specific ADRs or recommendations flagged; use `question` with options: `Revise the impact assessment` / `Accept with noted concerns` / `Discuss further`
+- **REJECT** â†?do not proceed to resolution; re-analyze the impact before continuing
 
 ---
 
@@ -173,15 +173,15 @@ Apply the verdict:
 For each ADR marked "Needs Review" or "Likely Superseded", ask the user what to do:
 
 Ask for each ADR in turn:
-> "ADR-NNNN ([title]) â€” [status]. What would you like to do?"
+> "ADR-NNNN ([title]) â€?[status]. What would you like to do?"
 > Options:
-> - "Mark Superseded (I'll write a new ADR)" â€” updates ADR status line to `Superseded by: [pending]`
-> - "Update in place (minor revision)" â€” opens the ADR for editing; note what to revise
+> - "Mark Superseded (I'll write a new ADR)" â€?updates ADR status line to `Superseded by: [pending]`
+> - "Update in place (minor revision)" â€?opens the ADR for editing; note what to revise
 > - "Keep as-is (the change doesn't actually affect this decision)"
 > - "Skip for now (revisit later)"
 
 For ADRs marked **Superseded**:
-- Update the ADR's Status field: `Superseded by ADR-[next number] (pending â€” see change-impact-[date]-[system].md)`
+- Update the ADR's Status field: `Superseded by ADR-[next number] (pending â€?see change-impact-[date]-[system].md)`
 - Ask: "May I update the status in [ADR filename]?"
 
 ---
@@ -212,8 +212,8 @@ The document contains:
 - Resolution decisions made in step 7
 - List of ADRs that need to be written or updated
 
-If user approved: Verdict: **COMPLETE** â€” change impact report saved.
-If user declined: Verdict: **BLOCKED** â€” user declined write.
+If user approved: Verdict: **COMPLETE** â€?change impact report saved.
+If user declined: Verdict: **BLOCKED** â€?user declined write.
 
 ---
 
@@ -231,8 +231,8 @@ Based on the resolution decisions, suggest:
 
 ## Collaborative Protocol
 
-1. **Read silently** â€” compute the full impact before presenting anything
-2. **Show the full report first** â€” let the user see the scope before asking for action
-3. **Ask per-ADR** â€” don't batch decisions; each affected ADR may need different treatment
-4. **Ask before writing** â€” always confirm before modifying any file
-5. **Non-destructive** â€” never delete ADR content; only add "Superseded by" notes
+1. **Read silently** â€?compute the full impact before presenting anything
+2. **Show the full report first** â€?let the user see the scope before asking for action
+3. **Ask per-ADR** â€?don't batch decisions; each affected ADR may need different treatment
+4. **Ask before writing** â€?always confirm before modifying any file
+5. **Non-destructive** â€?never delete ADR content; only add "Superseded by" notes

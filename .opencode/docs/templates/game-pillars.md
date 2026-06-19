@@ -23,7 +23,7 @@ disconnected features.
 
 A good pillar is:
 - **Falsifiable**: "Fun gameplay" is not a pillar. "Combat rewards patience over
-  aggression" is â€” it makes a testable claim about design choices.
+  aggression" is â€?it makes a testable claim about design choices.
 - **Constraining**: If a pillar never forces you to say no to something, it's
   too vague. Good pillars eliminate options.
 - **Cross-departmental**: A pillar that only constrains game design but says
@@ -39,12 +39,12 @@ specific effective pillars can be:
 
 | Game | Pillars | Why They Work |
 | ---- | ---- | ---- |
-| **God of War (2018)** | Visceral combat; Father-son emotional journey; Continuous camera (no cuts); Norse mythology reimagined | "Continuous camera" is radical â€” it cut a standard cinematic tool. "Father-son journey" constrains narrative, level design, AND combat (Atreus as companion). |
-| **Hades** | Fast fluid combat; Story depth through repetition; Every run teaches something new | "Story through repetition" justified the roguelike structure narratively â€” death IS the story. "Every run teaches" constrains level and encounter design. |
-| **The Last of Us** | Story is essential, not optional; AI partners build relationships; Stealth is always an option | "AI partners build relationships" drove massive investment in companion AI â€” not just pathfinding, but emotional presence. |
-| **Celeste** | Tough but fair; Accessibility without compromise; Story and mechanics are the same thing | "Story and mechanics are the same thing" â€” climbing IS the struggle, the dash IS the anxiety. Pillar prevented mechanics from being "just gameplay." |
-| **Hollow Knight** | Atmosphere over explanation; Earned mastery; World tells its own story | "Atmosphere over explanation" â€” no tutorials, no hand-holding, the world teaches through environmental design. |
-| **Dead Cells** | Every weapon is viable; Combat is a dance; Permanent death creates meaning | "Every weapon is viable" is extremely constraining â€” it demands constant balance work across hundreds of items. |
+| **God of War (2018)** | Visceral combat; Father-son emotional journey; Continuous camera (no cuts); Norse mythology reimagined | "Continuous camera" is radical â€?it cut a standard cinematic tool. "Father-son journey" constrains narrative, level design, AND combat (Atreus as companion). |
+| **Hades** | Fast fluid combat; Story depth through repetition; Every run teaches something new | "Story through repetition" justified the roguelike structure narratively â€?death IS the story. "Every run teaches" constrains level and encounter design. |
+| **The Last of Us** | Story is essential, not optional; AI partners build relationships; Stealth is always an option | "AI partners build relationships" drove massive investment in companion AI â€?not just pathfinding, but emotional presence. |
+| **Celeste** | Tough but fair; Accessibility without compromise; Story and mechanics are the same thing | "Story and mechanics are the same thing" â€?climbing IS the struggle, the dash IS the anxiety. Pillar prevented mechanics from being "just gameplay." |
+| **Hollow Knight** | Atmosphere over explanation; Earned mastery; World tells its own story | "Atmosphere over explanation" â€?no tutorials, no hand-holding, the world teaches through environmental design. |
+| **Dead Cells** | Every weapon is viable; Combat is a dance; Permanent death creates meaning | "Every weapon is viable" is extremely constraining â€?it demands constant balance work across hundreds of items. |
 
 ---
 
@@ -52,7 +52,7 @@ specific effective pillars can be:
 
 > [What power, experience, or feeling does the player get from this game? What
 > can they do here that they can't do anywhere else? The core fantasy is the
-> emotional promise â€” the answer to "why would someone choose THIS game?"
+> emotional promise â€?the answer to "why would someone choose THIS game?"
 >
 > Strong core fantasies are visceral and immediate:
 > - "You are a lone survivor building a new life in a hostile wilderness"
@@ -65,7 +65,7 @@ specific effective pillars can be:
 ## Target MDA Aesthetics
 
 [Rank the aesthetic goals this game serves, from the MDA Framework. This ranking
-guides every pillar â€” your pillars should collectively deliver your top 2-3
+guides every pillar â€?your pillars should collectively deliver your top 2-3
 aesthetics.]
 
 | Rank | Aesthetic | How Our Game Delivers It |
@@ -117,7 +117,7 @@ between X and Y, this pillar says we choose __."]
 - [Another example]
 
 #### Violating This Pillar
-- [Concrete example of what would betray this pillar â€” things we must never do]
+- [Concrete example of what would betray this pillar â€?things we must never do]
 - [Another example]
 
 ---
@@ -190,7 +190,7 @@ between X and Y, this pillar says we choose __."]
 
 ## Anti-Pillars (What This Game Is NOT)
 
-Anti-pillars are equally important as pillars â€” they prevent scope creep and
+Anti-pillars are equally important as pillars â€?they prevent scope creep and
 keep the vision focused. Every "no" protects the "yes."
 
 Great anti-pillars are things the team might actually want to do. "NOT a racing
@@ -308,6 +308,6 @@ Before finalizing the pillars, verify:
 
 ---
 
-*This document is the creative north star. It lives in `design/gdd/game-pillars.md`
+*This document is the creative north star. It lives in `game/design/gdd/game-pillars.md`
 and is referenced by every design, art, audio, and narrative document in the project.
 Review quarterly or after major milestone pivots.*

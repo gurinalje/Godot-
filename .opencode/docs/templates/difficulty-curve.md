@@ -3,15 +3,15 @@
 > **Status**: Draft | In Review | Approved
 > **Author**: [game-designer / systems-designer]
 > **Last Updated**: [Date]
-> **Links To**: `design/gdd/game-concept.md`
-> **Relevant GDDs**: [e.g., `design/gdd/combat.md`, `design/gdd/progression.md`]
+> **Links To**: `game/design/gdd/game-concept.md`
+> **Relevant GDDs**: [e.g., `game/design/gdd/combat.md`, `game/design/gdd/progression.md`]
 
 ---
 
 ## Difficulty Philosophy
 
 [One paragraph establishing this game's relationship with difficulty. This is
-not a mechanical description â€” it is a design value statement that all tuning
+not a mechanical description â€?it is a design value statement that all tuning
 decisions must serve.
 
 The four common difficulty philosophies are:
@@ -40,20 +40,19 @@ design must intervene? What is the acceptable cost of failure?]
 > **Guidance**: Most games have multiple independent dimensions of challenge.
 > Identifying them explicitly prevents the mistake of tuning only one axis
 > (usually execution difficulty) while leaving others unexamined. A game can
-> feel "easy" on execution but overwhelming on decision complexity â€” players
+> feel "easy" on execution but overwhelming on decision complexity â€?players
 > experience this as confusing, not engaging.
 >
 > For each axis, answer: can the player control or reduce this axis through
-> choices, builds, or settings? If not, it is a forced challenge dimension â€”
-> be very intentional about how it is used.
+> choices, builds, or settings? If not, it is a forced challenge dimension â€?> be very intentional about how it is used.
 
 | Axis | Description | Primary Systems | Player Control? |
 |------|-------------|----------------|-----------------|
-| **Execution difficulty** | [The precision and timing demands of core actions. e.g., "Dodging enemy attacks requires correct timing within a 200ms window."] | [e.g., Combat, movement] | [Yes â€” practice reduces this / No â€” fixed mechanical threshold] |
-| **Knowledge difficulty** | [The cost of not knowing information. e.g., "Enemy weaknesses are not telegraphed; players who have not discovered them take significantly more damage."] | [e.g., Enemy design, UI, lore] | [Yes â€” through in-game discovery / No â€” requires external knowledge] |
-| **Resource pressure** | [How scarce are the resources needed to progress? e.g., "Health consumables are limited; efficient play is required to sustain long dungeon runs."] | [e.g., Economy, loot, crafting] | [Yes â€” through build optimization / Partially] |
-| **Time pressure** | [Does the player have time to think, or does the game demand rapid decisions? e.g., "Enemy spawn timers and attack windows require real-time response."] | [e.g., Combat pacing, timers] | [Yes â€” through difficulty settings / No â€” core to genre] |
-| **Decision complexity** | [How many meaningful choices must the player evaluate simultaneously? e.g., "Build decisions interact across 4 systems; suboptimal combinations create compounding disadvantage."] | [e.g., Progression, inventory, skills] | [Yes â€” through UI and tutorialization / No â€” inherent to strategy depth] |
+| **Execution difficulty** | [The precision and timing demands of core actions. e.g., "Dodging enemy attacks requires correct timing within a 200ms window."] | [e.g., Combat, movement] | [Yes â€?practice reduces this / No â€?fixed mechanical threshold] |
+| **Knowledge difficulty** | [The cost of not knowing information. e.g., "Enemy weaknesses are not telegraphed; players who have not discovered them take significantly more damage."] | [e.g., Enemy design, UI, lore] | [Yes â€?through in-game discovery / No â€?requires external knowledge] |
+| **Resource pressure** | [How scarce are the resources needed to progress? e.g., "Health consumables are limited; efficient play is required to sustain long dungeon runs."] | [e.g., Economy, loot, crafting] | [Yes â€?through build optimization / Partially] |
+| **Time pressure** | [Does the player have time to think, or does the game demand rapid decisions? e.g., "Enemy spawn timers and attack windows require real-time response."] | [e.g., Combat pacing, timers] | [Yes â€?through difficulty settings / No â€?core to genre] |
+| **Decision complexity** | [How many meaningful choices must the player evaluate simultaneously? e.g., "Build decisions interact across 4 systems; suboptimal combinations create compounding disadvantage."] | [e.g., Progression, inventory, skills] | [Yes â€?through UI and tutorialization / No â€?inherent to strategy depth] |
 | **[Add axis]** | [Description] | [Systems] | [Player control] |
 
 ---
@@ -63,11 +62,11 @@ design must intervene? What is the acceptable cost of failure?]
 > **Guidance**: This table describes the intended challenge arc across the whole
 > game. Difficulty levels use a 1-10 scale where 1 = no meaningful challenge,
 > 10 = maximum challenge the game can produce. The scale is relative to THIS game's
-> design intent â€” a 6/10 in a soulslike is not the same as a 6/10 in a cozy sim.
+> design intent â€?a 6/10 in a soulslike is not the same as a 6/10 in a cozy sim.
 >
 > "Primary challenge type" refers to the difficulty axis (from the table above)
 > that is doing the most work in this phase. New systems introduced should list
-> only systems introduced for the FIRST TIME â€” the cognitive load of learning
+> only systems introduced for the FIRST TIME â€?the cognitive load of learning
 > a new system is itself a form of difficulty.
 >
 > "Target player state" is the emotional state the designer intends. If the actual
@@ -91,7 +90,7 @@ design must intervene? What is the acceptable cost of failure?]
 > does the most difficult design work: it must teach every foundational skill
 > without feeling like a lesson, and it must create enough investment that the
 > player commits to the journey ahead. Research on player retention shows that
-> most players who leave a game do so in the first 30 minutes â€” not because
+> most players who leave a game do so in the first 30 minutes â€?not because
 > the game is bad, but because onboarding failed to connect them.
 >
 > The scaffolding principle (Vygotsky's Zone of Proximal Development, adapted
@@ -102,7 +101,7 @@ design must intervene? What is the acceptable cost of failure?]
 
 | Time | What the Player Knows | What They Do Not Know Yet |
 |------|-----------------------|--------------------------|
-| [0 min] | [Literally nothing â€” treat this row as your most important UX audit. What can a player infer from the title screen alone?] | [Everything] |
+| [0 min] | [Literally nothing â€?treat this row as your most important UX audit. What can a player infer from the title screen alone?] | [Everything] |
 | [5 min] | [Core movement verb, basic world reading] | [All progression systems, all secondary mechanics] |
 | [15 min] | [Core interaction loop, first goal] | [Build depth, advanced mechanics, danger severity] |
 | [30 min] | [Has made at least one strategic choice] | [Whether that choice was optimal] |
@@ -117,11 +116,11 @@ design must intervene? What is the acceptable cost of failure?]
 
 | Mechanic | Introduced At | Introduction Method | Stakes at Introduction |
 |----------|--------------|--------------------|-----------------------|
-| [Core movement / primary verb] | [e.g., First 30 seconds] | [Tutorial prompt / environmental design / NPC instruction] | [None â€” safe space to experiment] |
-| [Primary interaction / action] | [e.g., First 2 minutes] | [Method] | [Low â€” reversible, forgiving window] |
-| [First resource mechanic] | [e.g., 5 min] | [Method] | [Low â€” abundant at introduction] |
-| [First strategic choice] | [e.g., 15 min] | [Method] | [Low â€” choice can be changed or revisited] |
-| [First real failure risk] | [e.g., 20-30 min] | [Method] | [Moderate â€” player should feel genuine threat but have fair tools to respond] |
+| [Core movement / primary verb] | [e.g., First 30 seconds] | [Tutorial prompt / environmental design / NPC instruction] | [None â€?safe space to experiment] |
+| [Primary interaction / action] | [e.g., First 2 minutes] | [Method] | [Low â€?reversible, forgiving window] |
+| [First resource mechanic] | [e.g., 5 min] | [Method] | [Low â€?abundant at introduction] |
+| [First strategic choice] | [e.g., 15 min] | [Method] | [Low â€?choice can be changed or revisited] |
+| [First real failure risk] | [e.g., 20-30 min] | [Method] | [Moderate â€?player should feel genuine threat but have fair tools to respond] |
 | [Add mechanic] | [Timing] | [Method] | [Stakes] |
 
 ### The First Failure
@@ -139,14 +138,13 @@ feedback that bridges cause and effect?]
 
 ### When the Player First Feels Competent
 
-[Identify the specific moment â€” not a vague window, but a specific beat â€”
-where the player should shift from "learning" to "doing." This is the moment
+[Identify the specific moment â€?not a vague window, but a specific beat â€?where the player should shift from "learning" to "doing." This is the moment
 of first competence: the first time their prediction about the game comes true,
 or the first time they execute a plan and it works.
 
 This moment must happen within the first hour. If it does not, the player
 will not reach Phase 3 of the journey (First Mastery). Design this moment
-deliberately â€” do not leave it to chance.
+deliberately â€?do not leave it to chance.
 
 What is the moment? What systems create it? What does the player do to
 trigger it? How does the game communicate that they have succeeded?]
@@ -172,9 +170,9 @@ trigger it? How does the game communicate that they have succeeded?]
 | Name | Location in Game | Type | Purpose | Recovery Design |
 |------|-----------------|------|---------|-----------------|
 | [e.g., "The First Boss"] | [e.g., End of Area 1, ~1 hr] | [Spike] | [Tests all skills introduced in Area 1. Acts as a gate confirming the player is ready for increased complexity.] | [Post-boss: safe area, upgrade opportunity, story beat that provides emotional relief before Area 2 escalation begins.] |
-| [e.g., "The Safe Zone"] | [e.g., Hub area between Areas 1 and 2, ~1.5 hrs] | [Valley] | [Player feels powerful from boss win. Space to experiment with build options before stakes rise.] | [N/A â€” this IS the recovery from the preceding spike.] |
-| [e.g., "The Knowledge Wall"] | [e.g., Area 3 first encounter, ~4 hrs] | [Spike â€” knowledge type] | [Forces players to engage with a mechanic they may have been avoiding. Survival requires understanding it.] | [Clear feedback on what killed them. Tutorial hint surfaces on third failure. Mechanic becomes standard after this point.] |
-| [e.g., "Pre-Climax Valley"] | [e.g., Just before final act, ~20 hrs] | [Valley] | [Emotional breathing room before the final escalation. Player reflects on how far they have come.] | [N/A â€” designed as relief before the finale's spike.] |
+| [e.g., "The Safe Zone"] | [e.g., Hub area between Areas 1 and 2, ~1.5 hrs] | [Valley] | [Player feels powerful from boss win. Space to experiment with build options before stakes rise.] | [N/A â€?this IS the recovery from the preceding spike.] |
+| [e.g., "The Knowledge Wall"] | [e.g., Area 3 first encounter, ~4 hrs] | [Spike â€?knowledge type] | [Forces players to engage with a mechanic they may have been avoiding. Survival requires understanding it.] | [Clear feedback on what killed them. Tutorial hint surfaces on third failure. Mechanic becomes standard after this point.] |
+| [e.g., "Pre-Climax Valley"] | [e.g., Just before final act, ~20 hrs] | [Valley] | [Emotional breathing room before the final escalation. Player reflects on how far they have come.] | [N/A â€?designed as relief before the finale's spike.] |
 | [Add spike/valley] | [Location] | [Type] | [Purpose] | [Recovery] |
 
 ---
@@ -186,7 +184,7 @@ trigger it? How does the game communicate that they have succeeded?]
 > tune the whole-game difficulty curve without hunting through individual GDDs.
 > For each lever, the GDD that owns it should be cross-referenced.
 >
-> "Current setting" is the design intent at the time of writing â€” implementation
+> "Current setting" is the design intent at the time of writing â€?implementation
 > values live in `assets/data/`. The tuning range is the safe operating range:
 > values outside this range reliably break the intended experience.
 
@@ -210,7 +208,7 @@ trigger it? How does the game communicate that they have succeeded?]
 >
 > A skill introduced and tested in the same encounter is a surprise difficulty
 > spike. A skill assumed but never formally introduced is an undocumented knowledge
-> wall. Both are fixable â€” but only if they are documented.
+> wall. Both are fixable â€?but only if they are documented.
 >
 > "Taught by" refers to the mechanism: tutorial prompt, environmental design,
 > safe practice opportunity, NPC instruction, or organic discovery.
@@ -231,7 +229,7 @@ trigger it? How does the game communicate that they have succeeded?]
 ## Accessibility Considerations
 
 > **Guidance**: Accessibility in difficulty design is not about making the game
-> easier â€” it is about ensuring players with different needs and skill profiles
+> easier â€?it is about ensuring players with different needs and skill profiles
 > can reach the intended emotional experience. Be explicit about what CAN be
 > adjusted and what CANNOT, and justify both.
 >
@@ -245,7 +243,7 @@ trigger it? How does the game communicate that they have succeeded?]
 | Adjustment | Method | Effect on Experience | Tradeoff |
 |-----------|--------|---------------------|----------|
 | [e.g., Enemy speed reduction] | [Difficulty setting / accessibility menu] | [Lowers execution difficulty without changing knowledge or decision requirements] | [Reduces the tension of combat timing; acceptable for narrative players] |
-| [e.g., Extended input windows] | [Accessibility menu] | [Allows players with motor impairments to achieve the same skill outcomes with more time] | [Minimal â€” skill expression preserved, threshold relaxed] |
+| [e.g., Extended input windows] | [Accessibility menu] | [Allows players with motor impairments to achieve the same skill outcomes with more time] | [Minimal â€?skill expression preserved, threshold relaxed] |
 | [e.g., Hint frequency] | [Settings toggle] | [Surfaces contextual guidance more or less aggressively based on player preference] | [Higher hints reduce knowledge difficulty; players who want to discover organically may feel over-guided] |
 | [Add option] | [Method] | [Effect] | [Tradeoff] |
 
@@ -262,7 +260,7 @@ trigger it? How does the game communicate that they have succeeded?]
 ## Cross-System Difficulty Interactions
 
 > **Guidance**: When two systems operate simultaneously, their combined
-> difficulty is often greater than the sum of their parts â€” or sometimes
+> difficulty is often greater than the sum of their parts â€?or sometimes
 > less. These interactions are frequently unintended and only surface during
 > playtesting. Documenting anticipated interactions here creates a checklist
 > for QA and playtest sessions.
@@ -274,10 +272,10 @@ trigger it? How does the game communicate that they have succeeded?]
 
 | System A | System B | Combined Effect | Intended? |
 |----------|----------|----------------|-----------|
-| [Combat difficulty] | [Resource scarcity] | [Resource-poor players face combat encounters with fewer options, compounding difficulty for players already struggling. Can create a death spiral where failing creates worse conditions.] | [Partial â€” intended as stakes, not as a trap. Pity mechanics required to prevent unrecoverable states.] |
-| [Build complexity] | [Time pressure] | [Players who are still learning their build take longer to make decisions under time pressure, increasing cognitive load beyond the intended challenge of either system alone.] | [No â€” reduce decision complexity demand in high time-pressure encounters.] |
-| [New mechanic introduction] | [Resource pressure] | [Introducing a new system while the player is already under resource pressure forces them to learn and optimize simultaneously.] | [No â€” new mechanics should be introduced in low-resource-pressure environments.] |
-| [Enemy density] | [Execution difficulty] | [High enemy counts with individually demanding enemies produce difficulty that scales exponentially, not linearly.] | [Partial â€” intended for optional challenge content only; not acceptable on the critical path.] |
+| [Combat difficulty] | [Resource scarcity] | [Resource-poor players face combat encounters with fewer options, compounding difficulty for players already struggling. Can create a death spiral where failing creates worse conditions.] | [Partial â€?intended as stakes, not as a trap. Pity mechanics required to prevent unrecoverable states.] |
+| [Build complexity] | [Time pressure] | [Players who are still learning their build take longer to make decisions under time pressure, increasing cognitive load beyond the intended challenge of either system alone.] | [No â€?reduce decision complexity demand in high time-pressure encounters.] |
+| [New mechanic introduction] | [Resource pressure] | [Introducing a new system while the player is already under resource pressure forces them to learn and optimize simultaneously.] | [No â€?new mechanics should be introduced in low-resource-pressure environments.] |
+| [Enemy density] | [Execution difficulty] | [High enemy counts with individually demanding enemies produce difficulty that scales exponentially, not linearly.] | [Partial â€?intended for optional challenge content only; not acceptable on the critical path.] |
 | [Add System A] | [Add System B] | [Combined effect description] | [Yes / No / Partial] |
 
 ---
@@ -287,7 +285,7 @@ trigger it? How does the game communicate that they have succeeded?]
 > **Guidance**: These checkpoints structure playtesting sessions to verify
 > the difficulty curve is achieving its intent. Each item should be checked
 > with at least 3 playtester sessions before being marked complete. Note the
-> playtester profile that revealed issues â€” difficulty problems are almost
+> playtester profile that revealed issues â€?difficulty problems are almost
 > always player-profile-specific.
 
 ### Onboarding (0-30 min)
@@ -305,7 +303,7 @@ trigger it? How does the game communicate that they have succeeded?]
 ### Mid Game (2-10 hrs)
 - [ ] Players discover at least one depth mechanic through organic play (without guide)
 - [ ] Playtest sessions report "I want to try a different build / strategy next run"
-- [ ] No single difficulty axis dominates player complaints â€” frustration is distributed
+- [ ] No single difficulty axis dominates player complaints â€?frustration is distributed
 - [ ] Players who fail a mid-game encounter correctly identify the cause without being told
 
 ### Late Game (10+ hrs)
@@ -324,7 +322,7 @@ trigger it? How does the game communicate that they have succeeded?]
 
 | Question | Owner | Deadline | Resolution |
 |----------|-------|----------|-----------|
-| [Is the onboarding ramp correctly calibrated for players without prior genre experience?] | [game-designer] | [Date] | [Unresolved â€” schedule genre-naive playtester sessions] |
-| [Does the first boss represent the correct difficulty spike or is it a wall?] | [game-designer, systems-designer] | [Date] | [Unresolved â€” requires 5+ playtester sessions to establish average attempt count] |
-| [Do any cross-system interactions produce unrecoverable states?] | [systems-designer] | [Date] | [Unresolved â€” requires targeted playtest with resource-constrained starting conditions] |
+| [Is the onboarding ramp correctly calibrated for players without prior genre experience?] | [game-designer] | [Date] | [Unresolved â€?schedule genre-naive playtester sessions] |
+| [Does the first boss represent the correct difficulty spike or is it a wall?] | [game-designer, systems-designer] | [Date] | [Unresolved â€?requires 5+ playtester sessions to establish average attempt count] |
+| [Do any cross-system interactions produce unrecoverable states?] | [systems-designer] | [Date] | [Unresolved â€?requires targeted playtest with resource-constrained starting conditions] |
 | [Add question] | [Owner] | [Date] | [Resolution] |

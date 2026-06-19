@@ -1,13 +1,13 @@
 ---
 paths:
-  - "src/core/**"
+  - "game/src/core/**"
 ---
 
 # Engine Code Rules
 
-- ZERO allocations in hot paths (update loops, rendering, physics) â€” pre-allocate, pool, reuse
+- ZERO allocations in hot paths (update loops, rendering, physics) â€?pre-allocate, pool, reuse
 - All engine APIs must be thread-safe OR explicitly documented as single-thread-only
-- Profile before AND after every optimization â€” document the measured numbers
+- Profile before AND after every optimization â€?document the measured numbers
 - Engine code must NEVER depend on gameplay code (strict dependency direction: engine <- gameplay)
 - Every public API must have usage examples in its doc comment
 - Changes to public interfaces require a deprecation period and migration guide
@@ -48,9 +48,9 @@ func _physics_process(delta: float) -> void:
 
 ## Cross-References
 
-- Agent: `engine-programmer` â€” owns engine code
-- Agent: `godot-specialist` â€” Godot-specific engine patterns
-- Agent: `performance-analyst` â€” profiles engine performance
-- Agent: `technical-director` â€” approves engine architecture
-- Rule: `network-code.md` â€” transport layer dependency
-- Rule: `test-standards.md` â€” engine-level test patterns
+- Agent: `engine-programmer` â€?owns engine code
+- Agent: `godot-specialist` â€?Godot-specific engine patterns
+- Agent: `performance-analyst` â€?profiles engine performance
+- Agent: `technical-director` â€?approves engine architecture
+- Rule: `network-code.md` â€?transport layer dependency
+- Rule: `test-standards.md` â€?engine-level test patterns

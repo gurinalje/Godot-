@@ -55,8 +55,8 @@ You (present options):
 
 **Option A: Full Discovery System**
 - Mechanics: [detailed description]
-- ‚úÖ Pros: [list with reasoning]
-- ‚ùå Cons: [list with reasoning]
+- ‚ú?Pros: [list with reasoning]
+- ‚ù?Cons: [list with reasoning]
 - Aligns with pillars: [analysis]
 - Reference games: Minecraft, Doodle God
 
@@ -85,15 +85,15 @@ You: [drafts next section, shows it, iterates]
 
 You (request approval):
 "The complete crafting system design is ready. I've covered:
- ‚úì Overview, ‚úì Player Fantasy, ‚úì Detailed Rules, ‚úì Formulas,
- ‚úì Edge Cases, ‚úì Dependencies, ‚úì Tuning Knobs, ‚úì Acceptance Criteria
+ ‚ú?Overview, ‚ú?Player Fantasy, ‚ú?Detailed Rules, ‚ú?Formulas,
+ ‚ú?Edge Cases, ‚ú?Dependencies, ‚ú?Tuning Knobs, ‚ú?Acceptance Criteria
 
- May I write this to design/gdd/crafting-system.md?"
+ May I write this to game/design/gdd/crafting-system.md?"
 
 User: "Yes"
 
 You: [uses Write tool]
-     "Created design/gdd/crafting-system.md. Would you like me to run /design-review to validate it?"
+     "Created game/design/gdd/crafting-system.md. Would you like me to run /design-review to validate it?"
 ```
 
 #### Collaborative Mindset
@@ -108,13 +108,13 @@ You: [uses Write tool]
 #### Structured Decision UI
 
 Use the `question` tool to present decisions as a selectable UI instead of
-plain text. Follow the **Explain ‚Üí Capture** pattern:
+plain text. Follow the **Explain ‚Ü?Capture** pattern:
 
-1. **Explain first** ‚Äî Write your full analysis in conversation text: detailed
+1. **Explain first** ‚Ä?Write your full analysis in conversation text: detailed
    pros/cons, theory references, example games, pillar alignment. This is where
-   the expert reasoning lives ‚Äî don't try to fit it into the tool.
+   the expert reasoning lives ‚Ä?don't try to fit it into the tool.
 
-2. **Capture the decision** ‚Äî Call `question` with concise option labels
+2. **Capture the decision** ‚Ä?Call `question` with concise option labels
    and short descriptions. The user picks from the UI or types a custom answer.
 
 **When to use it:**
@@ -126,7 +126,7 @@ plain text. Follow the **Explain ‚Üí Capture** pattern:
 **When NOT to use it:**
 - Open-ended discovery questions ("What excites you about roguelikes?")
 - Single yes/no confirmations ("May I write to file?")
-- When running as a Task subagent (tool may not be available) ‚Äî structure your
+- When running as a Task subagent (tool may not be available) ‚Ä?structure your
   text output so the orchestrator can present options via question
 
 **Format guidelines:**
@@ -135,7 +135,7 @@ plain text. Follow the **Explain ‚Üí Capture** pattern:
 - Add "(Recommended)" to your preferred option's label
 - Use `markdown` previews for comparing code structures or formulas side-by-side
 
-**Example ‚Äî multi-question batch for clarifying questions:**
+**Example ‚Ä?multi-question batch for clarifying questions:**
 
   question with questions:
     1. question: "Should crafting recipes be discovered or learned?"
@@ -145,13 +145,13 @@ plain text. Follow the **Explain ‚Üí Capture** pattern:
        header: "Failure"
        options: "Materials Lost", "Partial Recovery", "No Loss"
 
-**Example ‚Äî capturing a design decision (after full analysis in conversation):**
+**Example ‚Ä?capturing a design decision (after full analysis in conversation):**
 
   question with questions:
     1. question: "Which crafting approach fits your vision?"
        header: "Approach"
        options:
-         "Hybrid Discovery (Recommended)" ‚Äî balances exploration and accessibility
-         "Full Discovery" ‚Äî maximum mystery, risk of frustration
-         "Hint System" ‚Äî accessible but less surprise
+         "Hybrid Discovery (Recommended)" ‚Ä?balances exploration and accessibility
+         "Full Discovery" ‚Ä?maximum mystery, risk of frustration
+         "Hint System" ‚Ä?accessible but less surprise
 ```

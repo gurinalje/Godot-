@@ -8,7 +8,7 @@
 
 ## Context
 
-**GDD**: `design/gdd/character-attributes.md`
+**GDD**: `game/design/gdd/character-attributes.md`
 **Requirement**: `TR-character-attributes-002`
 
 **ADR Governing Implementation**: ADR-0001
@@ -26,11 +26,11 @@
 
 ## Acceptance Criteria
 
-*From GDD `design/gdd/character-attributes.md`, scoped to this story:*
+*From GDD `game/design/gdd/character-attributes.md`, scoped to this story:*
 
-- [ ] [Criterion 1 — implement core functionality]
-- [ ] [Criterion 2 — handle edge cases]
-- [ ] [Performance criterion — within budget]
+- [ ] [Criterion 1 �?implement core functionality]
+- [ ] [Criterion 2 �?handle edge cases]
+- [ ] [Performance criterion �?within budget]
 
 ---
 
@@ -47,7 +47,7 @@
 
 ## Out of Scope
 
-*Handled by neighbouring stories — do not implement here:*
+*Handled by neighbouring stories �?do not implement here:*
 
 - Other system integrations
 - UI implementation
@@ -57,9 +57,9 @@
 
 ## QA Test Cases
 
-*Written by qa-lead at story creation. The developer implements against these — do not invent new test cases during implementation.*
+*Written by qa-lead at story creation. The developer implements against these �?do not invent new test cases during implementation.*
 
-**[For Logic / Integration stories — automated test specs]:**
+**[For Logic / Integration stories �?automated test specs]:**
 
 - **AC-1**: [criterion text]
   - Given: [precondition]
@@ -73,8 +73,8 @@
 
 **Story Type**: Integration
 **Required evidence**:
-- Logic: `tests/unit/character-attributes/character-attributes-system-integration_test.gd` — must exist and pass
-- Integration: `tests/integration/character-attributes/character-attributes-system-integration_test.gd` OR playtest doc
+- Logic: `game/tests/unit/character-attributes/character-attributes-system-integration_test.gd` �?must exist and pass
+- Integration: `game/tests/integration/character-attributes/character-attributes-system-integration_test.gd` OR playtest doc
 - Visual/Feel: `production/qa/evidence/character-attributes-system-integration-evidence.md` + sign-off
 
 **Status**: [ ] Not yet created
@@ -96,12 +96,11 @@
 **Test Evidence**: D:\ziyuan\Games\OpenCodeGameStudios-master\tests\unit\character-attributes\character-attributes-system-integration_test.gd
 **Code Review**: Complete
 
-### 实现的文件
-
+### 实现的文�?
 - D:\ziyuan\Games\OpenCodeGameStudios-master\src\character-attributes\character-attributes-system-integration.gd
 
 ### 验收标准覆盖
 
-- [Criterion 1 — implement core functionality]
-- [Criterion 2 — handle edge cases]
-- [Performance criterion — within budget]
+- [Criterion 1 �?implement core functionality]
+- [Criterion 2 �?handle edge cases]
+- [Performance criterion �?within budget]

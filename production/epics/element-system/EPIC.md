@@ -1,9 +1,9 @@
 # Epic: element-system
 
 > **Layer**: core
-> **GDD**: design/gdd/element-system.md
+> **GDD**: game/design/gdd/element-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories element-system`
+> **Stories**: Not yet created â€?run `/create-stories element-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the element-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-element-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-element-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-element-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-element-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

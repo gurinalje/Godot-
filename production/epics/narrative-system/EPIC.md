@@ -1,9 +1,9 @@
 # Epic: narrative-system
 
 > **Layer**: presentation
-> **GDD**: design/gdd/narrative-system.md
+> **GDD**: game/design/gdd/narrative-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories narrative-system`
+> **Stories**: Not yet created â€?run `/create-stories narrative-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the narrative-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-narrative-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-narrative-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-narrative-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-narrative-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

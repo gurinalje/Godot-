@@ -8,12 +8,12 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, question
 
 When this skill is invoked:
 
-## 0. Parse Arguments ‚Äî Detect Retrofit Mode
+## 0. Parse Arguments ‚Ä?Detect Retrofit Mode
 
 Resolve the review mode (once, store for all gate spawns this run):
-1. If `--review [full|lean|solo]` was passed ‚Üí use that
-2. Else read `production/review-mode.txt` ‚Üí use that value
-3. Else ‚Üí default to `lean`
+1. If `--review [full|lean|solo]` was passed ‚Ü?use that
+2. Else read `production/review-mode.txt` ‚Ü?use that value
+3. Else ‚Ü?default to `lean`
 
 See `.opencode/docs/director-gates.md` for the full check pattern.
 
@@ -24,33 +24,33 @@ Enter **retrofit mode**:
 
 1. Read the existing ADR file completely.
 2. Identify which template sections are present by scanning headings:
-   - `## Status` ‚Äî **BLOCKING if missing**: `/story-readiness` cannot check ADR acceptance
-   - `## ADR Dependencies` ‚Äî HIGH if missing: dependency ordering breaks
-   - `## Engine Compatibility` ‚Äî HIGH if missing: post-cutoff risk unknown
-   - `## GDD Requirements Addressed` ‚Äî MEDIUM if missing: traceability lost
+   - `## Status` ‚Ä?**BLOCKING if missing**: `/story-readiness` cannot check ADR acceptance
+   - `## ADR Dependencies` ‚Ä?HIGH if missing: dependency ordering breaks
+   - `## Engine Compatibility` ‚Ä?HIGH if missing: post-cutoff risk unknown
+   - `## GDD Requirements Addressed` ‚Ä?MEDIUM if missing: traceability lost
 3. Present to the user:
    ```
    ## Retrofit: [ADR title]
    File: [path]
 
    Sections already present (will not be touched):
-   ‚úì Status: [current value, or "MISSING ‚Äî will add"]
-   ‚úì [section]
+   ‚ú?Status: [current value, or "MISSING ‚Ä?will add"]
+   ‚ú?[section]
 
    Missing sections to add:
-   ‚úó Status ‚Äî BLOCKING (stories cannot validate ADR acceptance without this)
-   ‚úó ADR Dependencies ‚Äî HIGH
-   ‚úó Engine Compatibility ‚Äî HIGH
+   ‚ú?Status ‚Ä?BLOCKING (stories cannot validate ADR acceptance without this)
+   ‚ú?ADR Dependencies ‚Ä?HIGH
+   ‚ú?Engine Compatibility ‚Ä?HIGH
    ```
 4. Ask: "Shall I add the [N] missing sections? I will not modify any existing content."
 5. If yes:
-   - For **Status**: ask the user ‚Äî "What is the current status of this decision?"
+   - For **Status**: ask the user ‚Ä?"What is the current status of this decision?"
      Options: "Proposed", "Accepted", "Deprecated", "Superseded by ADR-XXXX"
-   - For **ADR Dependencies**: ask ‚Äî "Does this decision depend on any other ADR?
+   - For **ADR Dependencies**: ask ‚Ä?"Does this decision depend on any other ADR?
      Does it enable or block any other ADR or epic?" Accept "None" for each field.
    - For **Engine Compatibility**: read the engine reference docs (same as Step 0 below)
      and ask the user to confirm the domain. Then generate the table with verified data.
-   - For **GDD Requirements Addressed**: ask ‚Äî "Which GDD systems motivated this decision?
+   - For **GDD Requirements Addressed**: ask ‚Ä?"Which GDD systems motivated this decision?
      What specific requirement in each GDD does this ADR address?"
    - Append each missing section to the ADR file using the Edit tool.
    - **Never modify any existing section.** Only append or fill absent sections.
@@ -86,10 +86,10 @@ Before doing anything else, establish the engine environment:
 3. Read the corresponding module reference if it exists:
    `docs/engine-reference/[engine]/modules/[domain].md`
 
-4. Read `docs/engine-reference/[engine]/breaking-changes.md` ‚Äî flag any
+4. Read `docs/engine-reference/[engine]/breaking-changes.md` ‚Ä?flag any
    changes in the relevant domain that post-date the LLM's training cutoff.
 
-5. Read `docs/engine-reference/[engine]/deprecated-apis.md` ‚Äî flag any APIs
+5. Read `docs/engine-reference/[engine]/deprecated-apis.md` ‚Ä?flag any APIs
    in the relevant domain that should not be used.
 
 6. **Display a knowledge gap warning** before proceeding if the domain carries
@@ -99,14 +99,14 @@ Before doing anything else, establish the engine environment:
    ‚ö†Ô∏è  ENGINE KNOWLEDGE GAP WARNING
    Engine: [name + version]
    Domain: [domain]
-   Risk Level: HIGH ‚Äî This version is post-LLM-cutoff.
+   Risk Level: HIGH ‚Ä?This version is post-LLM-cutoff.
 
    Key changes verified from engine-reference docs:
    - [Change 1 relevant to this domain]
    - [Change 2]
 
    This ADR will be cross-referenced against the engine reference library.
-   Proceed with verified information only ‚Äî do NOT rely solely on training data.
+   Proceed with verified information only ‚Ä?do NOT rely solely on training data.
    ```
 
    If no engine has been configured yet, prompt: "No engine is configured.
@@ -122,7 +122,7 @@ Scan `docs/architecture/` for existing ADRs to find the next number.
 
 ## 2. Gather context
 
-Read related code, existing ADRs, and relevant GDDs from `design/gdd/`.
+Read related code, existing ADRs, and relevant GDDs from `game/design/gdd/`.
 
 ### 2a: Architecture Registry Check (BLOCKING gate)
 
@@ -136,19 +136,19 @@ begins, as locked constraints:
 ## Existing Architectural Stances (must not contradict)
 
 State Ownership:
-  player_health ‚Üí owned by health-system (ADR-0001)
+  player_health ‚Ü?owned by health-system (ADR-0001)
   Interface: HealthComponent.current_health (read-only float)
-  ‚Üí If this ADR reads or writes player health, it must use this interface.
+  ‚Ü?If this ADR reads or writes player health, it must use this interface.
 
 Interface Contracts:
-  damage_delivery ‚Üí signal pattern (ADR-0003)
+  damage_delivery ‚Ü?signal pattern (ADR-0003)
   Signal: damage_dealt(amount, target, is_crit)
-  ‚Üí If this ADR delivers or receives damage events, it must use this signal.
+  ‚Ü?If this ADR delivers or receives damage events, it must use this signal.
 
 Forbidden Patterns:
-  ‚úó autoload_singleton_coupling (ADR-0001)
-  ‚úó direct_cross_system_state_write (ADR-0000)
-  ‚Üí The proposed approach must not use these patterns.
+  ‚ú?autoload_singleton_coupling (ADR-0001)
+  ‚ú?direct_cross_system_state_write (ADR-0000)
+  ‚Ü?The proposed approach must not use these patterns.
 ```
 
 If the user's proposed decision would contradict any registered stance, surface
@@ -169,16 +169,16 @@ or explicitly accepted as an intentional exception.
 
 Before asking anything, derive the skill's best guesses from the context already
 gathered (GDDs read, engine reference loaded, existing ADRs scanned). Then present
-a **confirm/adjust** prompt using `question` ‚Äî not open-ended questions.
+a **confirm/adjust** prompt using `question` ‚Ä?not open-ended questions.
 
 **Derive assumptions first:**
 - **Problem**: Infer from the title + GDD context what decision needs to be made
 - **Alternatives**: Propose 2-3 concrete options from engine reference + GDD requirements
 - **Dependencies**: Scan existing ADRs for upstream dependencies; assume None if unclear
 - **GDD linkage**: Extract which GDD systems the title directly relates to
-- **Status**: Always `Proposed` for new ADRs ‚Äî never ask the user what the status is
+- **Status**: Always `Proposed` for new ADRs ‚Ä?never ask the user what the status is
 
-**Scope of assumptions tab**: Assumptions cover only: problem framing, alternative approaches, upstream dependencies, GDD linkage, and status. Schema design questions (e.g., "How should spawn timing work?", "Should data be inline or external?") are NOT assumptions ‚Äî they are design decisions belonging to a separate step after the assumptions are confirmed. Do not include schema design questions in the assumptions question widget.
+**Scope of assumptions tab**: Assumptions cover only: problem framing, alternative approaches, upstream dependencies, GDD linkage, and status. Schema design questions (e.g., "How should spawn timing work?", "Should data be inline or external?") are NOT assumptions ‚Ä?they are design decisions belonging to a separate step after the assumptions are confirmed. Do not include schema design questions in the assumptions question widget.
 
 **After assumptions are confirmed**, if the ADR involves schema or data design choices, use a separate multi-tab `question` to ask each design question independently before drafting.
 
@@ -196,7 +196,7 @@ GDD systems driving this: [list derived from context]
 Dependencies: [upstream ADRs if any, otherwise "None"]
 Status: Proposed
 
-[A] Proceed ‚Äî draft with these assumptions
+[A] Proceed ‚Ä?draft with these assumptions
 [B] Change the alternatives list
 [C] Adjust the GDD linkage
 [D] Add a performance budget constraint
@@ -213,10 +213,10 @@ options as choices plus a free-text escape:
 Decision: [specific unresolved point]
 [A] [option from specialist review]
 [B] [alternative option]
-[C] Different approach ‚Äî I'll describe it
+[C] Different approach ‚Ä?I'll describe it
 ```
 
-**ADR Dependencies** ‚Äî derive from existing ADRs, then confirm:
+**ADR Dependencies** ‚Ä?derive from existing ADRs, then confirm:
 - Does this decision depend on any other ADR not yet Accepted?
 - Does it unlock or unblock any other ADR or epic?
 - Does it block any specific epic from starting?
@@ -244,7 +244,7 @@ Following this format:
 |-------|-------|
 | **Engine** | [e.g. Godot 4.6] |
 | **Domain** | [Physics / Rendering / UI / Audio / Navigation / Animation / Networking / Core / Input] |
-| **Knowledge Risk** | [LOW / MEDIUM / HIGH ‚Äî from VERSION.md] |
+| **Knowledge Risk** | [LOW / MEDIUM / HIGH ‚Ä?from VERSION.md] |
 | **References Consulted** | [List engine-reference docs read, e.g. `docs/engine-reference/godot/modules/physics.md`] |
 | **Post-Cutoff APIs Used** | [Any APIs from post-LLM-cutoff versions this decision depends on, or "None"] |
 | **Verification Required** | [Specific behaviours to test before shipping, or "None"] |
@@ -255,7 +255,7 @@ Following this format:
 |-------|-------|
 | **Depends On** | [ADR-NNNN (must be Accepted before this can be implemented), or "None"] |
 | **Enables** | [ADR-NNNN (this ADR unlocks that decision), or "None"] |
-| **Blocks** | [Epic/Story name ‚Äî cannot start until this ADR is Accepted, or "None"] |
+| **Blocks** | [Epic/Story name ‚Ä?cannot start until this ADR is Accepted, or "None"] |
 | **Ordering Note** | [Any sequencing constraint that isn't captured above] |
 
 ## Context
@@ -334,7 +334,7 @@ to implement it.]
 - [Links to related design documents]
 ```
 
-4.5. **Engine Specialist Validation** ‚Äî Before saving, spawn the **primary engine specialist** via Task to validate the drafted ADR:
+4.5. **Engine Specialist Validation** ‚Ä?Before saving, spawn the **primary engine specialist** via Task to validate the drafted ADR:
    - Read `.opencode/docs/technical-preferences.md` `Engine Specialists` section to get the primary specialist
    - If no engine is configured (`[TO BE CONFIGURED]`), skip this step
    - Spawn `subagent_type: [primary specialist]` with: the ADR's Engine Compatibility section, Decision section, Key Interfaces, and the engine reference docs path. Ask them to:
@@ -344,45 +344,45 @@ to implement it.]
    - If the specialist identifies a **blocking issue** (wrong API, deprecated approach, engine version incompatibility): revise the Decision and Engine Compatibility sections accordingly, then confirm the changes with the user before proceeding
    - If the specialist finds **minor notes** only: incorporate them into the ADR's Risks subsection
 
-**Review mode check** ‚Äî apply before spawning TD-ADR:
-- `solo` ‚Üí skip. Note: "TD-ADR skipped ‚Äî Solo mode." Proceed to Step 4.7 (GDD sync check).
-- `lean` ‚Üí skip (not a PHASE-GATE). Note: "TD-ADR skipped ‚Äî Lean mode." Proceed to Step 4.7 (GDD sync check).
-- `full` ‚Üí spawn as normal.
+**Review mode check** ‚Ä?apply before spawning TD-ADR:
+- `solo` ‚Ü?skip. Note: "TD-ADR skipped ‚Ä?Solo mode." Proceed to Step 4.7 (GDD sync check).
+- `lean` ‚Ü?skip (not a PHASE-GATE). Note: "TD-ADR skipped ‚Ä?Lean mode." Proceed to Step 4.7 (GDD sync check).
+- `full` ‚Ü?spawn as normal.
 
-4.6. **Technical Director Strategic Review** ‚Äî After the engine specialist validation, spawn `technical-director` via Task using gate **TD-ADR** (`.opencode/docs/director-gates.md`):
+4.6. **Technical Director Strategic Review** ‚Ä?After the engine specialist validation, spawn `technical-director` via Task using gate **TD-ADR** (`.opencode/docs/director-gates.md`):
    - Pass: the ADR file path (or draft content), engine version, domain, any existing ADRs in the same domain
-   - The TD validates architectural coherence (is this decision consistent with the whole system?) ‚Äî distinct from the engine specialist's API-level check
+   - The TD validates architectural coherence (is this decision consistent with the whole system?) ‚Ä?distinct from the engine specialist's API-level check
    - If CONCERNS or REJECT: revise the Decision or Alternatives sections accordingly before proceeding
 
-4.7. **GDD Sync Check** ‚Äî Before presenting the write approval, scan all GDDs
+4.7. **GDD Sync Check** ‚Ä?Before presenting the write approval, scan all GDDs
 referenced in the "GDD Requirements Addressed" section for naming inconsistencies
 with the ADR's Key Interfaces and Decision sections (renamed signals, API methods,
 or data types). If any are found, surface them as a **prominent warning block**
-immediately before the write approval ‚Äî not as a footnote:
+immediately before the write approval ‚Ä?not as a footnote:
 
 ```
 ‚ö†Ô∏è GDD SYNC REQUIRED
 [gdd-filename].md uses names this ADR has renamed:
-  [old_name] ‚Üí [new_name_from_adr]
-  [old_name_2] ‚Üí [new_name_2_from_adr]
+  [old_name] ‚Ü?[new_name_from_adr]
+  [old_name_2] ‚Ü?[new_name_2_from_adr]
 The GDD must be updated before or alongside writing this ADR to prevent
 developers reading the GDD from implementing the wrong interface.
 ```
 
 If no inconsistencies: skip this block silently.
 
-5. **Write approval** ‚Äî Use `question`:
+5. **Write approval** ‚Ä?Use `question`:
 
 If GDD sync issues were found:
 - "ADR draft is complete. How would you like to proceed?"
   - [A] Write ADR + update GDD in the same pass
-  - [B] Write ADR only ‚Äî I'll update the GDD manually
-  - [C] Not yet ‚Äî I need to review further
+  - [B] Write ADR only ‚Ä?I'll update the GDD manually
+  - [C] Not yet ‚Ä?I need to review further
 
 If no GDD sync issues:
 - "ADR draft is complete. May I write it?"
   - [A] Write ADR to `docs/architecture/adr-[NNNN]-[slug].md`
-  - [B] Not yet ‚Äî I need to review further
+  - [B] Not yet ‚Ä?I need to review further
 
 If yes to any write option, write the file, creating the directory if needed.
 For option [A] with GDD update: also update the GDD file(s) to use the new names.
@@ -394,31 +394,30 @@ Scan the written ADR for new architectural stances that should be registered:
 - Interface contracts it defines (signal signatures, method APIs)
 - Performance budget it claims
 - API choices it makes explicitly
-- Patterns it bans (Consequences ‚Üí Negative or explicit "do not use X")
+- Patterns it bans (Consequences ‚Ü?Negative or explicit "do not use X")
 
 Present candidates:
 ```
 Registry candidates from this ADR:
-  NEW state ownership:      player_stamina ‚Üí stamina-system
+  NEW state ownership:      player_stamina ‚Ü?stamina-system
   NEW interface contract:   stamina_depleted signal
   NEW performance budget:   stamina-system: 0.5ms/frame
   NEW forbidden pattern:    polling stamina each frame (use signal instead)
-  EXISTING (referenced_by update only): player_health ‚Üí already registered ‚úÖ
-```
+  EXISTING (referenced_by update only): player_health ‚Ü?already registered ‚ú?```
 
 **Registry append logic**: When writing to `docs/registry/architecture.yaml`, do NOT assume sections are empty. The file may already have entries from previous ADRs written in this session. Before each Edit call:
 1. Read the current state of `docs/registry/architecture.yaml`
 2. Find the correct section (state_ownership, interfaces, forbidden_patterns, api_decisions)
-3. Append the new entry AFTER the last existing entry in that section ‚Äî do not try to replace a `[]` placeholder that may no longer exist
+3. Append the new entry AFTER the last existing entry in that section ‚Ä?do not try to replace a `[]` placeholder that may no longer exist
 4. If the section has entries already, use the closing content of the last entry as the `old_string` anchor, and append the new entry after it
 
-**BLOCKING ‚Äî do not write to `docs/registry/architecture.yaml` without explicit user approval.**
+**BLOCKING ‚Ä?do not write to `docs/registry/architecture.yaml` without explicit user approval.**
 
 Ask using `question`:
 - "May I update `docs/registry/architecture.yaml` with these [N] new stances?"
-  - Options: "Yes ‚Äî update the registry", "Not yet ‚Äî I want to review the candidates", "Skip registry update"
+  - Options: "Yes ‚Ä?update the registry", "Not yet ‚Ä?I want to review the candidates", "Skip registry update"
 
-Only proceed if the user selects yes. If yes: append new entries. Never modify existing entries ‚Äî if a stance is
+Only proceed if the user selects yes. If yes: append new entries. Never modify existing entries ‚Ä?if a stance is
 changing, set the old entry to `status: superseded_by: ADR-[NNNN]` and add the new entry.
 
 ---
@@ -428,16 +427,16 @@ changing, set the old entry to `status: superseded_by: ADR-[NNNN]` and add the n
 After the ADR is written (and registry optionally updated), close with `question`.
 
 Before generating the widget:
-1. Read `docs/registry/architecture.yaml` ‚Äî check if any priority ADRs are still unwritten (look for ADRs flagged in technical-preferences.md or systems-index.md as prerequisites)
+1. Read `docs/registry/architecture.yaml` ‚Ä?check if any priority ADRs are still unwritten (look for ADRs flagged in technical-preferences.md or systems-index.md as prerequisites)
 2. Check if all prerequisite ADRs are now written. If yes, include a "Start writing GDDs" option.
-3. List ALL remaining priority ADRs as individual options ‚Äî not just the next one or two.
+3. List ALL remaining priority ADRs as individual options ‚Ä?not just the next one or two.
 
 Widget format:
 ```
 ADR-[NNNN] written and registry updated. What would you like to do next?
-[1] Write [next-priority-adr-name] ‚Äî [brief description from prerequisites list]
-[2] Write [another-priority-adr] ‚Äî [brief description]  (include ALL remaining ones)
-[N] Start writing GDDs ‚Äî run `/design-system [first-undesigned-system]` (only show if all prerequisite ADRs are written)
+[1] Write [next-priority-adr-name] ‚Ä?[brief description from prerequisites list]
+[2] Write [another-priority-adr] ‚Ä?[brief description]  (include ALL remaining ones)
+[N] Start writing GDDs ‚Ä?run `/design-system [first-undesigned-system]` (only show if all prerequisite ADRs are written)
 [N+1] Stop here for this session
 ```
 

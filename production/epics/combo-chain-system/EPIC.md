@@ -1,9 +1,9 @@
 # Epic: combo-chain-system
 
 > **Layer**: core
-> **GDD**: design/gdd/combo-chain-system.md
+> **GDD**: game/design/gdd/combo-chain-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories combo-chain-system`
+> **Stories**: Not yet created â€?run `/create-stories combo-chain-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the combo-chain-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-combo-chain-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-combo-chain-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-combo-chain-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-combo-chain-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

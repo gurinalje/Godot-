@@ -10,10 +10,10 @@ it belongs to.]
 
 ## Static Assertions (Structural)
 
-Verified automatically by `/skill-test static` â€” no fixture needed.
+Verified automatically by `/skill-test static` â€?no fixture needed.
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
-- [ ] Has â‰¥2 phase headings (## Phase N or numbered ## sections)
+- [ ] Has â‰? phase headings (## Phase N or numbered ## sections)
 - [ ] Contains verdict keywords: [list the ones expected, e.g., PASS, FAIL, CONCERNS]
 - [ ] Contains "May I write" collaborative protocol language (if skill writes files)
 - [ ] Has a next-step handoff at the end
@@ -22,7 +22,7 @@ Verified automatically by `/skill-test static` â€” no fixture needed.
 
 ## Test Cases
 
-### Case 1: Happy Path â€” [short description]
+### Case 1: Happy Path â€?[short description]
 
 **Fixture:** [Describe the assumed project state. Which files exist? What do they
 contain? E.g., "game-concept.md exists with all 8 required sections complete.
@@ -31,9 +31,9 @@ systems-index.md exists. All MVP GDDs are present and individually reviewed."]
 **Input:** `/[skill-name] [args]`
 
 **Expected behavior:**
-1. [Phase 1 action â€” what the skill should read or check]
-2. [Phase 2 action â€” what the skill should evaluate]
-3. [Phase N action â€” what the skill should output]
+1. [Phase 1 action â€?what the skill should read or check]
+2. [Phase 2 action â€?what the skill should evaluate]
+3. [Phase N action â€?what the skill should output]
 
 **Assertions:**
 - [ ] Skill reads [specific file] before producing output
@@ -43,10 +43,10 @@ systems-index.md exists. All MVP GDDs are present and individually reviewed."]
 
 ---
 
-### Case 2: Failure Path â€” [short description, e.g., "Missing required artifact"]
+### Case 2: Failure Path â€?[short description, e.g., "Missing required artifact"]
 
 **Fixture:** [Describe the failure state. E.g., "game-concept.md is missing.
-No files exist in design/gdd/."]
+No files exist in game/design/gdd/."]
 
 **Input:** `/[skill-name] [args]`
 
@@ -63,7 +63,7 @@ No files exist in design/gdd/."]
 
 ---
 
-### Case 3: Edge Case â€” [short description, e.g., "No argument provided"]
+### Case 3: Edge Case â€?[short description, e.g., "No argument provided"]
 
 **Fixture:** [State of project files for this case]
 
@@ -91,6 +91,6 @@ No files exist in design/gdd/."]
 
 [Document what is intentionally NOT tested in this spec and why. Examples:
 - "Case 3 (all-mode) is not covered because it runs too many checks to evaluate
-  in a single spec â€” test each sub-mode individually."
+  in a single spec â€?test each sub-mode individually."
 - "The database integration path is not covered as it requires a live environment."
 - "Edge cases involving corrupted YAML files are deferred to a future spec."]

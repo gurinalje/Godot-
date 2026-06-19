@@ -4,7 +4,7 @@ description: "Generate design or architecture documents from existing implementa
 argument-hint: "<type> <path> (e.g., 'design src/gameplay/combat' or 'architecture src/core')"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
-# Read-only diagnostic skill â€” no specialist agent delegation needed
+# Read-only diagnostic skill â€?no specialist agent delegation needed
 ---
 
 # Reverse Documentation
@@ -25,19 +25,19 @@ appropriate design or architecture documentation. Use this when:
 **Format**: `/reverse-document <type> <path>`
 
 **Type options**:
-- `design` â†’ Generate a game design document (GDD section)
-- `architecture` â†’ Generate an Architecture Decision Record (ADR)
-- `concept` â†’ Generate a concept document from prototype
+- `design` â†?Generate a game design document (GDD section)
+- `architecture` â†?Generate an Architecture Decision Record (ADR)
+- `concept` â†?Generate a concept document from prototype
 
 **Path**: Directory or file to analyze
-- `src/gameplay/combat/` â†’ All combat-related code
-- `src/core/event-system.cpp` â†’ Specific file
-- `prototypes/stealth-mech/` â†’ Prototype directory
+- `src/gameplay/combat/` â†?All combat-related code
+- `game/src/core/event-system.cpp` â†?Specific file
+- `prototypes/stealth-mech/` â†?Prototype directory
 
 **Examples**:
 ```bash
 /reverse-document design src/gameplay/magic-system
-/reverse-document architecture src/core/entity-component
+/reverse-document architecture game/src/core/entity-component
 /reverse-document concept prototypes/vehicle-combat
 ```
 
@@ -107,9 +107,9 @@ FORMULAS DISCOVERED:
 - [Secondary output] = [formula]
 
 UNCLEAR INTENT AREAS:
-1. [Resource] system â€” pacing or resource management?
-2. [Mechanic] â€” core pillar or supporting feature?
-3. [Value] scaling â€” intentional design or needs tuning?
+1. [Resource] system â€?pacing or resource management?
+2. [Mechanic] â€?core pillar or supporting feature?
+3. [Value] scaling â€?intentional design or needs tuning?
 
 Before I draft the design doc, could you clarify these points?
 ```
@@ -122,7 +122,7 @@ Based on type, use appropriate template:
 
 | Type | Template | Output Path |
 |------|----------|-------------|
-| `design` | `templates/design-doc-from-implementation.md` | `design/gdd/[system-name].md` |
+| `design` | `templates/design-doc-from-implementation.md` | `game/design/gdd/[system-name].md` |
 | `architecture` | `templates/architecture-doc-from-code.md` | `docs/architecture/[decision-name].md` |
 | `concept` | `templates/concept-doc-from-prototype.md` | `prototypes/[name]/CONCEPT.md` or `design/concepts/[name].md` |
 
@@ -149,7 +149,7 @@ SECTIONS MARKED AS INCOMPLETE:
 - "[System] interaction with [other-system]" (not fully implemented yet)
 - "[Variant or feature]" (only [subset] implemented so far)
 
-May I write this to design/gdd/[system-name].md?
+May I write this to game/design/gdd/[system-name].md?
 ```
 
 Wait for approval. User may request changes before writing.
@@ -180,7 +180,7 @@ verified-by: [User name]
 After writing, suggest next steps:
 
 ```
-âœ… Written to design/gdd/combat-system.md
+âœ?Written to game/design/gdd/combat-system.md
 
 FOLLOW-UP RECOMMENDED:
 1. Run /balance-check on combat formulas (exponential scaling concern)
@@ -199,11 +199,11 @@ Would you like me to tackle any of these now?
 
 | If analyzing... | Use template... | Because... |
 |----------------|-----------------|------------|
-| `src/gameplay/*` | design-doc-from-implementation.md | Gameplay mechanics â†’ GDD |
-| `src/core/*`, `src/ai/*` | architecture-doc-from-code.md | Core systems â†’ ADR |
-| `prototypes/*` | concept-doc-from-prototype.md | Experiments â†’ concept doc |
-| `src/networking/*` | architecture-doc-from-code.md | Technical systems â†’ ADR |
-| `src/ui/*` | design-doc-from-implementation.md | UI/UX â†’ design spec |
+| `src/gameplay/*` | design-doc-from-implementation.md | Gameplay mechanics â†?GDD |
+| `game/src/core/*`, `src/ai/*` | architecture-doc-from-code.md | Core systems â†?ADR |
+| `prototypes/*` | concept-doc-from-prototype.md | Experiments â†?concept doc |
+| `src/networking/*` | architecture-doc-from-code.md | Technical systems â†?ADR |
+| `src/ui/*` | design-doc-from-implementation.md | UI/UX â†?design spec |
 
 ---
 
@@ -221,22 +221,22 @@ Agent: I've analyzed src/gameplay/[system]/. Here's what I found:
        Before drafting, could you clarify:
        1. [Resource] system intent?
        2. Is [mechanic] a core pillar?
-       3. [Value] scaling â€” intentional or needs tuning?
+       3. [Value] scaling â€?intentional or needs tuning?
 
 User: 1. [Resource] is for pacing, prevent [unwanted behavior]
-      2. [Mechanic] is core â€” I want [design intent]
+      2. [Mechanic] is core â€?I want [design intent]
       3. Yeah, exponential is too much, should be linear
 
 Agent: Perfect, that clarifies the vision. Let me draft the design doc.
        [Shows draft with clarified intent]
 
-       May I write this to design/gdd/[system-name].md?
+       May I write this to game/design/gdd/[system-name].md?
 
 User: Yes, write it.
 
-Agent: âœ… Written to design/gdd/[system-name].md
-       âœ… Marked as [REVERSE-DOCUMENTED]
-       âœ… Flagged [value] scaling for rebalancing
+Agent: âœ?Written to game/design/gdd/[system-name].md
+       âœ?Marked as [REVERSE-DOCUMENTED]
+       âœ?Flagged [value] scaling for rebalancing
 
        Next steps:
        - Update [formula] to [corrected scaling]
@@ -256,7 +256,7 @@ This skill follows the collaborative design principle:
 4. **User Clarifies**: Separate intent from accidents
 5. **Draft Document**: Create doc based on reality + intent
 6. **Show Draft**: Display key sections, explain additions
-7. **Get Approval**: "May I write to [filepath]?" On approval: Verdict: **COMPLETE** â€” document generated. On decline: Verdict: **BLOCKED** â€” user declined write.
+7. **Get Approval**: "May I write to [filepath]?" On approval: Verdict: **COMPLETE** â€?document generated. On decline: Verdict: **BLOCKED** â€?user declined write.
 8. **Flag Follow-Up**: Suggest related work, don't auto-execute
 
 **Never assume intent. Always ask before documenting "why".**

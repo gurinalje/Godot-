@@ -1,9 +1,9 @@
 # Epic: audio-system
 
 > **Layer**: core
-> **GDD**: design/gdd/audio-system.md
+> **GDD**: game/design/gdd/audio-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories audio-system`
+> **Stories**: Not yet created â€?run `/create-stories audio-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the audio-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-audio-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-audio-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-audio-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-audio-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

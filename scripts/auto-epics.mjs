@@ -203,8 +203,8 @@ function createStory(epicSlug, storyNumber, title, type, gddPath, trId) {
 
 **Story Type**: ${type}
 **Required evidence**:
-- Logic: \`tests/unit/${epicSlug}/${storySlug}_test.gd\` — must exist and pass
-- Integration: \`tests/integration/${epicSlug}/${storySlug}_test.gd\` OR playtest doc
+- Logic: \`game/tests/unit/${epicSlug}/${storySlug}_test.gd\` — must exist and pass
+- Integration: \`game/tests/integration/${epicSlug}/${storySlug}_test.gd\` OR playtest doc
 - Visual/Feel: \`production/qa/evidence/${storySlug}-evidence.md\` + sign-off
 
 **Status**: [ ] Not yet created
@@ -280,7 +280,7 @@ function main() {
   
   for (const systemName of systems) {
     const epicSlug = slugify(systemName);
-    const gddPath = `design/gdd/${epicSlug}.md`;
+    const gddPath = `game/design/gdd/${epicSlug}.md`;
     
     // 检查GDD是否存在
     if (!existsSync(join(ROOT, gddPath))) {

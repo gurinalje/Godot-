@@ -177,8 +177,8 @@ Before writing any test, classify the story type per `coding-standards.md`:
 
 | Story Type | Required Evidence | Output Location | Gate Level |
 |---|---|---|---|
-| Logic (formulas, state machines) | Automated unit test â€?must pass | `tests/unit/[system]/` | BLOCKING |
-| Integration (multi-system) | Integration test or documented playtest | `tests/integration/[system]/` | BLOCKING |
+| Logic (formulas, state machines) | Automated unit test â€?must pass | `game/tests/unit/[system]/` | BLOCKING |
+| Integration (multi-system) | Integration test or documented playtest | `game/tests/integration/[system]/` | BLOCKING |
 | Visual/Feel (animation, VFX) | Screenshot + lead sign-off doc | `production/qa/evidence/` | ADVISORY |
 | UI (menus, HUD, screens) | Manual walkthrough doc or interaction test | `production/qa/evidence/` | ADVISORY |
 | Config/Data (balance tuning) | Smoke check pass | `production/qa/smoke-[date].md` | ADVISORY |

@@ -58,7 +58,7 @@ Report the scope before proceeding: "Validating [N] story files."
 
 Before checking any stories, load reference documents once (not per-story):
 
-- `design/gdd/systems-index.md` â€?to know which systems have approved GDDs
+- `game/design/gdd/systems-index.md` â€?to know which systems have approved GDDs
 - `docs/architecture/control-manifest.md` â€?to know which manifest rules exist
   (if the file does not exist, note it as missing once; do not re-flag per story)
   Also extract the `Manifest Version:` date from the header block if the file exists.
@@ -81,7 +81,7 @@ items pass or are explicitly marked N/A with a stated reason.
 
 ### Design Completeness
 
-- [ ] **GDD requirement referenced**: The story includes a `design/gdd/` path
+- [ ] **GDD requirement referenced**: The story includes a `game/design/gdd/` path
   and quotes or links a specific requirement, acceptance criterion, or rule from
   that GDD â€?not just the GDD filename. A link to the document without tracing
   to a specific requirement does not pass.

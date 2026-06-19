@@ -18,9 +18,9 @@ This skill is the **pre-workflow exploration lane**. Use it when you have one or
 - You want to avoid formal process overhead until you know what you're making
 
 **When NOT to use `/explore`:**
-- You already know your game and are ready to build â†’ use `/start` directly
-- You are in the middle of production â†’ use `/prototype` or `/hybrid-prototype`
-- You need a formal vertical slice â†’ use `/prototype` within the full workflow
+- You already know your game and are ready to build â†?use `/start` directly
+- You are in the middle of production â†?use `/prototype` or `/hybrid-prototype`
+- You need a formal vertical slice â†?use `/prototype` within the full workflow
 
 **Key properties:**
 - **No workflow commitment**: Does not create `production/stage.txt`, `production/review-mode.txt`, or any production artifacts
@@ -82,7 +82,7 @@ If yes, create the directory. Every file must begin with:
 - Skip error handling, polish, and architecture
 - Use the simplest approach that works
 - Copy code rather than importing from production
-- NEVER import from `src/` â€” explore prototypes are fully isolated
+- NEVER import from `src/` â€?explore prototypes are fully isolated
 - NEVER create files in `production/`, `design/`, `docs/architecture/`, or `src/`
 
 **Run the prototype** as you build. Test continuously. Fix blockers, but don't polish.
@@ -101,7 +101,7 @@ Play the prototype yourself. Then ask the user to play it. Collect observations:
 - Any surprising discoveries?
 - How long did it take to build?
 
-**Document findings informally** â€” a bulleted list is fine at this stage.
+**Document findings informally** â€?a bulleted list is fine at this stage.
 
 ---
 
@@ -119,7 +119,7 @@ Draft a lightweight report:
 [What was built, time spent, shortcuts taken]
 
 ## Result
-[What actually happened â€” specific observations]
+[What actually happened â€?specific observations]
 
 ## Verdict
 [PROMISING / NEEDS_WORK / NOT_VIABLE / TIMEOUT]
@@ -176,7 +176,7 @@ Output a summary to the user:
 - Location of the report
 - Clear next step (explore another idea, or workflow selection)
 
-Verdict: **COMPLETE** â€” exploration prototype finished. No workflow committed.
+Verdict: **COMPLETE** â€?exploration prototype finished. No workflow committed.
 
 ---
 
@@ -184,10 +184,10 @@ Verdict: **COMPLETE** â€” exploration prototype finished. No workflow committed.
 
 - Prototype code must NEVER import from production source files
 - Production code must NEVER import from prototype directories
-- If an idea is later productionized, rewrite from scratch â€” do not refactor explore prototype code
+- If an idea is later productionized, rewrite from scratch â€?do not refactor explore prototype code
 - Timebox strictly: 1-2 days per idea. If it's not testable after 2 days, verdict is TIMEOUT
-- Keep the question narrow â€” one prototype, one question
-- No workflow artifacts: do not touch `production/`, `design/gdd/`, `docs/architecture/`, or `src/`
+- Keep the question narrow â€?one prototype, one question
+- No workflow artifacts: do not touch `production/`, `game/design/gdd/`, `docs/architecture/`, or `src/`
 - No review mode gates, no director reviews, no multi-agent coordination
 - **Workflow isolation**: This skill explicitly bypasses `production/review-mode.txt` and `production/stage.txt`. Any existing workflow state is ignored during exploration.
 

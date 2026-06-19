@@ -6,11 +6,11 @@
 
 ## Date
 
-[YYYY-MM-DD â€” when this ADR was written]
+[YYYY-MM-DD â€?when this ADR was written]
 
 ## Last Verified
 
-[YYYY-MM-DD â€” when this ADR was last confirmed accurate against the current
+[YYYY-MM-DD â€?when this ADR was last confirmed accurate against the current
 engine version and design. Update this date when you re-read and confirm it
 is still correct, even if nothing changed.]
 
@@ -21,7 +21,7 @@ is still correct, even if nothing changed.]
 ## Summary
 
 [2 sentences: what problem this ADR solves, and what was decided. Written for
-tiered context loading â€” a skill scanning 20 ADRs uses this to decide whether
+tiered context loading â€?a skill scanning 20 ADRs uses this to decide whether
 to read the full decision. Be specific: name the system, the problem, and the
 chosen approach.]
 
@@ -31,7 +31,7 @@ chosen approach.]
 |-------|-------|
 | **Engine** | [e.g. Godot 4.6 / Unity 6 / Unreal Engine 5.4] |
 | **Domain** | [Physics / Rendering / UI / Audio / Navigation / Animation / Networking / Core / Input / Scripting] |
-| **Knowledge Risk** | [LOW â€” in training data / MEDIUM â€” near cutoff, verify / HIGH â€” post-cutoff, must verify] |
+| **Knowledge Risk** | [LOW â€?in training data / MEDIUM â€?near cutoff, verify / HIGH â€?post-cutoff, must verify] |
 | **References Consulted** | [e.g. `docs/engine-reference/godot/modules/physics.md`, `breaking-changes.md`] |
 | **Post-Cutoff APIs Used** | [Specific APIs from post-cutoff engine versions this decision depends on, or "None"] |
 | **Verification Required** | [Concrete behaviours to test against the target engine version before shipping, or "None"] |
@@ -45,7 +45,7 @@ chosen approach.]
 |-------|-------|
 | **Depends On** | [ADR-NNNN (must be Accepted before this can be implemented), or "None"] |
 | **Enables** | [ADR-NNNN (this ADR unlocks that decision), or "None"] |
-| **Blocks** | [Epic/Story name â€” cannot start until this ADR is Accepted, or "None"] |
+| **Blocks** | [Epic/Story name â€?cannot start until this ADR is Accepted, or "None"] |
 | **Ordering Note** | [Any sequencing constraint that isn't captured above] |
 
 ## Context
@@ -164,13 +164,13 @@ creates. These become the contracts that implementers must respect.]
 
 | GDD Document | System | Requirement | How This ADR Satisfies It |
 |-------------|--------|-------------|--------------------------|
-| [e.g. `design/gdd/combat.md`] | [e.g. Combat] | [e.g. "Hitbox detection must resolve within 1 frame"] | [e.g. "Jolt physics collision queries run synchronously in _physics_process"] |
+| [e.g. `game/design/gdd/combat.md`] | [e.g. Combat] | [e.g. "Hitbox detection must resolve within 1 frame"] | [e.g. "Jolt physics collision queries run synchronously in _physics_process"] |
 
 > If this is a foundational decision with no direct GDD dependency, write:
-> "Foundational â€” no GDD requirement. Enables: [list what GDD systems this
+> "Foundational â€?no GDD requirement. Enables: [list what GDD systems this
 > decision unlocks or constrains]"
 
 ## Related
 
-- [Link to related ADRs â€” note if supersedes, contradicts, or depends on]
+- [Link to related ADRs â€?note if supersedes, contradicts, or depends on]
 - [Link to relevant code files once implemented]

@@ -10,6 +10,6 @@
 > - AbleGamers CVAA Guidelines
 > - Xbox Accessibility Guidelines (XAG) [Yes / No / Partial]
 > - PlayStation Accessibility (Sony Guidelines) [Yes / No / Partial]
-> - Apple / Google Accessibility Guidelines [Yes / No / N/A â€” mobile only]
+> - Apple / Google Accessibility Guidelines [Yes / No / N/A â€?mobile only]
 > **Accessibility Consultant**: [Name and organization, or "None engaged"]
-> **Linked Documents**: `design/gdd/systems-index.md`, `docs/ux/interaction-pattern-library.md`
+> **Linked Documents**: `game/design/gdd/systems-index.md`, `docs/ux/interaction-pattern-library.md`

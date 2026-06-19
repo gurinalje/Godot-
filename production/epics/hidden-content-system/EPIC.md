@@ -1,9 +1,9 @@
 # Epic: hidden-content-system
 
 > **Layer**: presentation
-> **GDD**: design/gdd/hidden-content-system.md
+> **GDD**: game/design/gdd/hidden-content-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories hidden-content-system`
+> **Stories**: Not yet created â€?run `/create-stories hidden-content-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the hidden-content-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-hidden-content-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-hidden-content-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-hidden-content-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-hidden-content-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

@@ -1,16 +1,16 @@
 # UX Specification: [Screen / Flow Name]
 
 > **Status**: Draft | In Review | Approved | Implemented
-> **Author**: [Name or agent â€” e.g., ui-designer]
+> **Author**: [Name or agent â€?e.g., ui-designer]
 > **Last Updated**: [Date]
-> **Screen / Flow Name**: [Short identifier used in code and tickets â€” e.g., `InventoryScreen`, `NewGameFlow`]
-> **Platform Target**: [PC | Console | Mobile | All â€” list all that this spec covers]
-> **Related GDDs**: [Links to the GDD sections that generated this UI requirement â€” e.g., `design/gdd/inventory.md Â§ UI Requirements`]
-> **Related ADRs**: [Any architectural decisions that constrain this screen â€” e.g., `ADR-0012: UI Framework Selection`]
-> **Related UX Specs**: [Sibling and parent screens â€” e.g., `ux-spec-pause-menu.md`, `ux-spec-settings.md`]
+> **Screen / Flow Name**: [Short identifier used in code and tickets â€?e.g., `InventoryScreen`, `NewGameFlow`]
+> **Platform Target**: [PC | Console | Mobile | All â€?list all that this spec covers]
+> **Related GDDs**: [Links to the GDD sections that generated this UI requirement â€?e.g., `game/design/gdd/inventory.md Â§ UI Requirements`]
+> **Related ADRs**: [Any architectural decisions that constrain this screen â€?e.g., `ADR-0012: UI Framework Selection`]
+> **Related UX Specs**: [Sibling and parent screens â€?e.g., `ux-spec-pause-menu.md`, `ux-spec-settings.md`]
 > **Accessibility Tier**: Basic | Standard | Comprehensive | Exemplary
 
-> **Note â€” Scope boundary**: This template covers discrete screens and flows (menus,
+> **Note â€?Scope boundary**: This template covers discrete screens and flows (menus,
 > dialogs, inventory, settings, cutscene UI, etc.). For persistent in-game overlays
 > that exist during active gameplay, use `hud-design.md` instead. If a screen is a
 > hybrid (e.g., a pause menu that overlays the game world), treat it as a screen spec
@@ -25,7 +25,7 @@
 > the save data") produce cluttered, confusing interfaces. Screens designed from the
 > player's perspective ("let the player feel confident their progress is safe before they
 > put the controller down") produce purposeful, calm interfaces. Write this section before
-> touching any layout decisions â€” it is the filter through which every subsequent choice
+> touching any layout decisions â€?it is the filter through which every subsequent choice
 > is evaluated.
 
 **What player need does this screen serve?**
@@ -34,8 +34,8 @@
 a player say they want when they open this screen? What would frustrate them if it did
 not work? That frustration describes the need.
 
-Example â€” bad: "Displays the player's current items and equipment."
-Example â€” good: "Lets the player understand what they're carrying and quickly decide what
+Example â€?bad: "Displays the player's current items and equipment."
+Example â€?good: "Lets the player understand what they're carrying and quickly decide what
 to take into the next encounter, without breaking their mental model of the game world.
 The inventory is the player's planning tool between moments of action."]
 
@@ -60,23 +60,23 @@ part of.]
 > inventory mid-combat is in a completely different cognitive and emotional state than
 > a player opening it after clearing a dungeon. The same information architecture can
 > feel oppressively complex in one context and trivially simple in another. Document the
-> context so that design decisions â€” what to show first, what to hide, what to animate,
-> what to simplify â€” are calibrated to the actual player arriving at this screen, not
+> context so that design decisions â€?what to show first, what to hide, what to animate,
+> what to simplify â€?are calibrated to the actual player arriving at this screen, not
 > an abstract user.
 
 | Question | Answer |
 |----------|--------|
 | What was the player just doing? | [e.g., Completed a combat encounter / Pressed Esc from exploration / Triggered a story cutscene] |
-| What is their emotional state? | [e.g., High tension â€” just narrowly survived / Calm â€” exploring between objectives] |
-| What cognitive load are they carrying? | [e.g., High â€” actively tracking enemy positions / Low â€” no active threats] |
+| What is their emotional state? | [e.g., High tension â€?just narrowly survived / Calm â€?exploring between objectives] |
+| What cognitive load are they carrying? | [e.g., High â€?actively tracking enemy positions / Low â€?no active threats] |
 | What information do they already have? | [e.g., They know they just picked up an item but haven't seen its stats yet] |
-| What are they most likely trying to do? | [e.g., Check if the new item is better than their current weapon â€” primary use case] |
+| What are they most likely trying to do? | [e.g., Check if the new item is better than their current weapon â€?primary use case] |
 | What are they likely afraid of? | [e.g., Missing something, making an irreversible mistake, losing track of where they were] |
 
 **Emotional design target for this screen**:
 
 [One sentence describing the feeling the player should have while using this screen.
-Example: "Confident and in control â€” the player should feel like they have complete
+Example: "Confident and in control â€?the player should feel like they have complete
 information and complete authority over their choices, with no ambiguity about outcomes."]
 
 ---
@@ -86,33 +86,33 @@ information and complete authority over their choices, with no ambiguity about o
 > **Why this section exists**: A screen that does not know where it sits in the
 > navigation hierarchy cannot define its entry/exit transitions, its back-button
 > behavior, or its relationship to the game's pause state. Navigation position also
-> reveals architectural problems early â€” if this screen is reachable from eight
+> reveals architectural problems early â€?if this screen is reachable from eight
 > different places, that is a complexity flag that should be resolved in design, not
 > implementation.
 
 **Screen hierarchy** (use indentation to show parent-child relationships):
 
 ```
-[Root â€” e.g., Main Menu]
-  â””â”€â”€ [Parent Screen â€” e.g., Settings]
-        â””â”€â”€ [This Screen â€” e.g., Audio Settings]
-              â”œâ”€â”€ [Child Screen â€” e.g., Advanced Audio Options]
-              â””â”€â”€ [Child Screen â€” e.g., Speaker Test Dialog]
+[Root â€?e.g., Main Menu]
+  â””â”€â”€ [Parent Screen â€?e.g., Settings]
+        â””â”€â”€ [This Screen â€?e.g., Audio Settings]
+              â”œâ”€â”€ [Child Screen â€?e.g., Advanced Audio Options]
+              â””â”€â”€ [Child Screen â€?e.g., Speaker Test Dialog]
 ```
 
 **Modal behavior**: [Modal (blocks everything behind it, requires explicit dismiss) | Non-modal (game continues behind it) | Overlay (renders over game world, game paused) | Overlay-live (renders over game world, game continues)]
 
 > If this screen is modal: document the dismiss behavior. Can it be dismissed by pressing
 > Back/B? By pressing Escape? By clicking outside it? Can it be dismissed at all, or
-> must the player complete it? Undismissable modals are high-friction â€” justify them.
+> must the player complete it? Undismissable modals are high-friction â€?justify them.
 
-**Reachability â€” all entry points**:
+**Reachability â€?all entry points**:
 
 | Entry Point | Triggered By | Notes |
 |-------------|-------------|-------|
-| [e.g., Main Menu â†’ Play] | [Player selects "New Game"] | [Primary entry point] |
-| [e.g., Pause Menu â†’ Resume] | [Player presses Start from any gameplay state] | [Secondary entry] |
-| [e.g., Game event] | [Tutorial system forces open first time only] | [Systemic entry â€” must not break if player dismisses] |
+| [e.g., Main Menu â†?Play] | [Player selects "New Game"] | [Primary entry point] |
+| [e.g., Pause Menu â†?Resume] | [Player presses Start from any gameplay state] | [Secondary entry] |
+| [e.g., Game event] | [Tutorial system forces open first time only] | [Systemic entry â€?must not break if player dismisses] |
 
 ---
 
@@ -120,7 +120,7 @@ information and complete authority over their choices, with no ambiguity about o
 
 > **Why this section exists**: Entry and exit define the screen's contract with the
 > rest of the navigation system. Every entry point must have a corresponding exit point.
-> Transitions that are undefined become bugs â€” the player finds themselves stuck, or the
+> Transitions that are undefined become bugs â€?the player finds themselves stuck, or the
 > game state becomes inconsistent. Fill this table completely before implementation
 > begins. Empty cells are a sign that design work is unfinished.
 
@@ -128,7 +128,7 @@ information and complete authority over their choices, with no ambiguity about o
 
 | Trigger | Source Screen / State | Transition Type | Data Passed In | Notes |
 |---------|----------------------|-----------------|----------------|-------|
-| [e.g., Player presses Inventory button] | [Gameplay / Exploration state] | [Overlay push â€” game pauses] | [Current player loadout, inventory contents] | [Works from any non-combat state] |
+| [e.g., Player presses Inventory button] | [Gameplay / Exploration state] | [Overlay push â€?game pauses] | [Current player loadout, inventory contents] | [Works from any non-combat state] |
 | [e.g., Item pickup prompt accepted] | [Gameplay / Item Pickup dialog] | [Replace dialog with full inventory] | [Newly acquired item pre-highlighted] | [The new item should be visually distinguished on open] |
 | [e.g., Quest system directs player to inventory] | [Gameplay / Quest Update notification] | [Overlay push] | [Quest-relevant item ID for highlight] | [Screen should deep-link to the relevant item] |
 
@@ -136,6 +136,6 @@ information and complete authority over their choices, with no ambiguity about o
 
 | Exit Action | Destination | Transition Type | Data Returned / Saved | Notes |
 |-------------|------------|-----------------|----------------------|-------|
-| [e.g., Player closes inventory (Back/B/Esc)] | [Previous state â€” Exploration] | [Overlay pop â€” game resumes] | [Updated equipment loadout committed] | [Changes must be committed before transition begins] |
+| [e.g., Player closes inventory (Back/B/Esc)] | [Previous state â€?Exploration] | [Overlay pop â€?game resumes] | [Updated equipment loadout committed] | [Changes must be committed before transition begins] |
 | [e.g., Player selects "Equip" on item] | [Same screen, updated state] | [In-place state change] | [Loadout change event fired] | [No navigation, just a state refresh] |
 | [e.g., Player navigates to Map from inventory shortcut] | [Map Screen] | [Replace] | [No data] | [Inventory state is preserved if player returns] |

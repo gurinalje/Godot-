@@ -437,7 +437,7 @@ function runTests() {
   }
   
   console.log('\n💡 提示: 在Godot中运行测试:');
-  console.log('   godot --headless --script tests/run_tests.gd');
+  console.log('   godot --path game --headless --script tests/run_tests.gd');
   
   return true;
 }

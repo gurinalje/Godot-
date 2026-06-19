@@ -22,7 +22,7 @@ scope creep.
 
 Locate the baseline scope document for the given argument:
 
-- **Feature name** â†?read `design/gdd/[feature].md` or matching file in `design/`
+- **Feature name** â†?read `game/design/gdd/[feature].md` or matching file in `design/`
 - **Sprint number** (e.g., `sprint-3`) â†?read `production/sprints/sprint-03.md` or similar
 - **Milestone** â†?read `production/milestones/[name].md`
 

@@ -12,7 +12,7 @@ Read the task description from the argument. If the description is too vague to 
 
 Read CLAUDE.md for project context: tech stack, coding standards, architectural patterns, and any estimation guidelines.
 
-Read relevant design documents from `design/gdd/` if the task relates to a documented feature or system.
+Read relevant design documents from `game/design/gdd/` if the task relates to a documented feature or system.
 
 ---
 
@@ -113,7 +113,7 @@ Generated: [Date]
 
 Output the estimate with a brief summary: recommended budget, confidence level, and the single biggest risk factor.
 
-This skill is read-only â€” no files are written. Verdict: **COMPLETE** â€” estimate generated.
+This skill is read-only â€?no files are written. Verdict: **COMPLETE** â€?estimate generated.
 
 ---
 
@@ -127,5 +127,5 @@ This skill is read-only â€” no files are written. Verdict: **COMPLETE** â€” esti
 
 - Always give a range (optimistic / expected / pessimistic), never a single number
 - The recommended budget should be the expected estimate, not the optimistic one
-- Round to half-day increments â€” estimating in hours implies false precision for tasks longer than a day
-- Do not pad estimates silently â€” call out risk explicitly so the team can decide
+- Round to half-day increments â€?estimating in hours implies false precision for tasks longer than a day
+- Do not pad estimates silently â€?call out risk explicitly so the team can decide

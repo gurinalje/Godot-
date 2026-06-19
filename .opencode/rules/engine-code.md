@@ -1,13 +1,13 @@
 ---
 paths:
-  - "src/core/**"
+  - "game/src/core/**"
 ---
 
 # Engine Code Rules
 
-- ZERO allocations in hot paths (update loops, rendering, physics) â€” pre-allocate, pool, reuse
+- ZERO allocations in hot paths (update loops, rendering, physics) â€?pre-allocate, pool, reuse
 - All engine APIs must be thread-safe OR explicitly documented as single-thread-only
-- Profile before AND after every optimization â€” document the measured numbers
+- Profile before AND after every optimization â€?document the measured numbers
 - Engine code must NEVER depend on gameplay code (strict dependency direction: engine <- gameplay)
 - Every public API must have usage examples in its doc comment
 - Changes to public interfaces require a deprecation period and migration guide
@@ -17,7 +17,7 @@ paths:
 
 ## Examples
 
-**Correct** (zero-alloc hot path â€” GDScript / Godot):
+**Correct** (zero-alloc hot path â€?GDScript / Godot):
 
 ```gdscript
 # Pre-allocated array reused each frame
@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
     _spatial_grid.query_radius(position, radius, _nearby_cache)
 ```
 
-**Correct** (zero-alloc hot path â€” C++ / SFML):
+**Correct** (zero-alloc hot path â€?C++ / SFML):
 
 ```cpp
 // Pre-allocated vertex buffer reused each frame
@@ -42,7 +42,7 @@ void update(float dt) {
 }
 ```
 
-**Incorrect** (allocating in hot path â€” GDScript / Godot):
+**Incorrect** (allocating in hot path â€?GDScript / Godot):
 
 ```gdscript
 func _physics_process(delta: float) -> void:
@@ -50,7 +50,7 @@ func _physics_process(delta: float) -> void:
     nearby = get_tree().get_nodes_in_group("enemies")  # VIOLATION: tree query every frame
 ```
 
-**Incorrect** (allocating in hot path â€” C++ / Raylib):
+**Incorrect** (allocating in hot path â€?C++ / Raylib):
 
 ```cpp
 void Update() {
@@ -78,11 +78,11 @@ void Update() {
 
 ## Cross-References
 
-- Agent: `engine-programmer` â€” owns engine code
-- Agent: `godot-specialist` â€” Godot-specific engine patterns
-- Agent: `sfml-specialist` â€” SFML 3-specific engine patterns
-- Agent: `raylib-specialist` â€” Raylib-specific engine patterns
-- Agent: `performance-analyst` â€” profiles engine performance
-- Agent: `technical-director` â€” approves engine architecture
-- Rule: `network-code.md` â€” transport layer dependency
-- Rule: `test-standards.md` â€” engine-level test patterns
+- Agent: `engine-programmer` â€?owns engine code
+- Agent: `godot-specialist` â€?Godot-specific engine patterns
+- Agent: `sfml-specialist` â€?SFML 3-specific engine patterns
+- Agent: `raylib-specialist` â€?Raylib-specific engine patterns
+- Agent: `performance-analyst` â€?profiles engine performance
+- Agent: `technical-director` â€?approves engine architecture
+- Rule: `network-code.md` â€?transport layer dependency
+- Rule: `test-standards.md` â€?engine-level test patterns

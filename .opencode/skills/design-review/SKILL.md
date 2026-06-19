@@ -10,23 +10,23 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, question
 
 Extract `--depth [full|lean|solo]` if present. Default is `full` when no flag is given.
 
-**Note**: `--depth` controls the *analysis depth* of this skill (how many specialist agents are spawned). It is independent of the global review mode in `production/review-mode.txt`, which controls director gate spawning. These are two different concepts â€” `--depth` is about how thoroughly *this* skill analyses the document.
+**Note**: `--depth` controls the *analysis depth* of this skill (how many specialist agents are spawned). It is independent of the global review mode in `production/review-mode.txt`, which controls director gate spawning. These are two different concepts â€?`--depth` is about how thoroughly *this* skill analyses the document.
 
-- **`full`**: Complete review â€” all phases + specialist agent delegation (Phase 3b)
-- **`lean`**: All phases, no specialist agents â€” faster, single-session analysis
-- **`solo`**: Phases 1-4 only, no delegation, no Phase 5 next-step prompt â€” use when called from within another skill
+- **`full`**: Complete review â€?all phases + specialist agent delegation (Phase 3b)
+- **`lean`**: All phases, no specialist agents â€?faster, single-session analysis
+- **`solo`**: Phases 1-4 only, no delegation, no Phase 5 next-step prompt â€?use when called from within another skill
 
 ---
 
 ## Phase 1: Load Documents
 
-Read the target design document in full. Read CLAUDE.md to understand project context and standards. Read related design documents referenced or implied by the target doc (check `design/gdd/` for related systems).
+Read the target design document in full. Read CLAUDE.md to understand project context and standards. Read related design documents referenced or implied by the target doc (check `game/design/gdd/` for related systems).
 
-**Dependency graph validation:** For every system listed in the Dependencies section, use Glob to check whether its GDD file exists in `design/gdd/`. Flag any that don't exist yet â€” these are broken references that downstream authors will hit.
+**Dependency graph validation:** For every system listed in the Dependencies section, use Glob to check whether its GDD file exists in `game/design/gdd/`. Flag any that don't exist yet â€?these are broken references that downstream authors will hit.
 
-**Lore/narrative alignment:** If `design/gdd/game-concept.md` or any file in `design/narrative/` exists, read it. Note any mechanical choices in this GDD that contradict established world rules, tone, or design pillars. Pass this context to `game-designer` in Phase 3b.
+**Lore/narrative alignment:** If `game/design/gdd/game-concept.md` or any file in `design/narrative/` exists, read it. Note any mechanical choices in this GDD that contradict established world rules, tone, or design pillars. Pass this context to `game-designer` in Phase 3b.
 
-**Prior review check:** Check whether `design/gdd/reviews/[doc-name]-review-log.md` exists. If it does, read the most recent entry â€” note what verdict was given and what blocking items were listed. This session is a re-review; track whether prior items were addressed.
+**Prior review check:** Check whether `game/design/gdd/reviews/[doc-name]-review-log.md` exists. If it does, read the most recent entry â€?note what verdict was given and what blocking items were listed. This session is a re-review; track whether prior items were addressed.
 
 ---
 
@@ -71,11 +71,11 @@ Evaluate against the Design Document Standard checklist:
 **This phase is MANDATORY in full mode.** Do not skip it.
 
 **Before spawning any agents**, print this notice:
-> "Full review: spawning specialist agents in parallel. This typically takes 8â€“15 minutes. Use `--review lean` for faster single-session analysis."
+> "Full review: spawning specialist agents in parallel. This typically takes 8â€?5 minutes. Use `--review lean` for faster single-session analysis."
 
-### Step 1 â€” Identify all domains the GDD touches
+### Step 1 â€?Identify all domains the GDD touches
 
-Read the GDD and identify every domain present. A GDD can touch multiple domains simultaneously â€” be thorough. Common signals:
+Read the GDD and identify every domain present. A GDD can touch multiple domains simultaneously â€?be thorough. Common signals:
 
 | If the GDD contains... | Spawn these agents |
 |------------------------|-------------------|
@@ -97,9 +97,9 @@ Read the GDD and identify every domain present. A GDD can touch multiple domains
 
 **Always spawn `game-designer` and `systems-designer` as a baseline minimum.** Every GDD touches their domain.
 
-### Step 2 â€” Spawn all relevant specialists in parallel
+### Step 2 â€?Spawn all relevant specialists in parallel
 
-**CRITICAL: Task in this skill spawns a SUBAGENT â€” a separate independent Claude session
+**CRITICAL: Task in this skill spawns a SUBAGENT â€?a separate independent Claude session
 with its own context window. It is NOT task tracking. Do NOT simulate specialist
 perspectives internally. Do NOT reason through domain views yourself. You MUST issue
 actual Task calls. A simulated review is not a specialist review.**
@@ -108,7 +108,7 @@ Issue all Task calls simultaneously. Do NOT spawn one at a time.
 
 **Prompt each specialist adversarially:**
 > "Here is the GDD for [system] and the main review's structural findings so far.
-> Your job is NOT to validate this design â€” your job is to find problems.
+> Your job is NOT to validate this design â€?your job is to find problems.
 > Challenge the design choices from your domain expertise. What is wrong,
 > underspecified, likely to cause problems, or missing entirely?
 > Be specific and critical. Disagreement with the main review is welcome."
@@ -117,18 +117,18 @@ Issue all Task calls simultaneously. Do NOT spawn one at a time.
 
 - **`game-designer`**: Anchor your review to the Player Fantasy stated in Section B of this GDD. Does this design actually deliver that fantasy? Would a player feel the intended experience? Flag any rules that serve implementability but undermine the stated feeling.
 
-- **`systems-designer`**: For every formula in the GDD, plug in boundary values (minimum and maximum plausible inputs). Report whether any outputs go degenerate â€” negative values, division by zero, infinity, or nonsensical results at the extremes.
+- **`systems-designer`**: For every formula in the GDD, plug in boundary values (minimum and maximum plausible inputs). Report whether any outputs go degenerate â€?negative values, division by zero, infinity, or nonsensical results at the extremes.
 
-- **`qa-lead`**: Review every acceptance criterion. Flag any that are not independently testable â€” phrases like "feels balanced", "works correctly", "performs well" are not ACs. Suggest concrete rewrites for any that fail this test.
+- **`qa-lead`**: Review every acceptance criterion. Flag any that are not independently testable â€?phrases like "feels balanced", "works correctly", "performs well" are not ACs. Suggest concrete rewrites for any that fail this test.
 
-### Step 3 â€” Senior lead review
+### Step 3 â€?Senior lead review
 
 After all specialists respond, spawn `creative-director` as the **senior reviewer**:
 - Provide: the GDD, all specialist findings, any disagreements between them
 - Ask: "Synthesise these findings. What are the most important issues? Do you agree with the specialists? What is your overall verdict on this design?"
 - The creative-director's synthesis becomes the **final verdict** in Phase 4.
 
-### Step 4 â€” Surface disagreements
+### Step 4 â€?Surface disagreements
 
 If specialists disagree with each other or with the creative-director, do NOT silently pick one view. Present the disagreement explicitly in Phase 4 so the user can adjudicate.
 
@@ -141,25 +141,25 @@ Mark every finding with its source: `[game-designer]`, `[economy-designer]`, `[c
 ```
 ## Design Review: [Document Title]
 Specialists consulted: [list agents spawned]
-Re-review: [Yes â€” prior verdict was X on YYYY-MM-DD / No â€” first review]
+Re-review: [Yes â€?prior verdict was X on YYYY-MM-DD / No â€?first review]
 
 ### Completeness: [X/8 sections present]
 [List missing sections]
 
 ### Dependency Graph
 [List each declared dependency and whether its GDD file exists on disk]
-- âœ“ enemy-definition-data.md â€” exists
-- âœ— loot-system.md â€” NOT FOUND (file does not exist yet)
+- âœ?enemy-definition-data.md â€?exists
+- âœ?loot-system.md â€?NOT FOUND (file does not exist yet)
 
 ### Required Before Implementation
-[Numbered list â€” blocking issues only. Each item tagged with source agent.]
+[Numbered list â€?blocking issues only. Each item tagged with source agent.]
 
 ### Recommended Revisions
-[Numbered list â€” important but not blocking. Source-tagged.]
+[Numbered list â€?important but not blocking. Source-tagged.]
 
 ### Specialist Disagreements
 [Any cases where agents disagreed with each other or with the main review.
-Present both sides â€” do not silently resolve.]
+Present both sides â€?do not silently resolve.]
 
 ### Nice-to-Have
 [Minor improvements, low priority.]
@@ -170,16 +170,16 @@ Present both sides â€” do not silently resolve.]
 ### Scope Signal
 Estimate implementation scope based on: dependency count, formula count,
 systems touched, and whether new ADRs are required.
-- **S** â€” single system, no formulas, no new ADRs, <3 dependencies
-- **M** â€” moderate complexity, 1-2 formulas, 3-6 dependencies
-- **L** â€” multi-system integration, 3+ formulas, may require new ADR
-- **XL** â€” cross-cutting concern, 5+ dependencies, multiple new ADRs likely
+- **S** â€?single system, no formulas, no new ADRs, <3 dependencies
+- **M** â€?moderate complexity, 1-2 formulas, 3-6 dependencies
+- **L** â€?multi-system integration, 3+ formulas, may require new ADR
+- **XL** â€?cross-cutting concern, 5+ dependencies, multiple new ADRs likely
 Label clearly: "Rough scope signal: M (producer should verify before sprint planning)"
 
 ### Verdict: [APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED]
 ```
 
-This skill is read-only â€” no files are written during Phase 4.
+This skill is read-only â€?no files are written during Phase 4.
 
 ---
 
@@ -187,46 +187,46 @@ This skill is read-only â€” no files are written during Phase 4.
 
 Use `question` for ALL closing interactions. Never plain text.
 
-**First widget â€” what to do next:**
+**First widget â€?what to do next:**
 
-If APPROVED (first-pass, no revision needed), proceed directly to the systems-index widget, review-log widget, then the final closing widget. Do not show a separate "what to do" widget â€” the final closing widget covers next steps.
+If APPROVED (first-pass, no revision needed), proceed directly to the systems-index widget, review-log widget, then the final closing widget. Do not show a separate "what to do" widget â€?the final closing widget covers next steps.
 
 If NEEDS REVISION or MAJOR REVISION NEEDED, options:
-- `[A] Revise the GDD now â€” address blocking items together`
-- `[B] Stop here â€” revise in a separate session`
+- `[A] Revise the GDD now â€?address blocking items together`
+- `[B] Stop here â€?revise in a separate session`
 - `[C] Accept as-is and move on (only if all items are advisory)`
 
-**If user selects [A] â€” Revise now:**
+**If user selects [A] â€?Revise now:**
 
-Work through all blocking items, asking for design decisions only where you cannot resolve the issue from the GDD and existing docs alone. Group all design-decision questions into a single multi-tab `question` before making any edits â€” do not interrupt mid-revision for each blocker individually.
+Work through all blocking items, asking for design decisions only where you cannot resolve the issue from the GDD and existing docs alone. Group all design-decision questions into a single multi-tab `question` before making any edits â€?do not interrupt mid-revision for each blocker individually.
 
-After all revisions are complete, show a summary table (blocker â†’ fix applied) and use `question` for a **post-revision closing widget**:
+After all revisions are complete, show a summary table (blocker â†?fix applied) and use `question` for a **post-revision closing widget**:
 
-- Prompt: "Revisions complete â€” [N] blockers resolved. What next?"
-- Note current context usage: if context is above ~50%, add: "(Recommended: /clear before re-review â€” this session has used X% context. A full re-review runs 5 agents and needs clean context.)"
+- Prompt: "Revisions complete â€?[N] blockers resolved. What next?"
+- Note current context usage: if context is above ~50%, add: "(Recommended: /clear before re-review â€?this session has used X% context. A full re-review runs 5 agents and needs clean context.)"
 - Options:
-  - `[A] Re-review in a new session â€” run /design-review [doc-path] after /clear`
-  - `[B] Accept revisions and mark Approved â€” update systems index, skip re-review`
-  - `[C] Move to next system â€” /design-system [next-system] (#N in design order)`
+  - `[A] Re-review in a new session â€?run /design-review [doc-path] after /clear`
+  - `[B] Accept revisions and mark Approved â€?update systems index, skip re-review`
+  - `[C] Move to next system â€?/design-system [next-system] (#N in design order)`
   - `[D] Stop here`
 
 Never end the revision flow with plain text. Always close with this widget.
 
-**Second widget â€” systems index update (always show this separately):**
+**Second widget â€?systems index update (always show this separately):**
 
 Use a second `question`:
-- Prompt: "May I update `design/gdd/systems-index.md` to mark [system] as [In Review / Approved]?"
-- Options: `[A] Yes â€” update it` / `[B] No â€” leave it as-is`
+- Prompt: "May I update `game/design/gdd/systems-index.md` to mark [system] as [In Review / Approved]?"
+- Options: `[A] Yes â€?update it` / `[B] No â€?leave it as-is`
 
-**Third widget â€” review log (always offer):**
+**Third widget â€?review log (always offer):**
 
 Use a third `question`:
-- Prompt: "May I append this review summary to `design/gdd/reviews/[doc-name]-review-log.md`? This creates a revision history so future re-reviews can track what changed."
-- Options: `[A] Yes â€” append to review log` / `[B] No â€” skip`
+- Prompt: "May I append this review summary to `game/design/gdd/reviews/[doc-name]-review-log.md`? This creates a revision history so future re-reviews can track what changed."
+- Options: `[A] Yes â€?append to review log` / `[B] No â€?skip`
 
 If yes, append an entry in this format:
 ```
-## Review â€” [YYYY-MM-DD] â€” Verdict: [APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED]
+## Review â€?[YYYY-MM-DD] â€?Verdict: [APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED]
 Scope signal: [S/M/L/XL]
 Specialists: [list]
 Blocking items: [count] | Recommended: [count]
@@ -236,22 +236,22 @@ Prior verdict resolved: [Yes / No / First review]
 
 ---
 
-**Final closing widget â€” always show after all file writes complete:**
+**Final closing widget â€?always show after all file writes complete:**
 
 Once the systems-index and review-log widgets are answered, check project state and show one final `question`:
 
 Before building options, read:
-- `design/gdd/systems-index.md` â€” find any system with Status: In Review or NEEDS REVISION (other than the one just reviewed)
-- Count `.md` files in `design/gdd/` (excluding game-concept.md, systems-index.md) to determine if `/review-all-gdds` is worth offering (â‰¥2 GDDs)
+- `game/design/gdd/systems-index.md` â€?find any system with Status: In Review or NEEDS REVISION (other than the one just reviewed)
+- Count `.md` files in `game/design/gdd/` (excluding game-concept.md, systems-index.md) to determine if `/review-all-gdds` is worth offering (â‰? GDDs)
 - Find the next system with Status: Not Started in design order
 
-Build the option list dynamically â€” only include options that are genuinely next:
-- `[_] Run /design-review [other-gdd-path] â€” [system name] is still [In Review / NEEDS REVISION]` (include if another GDD needs review)
-- `[_] Run /consistency-check â€” verify this GDD's values don't conflict with existing GDDs` (always include if â‰¥1 other GDD exists)
-- `[_] Run /review-all-gdds â€” holistic design-theory review across all designed systems` (include if â‰¥2 GDDs exist)
-- `[_] Run /design-system [next-system] â€” next in design order` (always include, name the actual system)
+Build the option list dynamically â€?only include options that are genuinely next:
+- `[_] Run /design-review [other-gdd-path] â€?[system name] is still [In Review / NEEDS REVISION]` (include if another GDD needs review)
+- `[_] Run /consistency-check â€?verify this GDD's values don't conflict with existing GDDs` (always include if â‰? other GDD exists)
+- `[_] Run /review-all-gdds â€?holistic design-theory review across all designed systems` (include if â‰? GDDs exist)
+- `[_] Run /design-system [next-system] â€?next in design order` (always include, name the actual system)
 - `[_] Stop here`
 
-Assign letters A, B, Câ€¦ only to included options. Mark the most pipeline-advancing option as `(recommended)`.
+Assign letters A, B, Câ€?only to included options. Mark the most pipeline-advancing option as `(recommended)`.
 
 Never end the skill with plain text after file writes. Always close with this widget.

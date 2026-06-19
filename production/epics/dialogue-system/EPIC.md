@@ -1,9 +1,9 @@
 # Epic: dialogue-system
 
 > **Layer**: core
-> **GDD**: design/gdd/dialogue-system.md
+> **GDD**: game/design/gdd/dialogue-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories dialogue-system`
+> **Stories**: Not yet created â€?run `/create-stories dialogue-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the dialogue-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-dialogue-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-dialogue-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-dialogue-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-dialogue-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

@@ -1,9 +1,9 @@
 # Epic: skill-tree-system
 
 > **Layer**: core
-> **GDD**: design/gdd/skill-tree-system.md
+> **GDD**: game/design/gdd/skill-tree-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories skill-tree-system`
+> **Stories**: Not yet created â€?run `/create-stories skill-tree-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the skill-tree-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-skill-tree-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-skill-tree-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-skill-tree-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-skill-tree-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

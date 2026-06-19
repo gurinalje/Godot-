@@ -16,7 +16,7 @@
     "aseprite": {
       "type": "local",
       "command": ["python", "-m", "aseprite_mcp"],
-      "cwd": "tools/aseprite-mcp",
+      "cwd": "game/tools/aseprite-mcp",
       "enabled": true,
       "env": {
         "ASEPRITE_PATH": "D:\\ziyuan\\Aseprite\\build\\bin\\aseprite.exe"

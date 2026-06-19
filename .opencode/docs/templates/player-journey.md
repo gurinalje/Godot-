@@ -3,7 +3,7 @@
 > **Status**: Draft | In Review | Approved
 > **Author**: [game-designer / creative-director]
 > **Last Updated**: [Date]
-> **Links To**: `design/gdd/game-concept.md`, `design/gdd/game-pillars.md`
+> **Links To**: `game/design/gdd/game-concept.md`, `game/design/gdd/game-pillars.md`
 
 ---
 
@@ -22,14 +22,14 @@ reaches a state of confident mastery where they generate their own challenges an
 share their discoveries with others."
 
 If this arc cannot be described in one paragraph, the emotional design is not
-yet clear enough â€” resolve that ambiguity before filling in the phases below.]
+yet clear enough â€?resolve that ambiguity before filling in the phases below.]
 
 ---
 
 ## Target Player Archetype
 
 [3-4 lines describing the player's MINDSET and gaming literacy, not their
-demographics. Demographics answer "who are they" â€” this answers "how do they
+demographics. Demographics answer "who are they" â€?this answers "how do they
 approach games."
 
 Describe: What expectations do they carry from other games? How patient are
@@ -50,7 +50,7 @@ when the game trusts them to figure things out."]
 > **Guidance**: The six phases below are the standard template. Not all phases
 > apply to all games. A short narrative game may not have Habitual Play or
 > Long-Term Engagement. A puzzle game may compress Orientation into First Contact.
-> Delete or merge phases that genuinely do not apply â€” do not fill them with
+> Delete or merge phases that genuinely do not apply â€?do not fill them with
 > placeholder values to make the template look complete.
 
 ---
@@ -60,14 +60,14 @@ when the game trusts them to figure things out."]
 **Emotional state on arrival**: [What is the player feeling before they touch
 the game? They may be skeptical (purchased on impulse), curious (followed
 recommendations), or expectant (been waiting for it). This state is your
-starting condition â€” your design must meet them there.]
+starting condition â€?your design must meet them there.]
 
 **Primary question the player is asking**: [e.g., "Is this worth my time?",
 "Will this be too hard?", "Do I understand what I'm supposed to do?"]
 
 **Key experience the game must deliver**:
 [What MUST happen in these five minutes for the player to stay? Not a tutorial
-beat â€” an emotional beat. The first contact experience should answer the player's
+beat â€?an emotional beat. The first contact experience should answer the player's
 primary question with a confident "yes." It may be a moment of beauty, a
 satisfying mechanical click, a surprising twist on a familiar genre pattern, or
 an early win that feels earned.]
@@ -93,7 +93,7 @@ They are forming their first mental model of what this game is.]
 **Key experience the game must deliver**:
 [This is the window where the player builds their foundational mental model.
 Describe the one or two "aha" moments that crystallize the game's identity.
-The player should feel competence growing â€” their predictions about the game
+The player should feel competence growing â€?their predictions about the game
 should start coming true. They should also catch their first glimpse of depth:
 a system or interaction that hints "this goes further than I thought."]
 
@@ -116,12 +116,11 @@ understand.]
 "What's possible if I get good at this?", "What am I missing?"]
 
 **Key experience the game must deliver**:
-[This is the phase where the player earns their first genuine skill victory â€”
-a moment where something that was hard becomes easy through their own growth,
+[This is the phase where the player earns their first genuine skill victory â€?a moment where something that was hard becomes easy through their own growth,
 not through the game getting easier. It should feel like crossing a threshold.
 They should also discover their first piece of emergent depth: a system
 interaction, a build synergy, or a hidden mechanic that rewards curiosity.
-According to Csikszentmihalyi's flow model, challenge must scale here â€” introduce
+According to Csikszentmihalyi's flow model, challenge must scale here â€?introduce
 the first real test of the skills they've been building.]
 
 **Emotional state on exit**: [e.g., "Proud of a specific decision or victory",
@@ -144,7 +143,7 @@ to see its limits. They are ready to discover that there is more.]
 
 **Key experience the game must deliver**:
 [This is where the game's true depth must reveal itself. Players who reach this
-phase are your core audience â€” they have cleared the onboarding and proven their
+phase are your core audience â€?they have cleared the onboarding and proven their
 commitment. They should discover systems, combinations, or strategies that
 recontextualize everything they have done so far. The world should feel larger
 than the tutorial implied. This is also the phase where Bartle's Explorers find
@@ -182,7 +181,7 @@ The player generates their own challenges, pursues optional content, or begins
 competing (against the game, other players, or their own records). This phase
 sustains through Bartle's Achiever motivations: collection completion, mastery
 benchmarks, visible milestones. It also requires natural session endings that
-leave forward tension â€” the player should always stop with something unfinished
+leave forward tension â€?the player should always stop with something unfinished
 that they want to return to.]
 
 **Emotional state on exit**: [e.g., "Has a specific goal they are working toward
@@ -197,7 +196,7 @@ strong opinions about it."]
 
 ### Phase 6: Long-Term Engagement (50+ hours)
 
-> *Note: Only applies to games designed for extended play â€” live service games,
+> *Note: Only applies to games designed for extended play â€?live service games,
 > deeply systemic games, competitive games, and games with community-driven
 > content. Delete this phase if it does not fit the game's design intent.*
 
@@ -211,7 +210,7 @@ the top?", "Can I find something no one has found before?"]
 [Long-term engagement is sustained by different mechanisms than initial fun:
 social status, creative expression, competitive standing, or the role of expert
 and guide. Design for this phase by asking what role a veteran player wants to
-play in the ecosystem â€” not just what content they want to consume. Systems
+play in the ecosystem â€?not just what content they want to consume. Systems
 that enable knowledge transfer (guides, community sharing, mentorship) dramatically
 extend this phase.]
 
@@ -225,7 +224,7 @@ social influence with them, accelerating churn in the broader player base."]
 
 ## Critical Moments
 
-> **Guidance**: These are specific, individual events â€” not phases â€” that
+> **Guidance**: These are specific, individual events â€?not phases â€?that
 > must land with precision. A critical moment is a single interaction, scene,
 > or beat that carries outsized emotional weight. Missing it (through bad UX,
 > poor timing, or weak feedback) can derail the entire journey. Identify 8-15
@@ -233,11 +232,11 @@ social influence with them, accelerating churn in the broader player base."]
 
 | Moment | Phase | Emotional Target | If It Fails |
 |--------|-------|-----------------|-------------|
-| [The first death] | [First Contact] | [Surprise followed by understanding â€” "I see what I did wrong"] | [Player feels the death was unfair and loses trust in the game's fairness] |
-| [The first big win] | [Orientation] | [Earned pride â€” "I figured that out myself"] | [Player feels the win was handed to them and undervalues it] |
-| [The first system discovery] | [First Mastery] | [Delight â€” "I didn't know you could do that"] | [Player misses it entirely and never discovers the depth] |
-| [The moment the world opens up] | [Depth Discovery] | [Awe followed by hunger â€” "How much more is there?"] | [Player feels underwhelmed and concludes they have seen everything] |
-| [The first endgame goal] | [Habitual Play] | [Renewed purpose â€” "Now I have something to work toward"] | [Player completes the main content and feels finished] |
+| [The first death] | [First Contact] | [Surprise followed by understanding â€?"I see what I did wrong"] | [Player feels the death was unfair and loses trust in the game's fairness] |
+| [The first big win] | [Orientation] | [Earned pride â€?"I figured that out myself"] | [Player feels the win was handed to them and undervalues it] |
+| [The first system discovery] | [First Mastery] | [Delight â€?"I didn't know you could do that"] | [Player misses it entirely and never discovers the depth] |
+| [The moment the world opens up] | [Depth Discovery] | [Awe followed by hunger â€?"How much more is there?"] | [Player feels underwhelmed and concludes they have seen everything] |
+| [The first endgame goal] | [Habitual Play] | [Renewed purpose â€?"Now I have something to work toward"] | [Player completes the main content and feels finished] |
 | [Add moment] | [Phase] | [Emotional target] | [Failure consequence] |
 
 ---
@@ -249,7 +248,7 @@ social influence with them, accelerating churn in the broader player base."]
 > only one hook type has a fragile retention loop. Strong games layer multiple
 > hook types, so players with different motivations all have a reason to return.
 >
-> Map each hook to the systems that deliver it â€” if a hook has no system behind
+> Map each hook to the systems that deliver it â€?if a hook has no system behind
 > it, it is an aspiration, not a design.
 
 | Hook Type | Hook Description | Systems That Deliver It |
@@ -263,7 +262,7 @@ social influence with them, accelerating churn in the broader player base."]
 
 ## Player Progression Feel
 
-[Describe HOW the player should experience their progression â€” not the mechanical
+[Describe HOW the player should experience their progression â€?not the mechanical
 system (that belongs in GDDs), but the FEELING of growing.
 
 Choose the primary progression feeling and describe what it should feel like in
@@ -291,7 +290,7 @@ concretely look and feel like at the beginning, middle, and end of the journey?]
 
 > **Guidance**: Anti-patterns are recurring design mistakes that reliably
 > break the player journey. List the ones most relevant to this specific game
-> and how the design actively guards against them. Be specific â€” "avoid bad UX"
+> and how the design actively guards against them. Be specific â€?"avoid bad UX"
 > is not an anti-pattern, it is a platitude.
 
 - **[Player feels punished for experimenting]**: [e.g., "The crafting system
@@ -302,7 +301,7 @@ concretely look and feel like at the beginning, middle, and end of the journey?]
   warning the player could have noticed."]
 - **[Difficulty spike creates a wall, not a gate]**: [e.g., "When a player
   fails an encounter three times, the game surfaces a contextual hint. A wall
-  stops progress; a gate requires the right key â€” make sure players know what
+  stops progress; a gate requires the right key â€?make sure players know what
   key they need."]
 - **[Player reaches the content ceiling before the emotional arc completes]**:
   [e.g., "The game should never run out of content while the player still has
@@ -318,7 +317,7 @@ concretely look and feel like at the beginning, middle, and end of the journey?]
 
 > **Guidance**: These are questions a playtester session facilitator asks
 > during or after a session to verify the journey is working as intended.
-> They are not yes/no questions â€” they probe the player's emotional experience
+> They are not yes/no questions â€?they probe the player's emotional experience
 > and surface gaps between design intent and player reality.
 
 **First Contact (0-5 min)**

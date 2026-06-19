@@ -37,7 +37,7 @@ Before reading any full document, use Grep to extract `## Summary` sections
 from all GDDs and ADRs:
 
 ```
-Grep pattern="## Summary" glob="design/gdd/*.md" output_mode="content" -A 4
+Grep pattern="## Summary" glob="game/design/gdd/*.md" output_mode="content" -A 4
 Grep pattern="## Summary" glob="docs/architecture/adr-*.md" output_mode="content" -A 3
 ```
 
@@ -54,8 +54,8 @@ For `coverage` or `full` mode: proceed to full-read everything below.
 Read all inputs appropriate to the mode:
 
 ### Design Documents
-- All in-scope GDDs in `design/gdd/` â€?read every file completely
-- `design/gdd/systems-index.md` â€?the authoritative list of systems
+- All in-scope GDDs in `game/design/gdd/` â€?read every file completely
+- `game/design/gdd/systems-index.md` â€?the authoritative list of systems
 
 ### Architecture Documents
 - All in-scope ADRs in `docs/architecture/` â€?read every file completely
@@ -180,7 +180,7 @@ story file:
 
 ### Step 3b-2 â€?Load test files
 
-Glob `tests/unit/**/*_test.*` and `tests/integration/**/*_test.*`.
+Glob `game/tests/unit/**/*_test.*` and `game/tests/integration/**/*_test.*`.
 Build an index: system â†?[test file paths].
 
 For each test file path from Step 3b-1, confirm via Glob whether the file
@@ -202,7 +202,7 @@ Extended matrix format:
 
 | TR-ID | GDD | Requirement | ADR | Story | Test File | Test Status |
 |-------|-----|-------------|-----|-------|-----------|-------------|
-| TR-combat-001 | combat.md | Hitbox < 1 frame | ADR-0003 | story-001-hitbox.md | tests/unit/combat/hitbox_test.gd | COVERED |
+| TR-combat-001 | combat.md | Hitbox < 1 frame | ADR-0003 | story-001-hitbox.md | game/tests/unit/combat/hitbox_test.gd | COVERED |
 | TR-combat-002 | combat.md | Combo window | â€?| story-002-combo.md | â€?| NONE (Visual/Feel) |
 | TR-inventory-001 | inventory.md | Persistent storage | ADR-0005 | â€?| â€?| NO STORY |
 ```

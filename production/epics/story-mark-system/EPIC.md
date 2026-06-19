@@ -1,9 +1,9 @@
 # Epic: story-mark-system
 
 > **Layer**: core
-> **GDD**: design/gdd/story-mark-system.md
+> **GDD**: game/design/gdd/story-mark-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories story-mark-system`
+> **Stories**: Not yet created â€?run `/create-stories story-mark-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the story-mark-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-story-mark-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-story-mark-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-story-mark-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-story-mark-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

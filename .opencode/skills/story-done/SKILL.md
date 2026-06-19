@@ -21,9 +21,9 @@ forgotten, and the story file reflects actual completion status.
 ## Phase 1: Find the Story
 
 Resolve the review mode (once, store for all gate spawns this run):
-1. If `--review [full|lean|solo]` was passed â†’ use that
-2. Else read `production/review-mode.txt` â†’ use that value
-3. Else â†’ default to `lean`
+1. If `--review [full|lean|solo]` was passed â†?use that
+2. Else read `production/review-mode.txt` â†?use that value
+3. Else â†?default to `lean`
 
 See `.opencode/docs/director-gates.md` for the full check pattern.
 
@@ -50,22 +50,22 @@ Read the full story file. Extract and hold in context:
 - **GDD Requirement TR-ID(s)** referenced (e.g., `TR-combat-001`)
 - **Manifest Version** embedded in the story header (e.g., `2026-03-10`)
 - **ADR reference(s)** referenced
-- **Acceptance Criteria** â€” the complete list (every checkbox item)
-- **Implementation files** â€” files listed under "files to create/modify"
-- **Story Type** â€” the `Type:` field from the story header (Logic / Integration / Visual/Feel / UI / Config/Data)
-- **Engine notes** â€” any engine-specific constraints noted
-- **Definition of Done** â€” if present, the story-level DoD
-- **Estimated vs actual scope** â€” if an estimate was noted
+- **Acceptance Criteria** â€?the complete list (every checkbox item)
+- **Implementation files** â€?files listed under "files to create/modify"
+- **Story Type** â€?the `Type:` field from the story header (Logic / Integration / Visual/Feel / UI / Config/Data)
+- **Engine notes** â€?any engine-specific constraints noted
+- **Definition of Done** â€?if present, the story-level DoD
+- **Estimated vs actual scope** â€?if an estimate was noted
 
 Also read:
-- `docs/architecture/tr-registry.yaml` â€” look up each TR-ID in the story.
+- `docs/architecture/tr-registry.yaml` â€?look up each TR-ID in the story.
   Read the *current* `requirement` text from the registry entry. This is the
-  source of truth for what the GDD required â€” do not use any requirement text
+  source of truth for what the GDD required â€?do not use any requirement text
   that may be quoted inline in the story (it may be stale).
-- The referenced GDD section â€” just the acceptance criteria and key rules, not
+- The referenced GDD section â€?just the acceptance criteria and key rules, not
   the full document. Use this to cross-check the registry text is still accurate.
-- The referenced ADR(s) â€” just the Decision and Consequences sections
-- `docs/architecture/control-manifest.md` header â€” extract the current
+- The referenced ADR(s) â€?just the Decision and Consequences sections
+- `docs/architecture/control-manifest.md` header â€?extract the current
   `Manifest Version:` date (used in Phase 4 staleness check)
 
 ---
@@ -89,19 +89,19 @@ three methods:
 
 - Criteria about subjective qualities ("feels responsive", "animations play correctly")
 - Criteria about gameplay behaviour ("player takes damage when...", "enemy responds to...")
-- Performance criteria ("completes within Xms") â€” ask if profiled or accept as assumed
+- Performance criteria ("completes within Xms") â€?ask if profiled or accept as assumed
 
 Batch up to 4 manual verification questions into a single `question` call:
 
 ```
 question: "Does [criterion]?"
-options: "Yes â€” passes", "No â€” fails", "Not tested yet"
+options: "Yes â€?passes", "No â€?fails", "Not tested yet"
 ```
 
 ### Unverifiable (flag without blocking)
 
 - Criteria that require a full game build to test (end-to-end gameplay scenarios)
-- Mark as: `DEFERRED â€” requires playtest session`
+- Mark as: `DEFERRED â€?requires playtest session`
 
 ### Test-Criterion Traceability
 
@@ -110,30 +110,30 @@ criterion to the test that covers it:
 
 For each acceptance criterion in the story:
 
-1. Ask: is there a test â€” unit, integration, or confirmed manual playtest â€” that
+1. Ask: is there a test â€?unit, integration, or confirmed manual playtest â€?that
    directly verifies this criterion?
-   - **Unit test**: check `tests/unit/` for a test file or function name that
+   - **Unit test**: check `game/tests/unit/` for a test file or function name that
      matches the criterion's subject (use `Glob` and `Grep`)
-   - **Integration test**: check `tests/integration/` similarly
+   - **Integration test**: check `game/tests/integration/` similarly
    - **Manual confirmation**: if the criterion was verified via `question`
-     above with a "Yes â€” passes" answer, count that as a manual test
+     above with a "Yes â€?passes" answer, count that as a manual test
 
 2. Produce a traceability table:
 
 ```
 | Criterion | Test | Status |
 |-----------|------|--------|
-| AC-1: [criterion text] | tests/unit/test_foo.gd::test_bar | COVERED |
+| AC-1: [criterion text] | game/tests/unit/test_foo.gd::test_bar | COVERED |
 | AC-2: [criterion text] | Manual playtest confirmation | COVERED |
-| AC-3: [criterion text] | â€” | UNTESTED |
+| AC-3: [criterion text] | â€?| UNTESTED |
 ```
 
 3. Apply these escalation rules:
 
-   - If **>50% of criteria are UNTESTED**: escalate to **BLOCKING** â€” test
+   - If **>50% of criteria are UNTESTED**: escalate to **BLOCKING** â€?test
      coverage is insufficient to confirm the story is actually done. The verdict
      in Phase 6 cannot be COMPLETE until coverage improves.
-   - If **some (â‰¤50%) criteria are UNTESTED**: remain ADVISORY â€” does not block
+   - If **some (â‰?0%) criteria are UNTESTED**: remain ADVISORY â€?does not block
      completion, but must appear in Completion Notes.
    - If **all criteria are COVERED**: no action needed beyond including the
      table in the report.
@@ -147,15 +147,15 @@ Based on the Story Type extracted in Phase 2, check for required evidence:
 
 | Story Type | Required Evidence | Gate Level |
 |---|---|---|
-| **Logic** | Automated unit test in `tests/unit/[system]/` â€” must exist and pass | BLOCKING |
-| **Integration** | Integration test in `tests/integration/[system]/` OR playtest doc | BLOCKING |
+| **Logic** | Automated unit test in `game/tests/unit/[system]/` â€?must exist and pass | BLOCKING |
+| **Integration** | Integration test in `game/tests/integration/[system]/` OR playtest doc | BLOCKING |
 | **Visual/Feel** | Screenshot + sign-off in `production/qa/evidence/` | ADVISORY |
 | **UI** | Manual walkthrough doc OR interaction test in `production/qa/evidence/` | ADVISORY |
 | **Config/Data** | Smoke check pass report in `production/qa/smoke-*.md` | ADVISORY |
 
 **For Logic stories**: first read the story's **Test Evidence** section to extract the
 exact required file path. Use `Glob` to check that exact path. If the exact path is not
-found, also search `tests/unit/[system]/` broadly (the file may have been placed at a
+found, also search `game/tests/unit/[system]/` broadly (the file may have been placed at a
 slightly different location). If no test file is found at either location:
 - Flag as **BLOCKING**: "Logic story has no unit test file. Story requires it at
   `[exact-path-from-Test-Evidence-section]`. Create and run the test before marking
@@ -163,20 +163,18 @@ slightly different location). If no test file is found at either location:
 
 **For Integration stories**: read the story's **Test Evidence** section for the exact
 required path. Use `Glob` to check that exact path first, then search
-`tests/integration/[system]/` broadly, then check `production/session-logs/` for a
+`game/tests/integration/[system]/` broadly, then check `production/session-logs/` for a
 playtest record referencing this story.
 If none found: flag as **BLOCKING** (same rule as Logic).
 
 **For Visual/Feel and UI stories**: glob `production/qa/evidence/` for a file
-referencing this story. If none: flag as **ADVISORY** â€”
-"No manual test evidence found. Create `production/qa/evidence/[story-slug]-evidence.md`
+referencing this story. If none: flag as **ADVISORY** â€?"No manual test evidence found. Create `production/qa/evidence/[story-slug]-evidence.md`
 using the test-evidence template and obtain sign-off before final closure."
 
 **For Config/Data stories**: check for any `production/qa/smoke-*.md` file.
-If none: flag as **ADVISORY** â€” "No smoke check report found. Run `/smoke-check`."
+If none: flag as **ADVISORY** â€?"No smoke check report found. Run `/smoke-check`."
 
-**If no Story Type is set**: flag as **ADVISORY** â€”
-"Story Type not declared. Add `Type: [Logic|Integration|Visual/Feel|UI|Config/Data]`
+**If no Story Type is set**: flag as **ADVISORY** â€?"Story Type not declared. Add `Type: [Logic|Integration|Visual/Feel|UI|Config/Data]`
 to the story header to enable test evidence gate enforcement in future stories."
 
 Any BLOCKING test evidence gap prevents the COMPLETE verdict in Phase 6.
@@ -191,18 +189,18 @@ Run these checks automatically:
 
 1. **GDD rules check**: Using the current requirement text from `tr-registry.yaml`
    (looked up by the story's TR-ID), check that the implementation reflects what
-   the GDD actually requires now â€” not what it required when the story was written.
+   the GDD actually requires now â€?not what it required when the story was written.
    `Grep` the implemented files for key function names, data structures, or class
    names mentioned in the current GDD section.
 
 2. **Manifest version staleness check**: Compare the `Manifest Version:` date
    embedded in the story header against the `Manifest Version:` date in the
    current `docs/architecture/control-manifest.md` header.
-   - If they match â†’ pass silently.
-   - If the story's version is older â†’ flag as ADVISORY:
+   - If they match â†?pass silently.
+   - If the story's version is older â†?flag as ADVISORY:
      `ADVISORY: Story was written against manifest v[story-date]; current manifest
      is v[current-date]. New rules may apply. Run /story-readiness to check.`
-   - If control-manifest.md does not exist â†’ skip this check.
+   - If control-manifest.md does not exist â†?skip this check.
 
 3. **ADR constraints check**: Read the referenced ADR's Decision section. Check
    for forbidden patterns from `docs/architecture/control-manifest.md` (if it
@@ -216,21 +214,21 @@ Run these checks automatically:
 
 For each deviation found, categorize:
 
-- **BLOCKING** â€” implementation contradicts the GDD or ADR (must fix before
+- **BLOCKING** â€?implementation contradicts the GDD or ADR (must fix before
   marking complete)
-- **ADVISORY** â€” implementation drifts slightly from spec but is functionally
+- **ADVISORY** â€?implementation drifts slightly from spec but is functionally
   equivalent (document, user decides)
-- **OUT OF SCOPE** â€” additional files were touched beyond the story's stated
-  boundary (flag for awareness â€” may be valid or scope creep)
+- **OUT OF SCOPE** â€?additional files were touched beyond the story's stated
+  boundary (flag for awareness â€?may be valid or scope creep)
 
 ---
 
 ## Phase 4b: QA Coverage Gate
 
-**Review mode check** â€” apply before spawning QL-TEST-COVERAGE:
-- `solo` â†’ skip. Note: "QL-TEST-COVERAGE skipped â€” Solo mode." Proceed to Phase 5.
-- `lean` â†’ skip (not a PHASE-GATE). Note: "QL-TEST-COVERAGE skipped â€” Lean mode." Proceed to Phase 5.
-- `full` â†’ spawn as normal.
+**Review mode check** â€?apply before spawning QL-TEST-COVERAGE:
+- `solo` â†?skip. Note: "QL-TEST-COVERAGE skipped â€?Solo mode." Proceed to Phase 5.
+- `lean` â†?skip (not a PHASE-GATE). Note: "QL-TEST-COVERAGE skipped â€?Lean mode." Proceed to Phase 5.
+- `full` â†?spawn as normal.
 
 After completing the deviation checks in Phase 4, spawn `qa-lead` via Task using gate **QL-TEST-COVERAGE** (`.opencode/docs/director-gates.md`).
 
@@ -240,12 +238,12 @@ Pass:
 - The story's `## QA Test Cases` section (the pre-written test specs from story creation)
 - The story's `## Acceptance Criteria` list
 
-The qa-lead reviews whether the tests actually cover what was specified â€” not just whether files exist.
+The qa-lead reviews whether the tests actually cover what was specified â€?not just whether files exist.
 
 Apply the verdict:
-- **ADEQUATE** â†’ proceed to Phase 5
-- **GAPS** â†’ flag as **ADVISORY**: "QA lead identified coverage gaps: [list]. Story can complete but gaps should be addressed in a follow-up story."
-- **INADEQUATE** â†’ flag as **BLOCKING**: "QA lead: critical logic is untested. Verdict cannot be COMPLETE until coverage improves. Specific gaps: [list]."
+- **ADEQUATE** â†?proceed to Phase 5
+- **GAPS** â†?flag as **ADVISORY**: "QA lead identified coverage gaps: [list]. Story can complete but gaps should be addressed in a follow-up story."
+- **INADEQUATE** â†?flag as **BLOCKING**: "QA lead: critical logic is untested. Verdict cannot be COMPLETE until coverage improves. Specific gaps: [list]."
 
 Skip this phase for Config/Data stories (no code tests required).
 
@@ -253,10 +251,10 @@ Skip this phase for Config/Data stories (no code tests required).
 
 ## Phase 5: Lead Programmer Code Review Gate
 
-**Review mode check** â€” apply before spawning LP-CODE-REVIEW:
-- `solo` â†’ skip. Note: "LP-CODE-REVIEW skipped â€” Solo mode." Proceed to Phase 6 (completion report).
-- `lean` â†’ skip (not a PHASE-GATE). Note: "LP-CODE-REVIEW skipped â€” Lean mode." Proceed to Phase 6 (completion report).
-- `full` â†’ spawn as normal.
+**Review mode check** â€?apply before spawning LP-CODE-REVIEW:
+- `solo` â†?skip. Note: "LP-CODE-REVIEW skipped â€?Solo mode." Proceed to Phase 6 (completion report).
+- `lean` â†?skip (not a PHASE-GATE). Note: "LP-CODE-REVIEW skipped â€?Lean mode." Proceed to Phase 6 (completion report).
+- `full` â†?spawn as normal.
 
 Spawn `lead-programmer` via Task using gate **LP-CODE-REVIEW** (`.opencode/docs/director-gates.md`).
 
@@ -266,7 +264,7 @@ Present the verdict to the user. If CONCERNS, surface them via `question`:
 - Options: `Revise flagged issues` / `Accept and proceed` / `Discuss further`
 If REJECT, do not proceed to Phase 6 verdict until the issues are resolved.
 
-If the story has no implementation files yet (verdict is being run before coding is done), skip this phase and note: "LP-CODE-REVIEW skipped â€” no implementation files found. Run after implementation is complete."
+If the story has no implementation files yet (verdict is being run before coding is done), skip this phase and note: "LP-CODE-REVIEW skipped â€?no implementation files found. Run after implementation is complete."
 
 ---
 
@@ -280,31 +278,31 @@ Before updating any files, present the full report:
 **Date**: [today]
 
 ### Acceptance Criteria: [X/Y passing]
-- [x] [Criterion 1] â€” auto-verified (test passes)
-- [x] [Criterion 2] â€” confirmed
-- [ ] [Criterion 3] â€” FAILS: [reason]
-- [?] [Criterion 4] â€” DEFERRED: requires playtest
+- [x] [Criterion 1] â€?auto-verified (test passes)
+- [x] [Criterion 2] â€?confirmed
+- [ ] [Criterion 3] â€?FAILS: [reason]
+- [?] [Criterion 4] â€?DEFERRED: requires playtest
 
 ### Test-Criterion Traceability
 | Criterion | Test | Status |
 |-----------|------|--------|
 | AC-1: [text] | [test file::test name] | COVERED |
 | AC-2: [text] | Manual confirmation | COVERED |
-| AC-3: [text] | â€” | UNTESTED |
+| AC-3: [text] | â€?| UNTESTED |
 
 ### Test Evidence
 **Story Type**: [Logic | Integration | Visual/Feel | UI | Config/Data | Not declared]
 **Required evidence**: [unit test file | integration test or playtest | screenshot + sign-off | walkthrough doc | smoke check pass]
-**Evidence found**: [YES â€” `[path]` | NO â€” BLOCKING | NO â€” ADVISORY]
+**Evidence found**: [YES â€?`[path]` | NO â€?BLOCKING | NO â€?ADVISORY]
 
 ### Deviations
 [NONE] OR:
-- BLOCKING: [description] â€” [GDD/ADR reference]
-- ADVISORY: [description] â€” user accepted / flagged for tech debt
+- BLOCKING: [description] â€?[GDD/ADR reference]
+- ADVISORY: [description] â€?user accepted / flagged for tech debt
 
 ### Scope
 [All changes within stated scope] OR:
-- Extra files touched: [list] â€” [note whether valid or scope creep]
+- Extra files touched: [list] â€?[note whether valid or scope creep]
 
 ### Verdict: COMPLETE / COMPLETE WITH NOTES / BLOCKED
 ```
@@ -345,16 +343,16 @@ If yes, edit the story file:
    - Find the entry matching this story's file path or ID
    - Set `status: done` and `completed: [today's date]`
    - Update the top-level `updated` field
-   - This is a silent update â€” no extra approval needed (already approved in step above)
+   - This is a silent update â€?no extra approval needed (already approved in step above)
 
 ### Session State Update
 
 After updating the story file, silently append to
 `production/session-state/active.md`:
 
-    ## Session Extract â€” /story-done [date]
+    ## Session Extract â€?/story-done [date]
     - Verdict: [COMPLETE / COMPLETE WITH NOTES / BLOCKED]
-    - Story: [story file path] â€” [story title]
+    - Story: [story file path] â€?[story title]
     - Tech debt logged: [N items, or "None"]
     - Next recommended: [next ready story title and path, or "None identified"]
 
@@ -378,8 +376,8 @@ Present:
 ```
 ### Next Up
 The following stories are ready to pick up:
-1. [Story name] â€” [1-line description] â€” Est: [X hrs]
-2. [Story name] â€” [1-line description] â€” Est: [X hrs]
+1. [Story name] â€?[1-line description] â€?Est: [X hrs]
+2. [Story name] â€?[1-line description] â€?Est: [X hrs]
 
 Run `/story-readiness [path]` to confirm a story is implementation-ready
 before starting.
@@ -393,9 +391,9 @@ If no more Must Have stories remain in this sprint (all are Complete or Blocked)
 All Must Have stories are complete. QA sign-off is required before advancing.
 Run these in order:
 
-1. `/smoke-check sprint` â€” verify the critical path still works end-to-end
-2. `/team-qa sprint` â€” full QA cycle: test case execution, bug triage, sign-off report
-3. `/gate-check` â€” advance to the next phase once QA approves
+1. `/smoke-check sprint` â€?verify the critical path still works end-to-end
+2. `/team-qa sprint` â€?full QA cycle: test case execution, bug triage, sign-off report
+3. `/gate-check` â€?advance to the next phase once QA approves
 
 Do not run `/gate-check` until `/team-qa` returns APPROVED or APPROVED WITH CONDITIONS.
 ```
@@ -403,18 +401,18 @@ Do not run `/gate-check` until `/team-qa` returns APPROVED or APPROVED WITH COND
 If there are Should Have stories still unstarted, surface them alongside the close-out sequence so the user can choose: close the sprint now, or pull in more work first.
 
 If no more stories are ready but Must Have stories are still In Progress (not Complete):
-"No more stories ready to start â€” [N] Must Have stories still in progress. Continue implementing those before sprint close-out."
+"No more stories ready to start â€?[N] Must Have stories still in progress. Continue implementing those before sprint close-out."
 
 ---
 
 ## Collaborative Protocol
 
-- **Never mark a story complete without user approval** â€” Phase 7 requires an
+- **Never mark a story complete without user approval** â€?Phase 7 requires an
   explicit "yes" before any file is edited.
-- **Never auto-fix failing criteria** â€” report them and ask what to do.
-- **Deviations are facts, not judgments** â€” present them neutrally; the user
+- **Never auto-fix failing criteria** â€?report them and ask what to do.
+- **Deviations are facts, not judgments** â€?present them neutrally; the user
   decides if they are acceptable.
-- **BLOCKED verdict is advisory** â€” the user can override and mark complete
+- **BLOCKED verdict is advisory** â€?the user can override and mark complete
   anyway; document the risk explicitly if they do.
 - Use `question` for the code review prompt and for batching manual
   criteria confirmations.
@@ -424,5 +422,5 @@ If no more stories are ready but Must Have stories are still In Progress (not Co
 ## Recommended Next Steps
 
 - Run `/story-readiness [next-story-path]` to validate the next story before starting implementation
-- If all Must Have stories are complete: run `/smoke-check sprint` â†’ `/team-qa sprint` â†’ `/gate-check`
+- If all Must Have stories are complete: run `/smoke-check sprint` â†?`/team-qa sprint` â†?`/gate-check`
 - If tech debt was logged: track it via `/tech-debt` to keep the register current

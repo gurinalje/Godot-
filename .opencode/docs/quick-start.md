@@ -6,7 +6,7 @@ This is a complete OpenCode agent architecture for game development. It
 organizes 48 specialized AI agents into a studio hierarchy that mirrors
 real game development teams, with defined responsibilities, delegation
 rules, and coordination protocols. It includes engine-specialist agents
-for Godot, Unity, and Unreal â€” each with dedicated sub-specialists for
+for Godot, Unity, and Unreal â€?each with dedicated sub-specialists for
 major engine subsystems. All design agents and templates are grounded in
 established game design theory (MDA Framework, Self-Determination Theory,
 Flow State, Bartle Player Types). Use whichever engine set matches your project.
@@ -75,16 +75,16 @@ Ask yourself: "What department would handle this in a real studio?"
 
 | Command | What it does |
 |---------|-------------|
-| `/init-template` | First-time repo setup â€” customizes the cloned template with your game identity, engine, and team preferences |
-| `/start` | First-time onboarding â€” asks where you are, guides you to the right workflow |
-| `/help` | Context-aware "what do I do next?" â€” reads your current phase and artifacts |
+| `/init-template` | First-time repo setup â€?customizes the cloned template with your game identity, engine, and team preferences |
+| `/start` | First-time onboarding â€?asks where you are, guides you to the right workflow |
+| `/help` | Context-aware "what do I do next?" â€?reads your current phase and artifacts |
 | `/project-stage-detect` | Analyze project state, detect stage, identify gaps |
 | `/setup-engine` | Configure engine + version, populate reference docs |
 | `/adopt` | Brownfield audit and migration plan for existing projects |
 | `/brainstorm` | Guided game concept ideation from scratch |
 | `/map-systems` | Decompose concept into systems, map dependencies, guide per-system GDDs |
 | `/design-system` | Guided, section-by-section GDD authoring for a single game system |
-| `/quick-design` | Lightweight spec for small changes â€” tuning, tweaks, minor additions |
+| `/quick-design` | Lightweight spec for small changes â€?tuning, tweaks, minor additions |
 | `/review-all-gdds` | Cross-GDD consistency and game design theory review |
 | `/propagate-design-change` | Find ADRs and stories affected by a GDD change |
 | `/ux-design` | Author UX specs (screen/flow, HUD, interaction patterns) |
@@ -95,17 +95,17 @@ Ask yourself: "What department would handle this in a real studio?"
 | `/create-control-manifest` | Flat programmer rules sheet from Accepted ADRs |
 | `/create-epics` | Translate GDDs + ADRs into epics (one per architectural module) |
 | `/create-stories` | Break a single epic into implementable story files |
-| `/dev-story` | Read a story and implement it â€” routes to the correct programmer agent |
+| `/dev-story` | Read a story and implement it â€?routes to the correct programmer agent |
 | `/sprint-plan` | Creates or updates sprint plans |
 | `/sprint-status` | Quick 30-line sprint snapshot |
 | `/story-readiness` | Validate a story is implementation-ready before pickup |
-| `/story-done` | End-of-story completion review â€” verifies acceptance criteria |
+| `/story-done` | End-of-story completion review â€?verifies acceptance criteria |
 | `/estimate` | Produces structured effort estimates |
 | `/design-review` | Reviews a design document |
 | `/code-review` | Reviews code for quality and architecture |
 | `/balance-check` | Analyzes game balance data |
 | `/asset-audit` | Audits assets for compliance |
-| `/content-audit` | GDD-specified content vs. implemented â€” find gaps |
+| `/content-audit` | GDD-specified content vs. implemented â€?find gaps |
 | `/scope-check` | Detect scope creep against plan |
 | `/perf-profile` | Performance profiling and bottleneck ID |
 | `/tech-debt` | Scan, track, and prioritize tech debt |
@@ -132,7 +132,7 @@ Ask yourself: "What department would handle this in a real studio?"
 | `/team-audio` | Orchestrate full audio team pipeline |
 | `/team-level` | Orchestrate full level creation pipeline |
 | `/team-live-ops` | Orchestrate live-ops team for seasons, events, and post-launch content |
-| `/team-qa` | Orchestrate full QA team cycle â€” test plan, test cases, smoke check, sign-off |
+| `/team-qa` | Orchestrate full QA team cycle â€?test plan, test cases, smoke check, sign-off |
 | `/qa-plan` | Generate a QA test plan for a sprint or feature |
 | `/bug-triage` | Re-prioritize open bugs, assign to sprints, surface systemic trends |
 | `/smoke-check` | Run critical path smoke test gate before QA hand-off (PASS/FAIL) |
@@ -142,7 +142,7 @@ Ask yourself: "What department would handle this in a real studio?"
 | `/test-setup` | Scaffold test framework + CI pipeline for the project's engine (run once) |
 | `/test-helpers` | Generate engine-specific test helper libraries and factory functions |
 | `/test-flakiness` | Detect flaky tests from CI history, flag for quarantine or fix |
-| `/test-evidence-review` | Quality review of test files and manual evidence â€” ADEQUATE/INCOMPLETE/MISSING |
+| `/test-evidence-review` | Quality review of test files and manual evidence â€?ADEQUATE/INCOMPLETE/MISSING |
 | `/skill-test` | Validate skill files for compliance and correctness (static / spec / audit) |
 
 ### 4. Use Templates for New Documents
@@ -207,52 +207,52 @@ If you already know what you need, jump directly to the relevant path:
 
 ### Path A: "I have no idea what to build"
 
-1. **Run `/start`** (or `/brainstorm open`) â€” guided creative exploration:
+1. **Run `/start`** (or `/brainstorm open`) â€?guided creative exploration:
    what excites you, what you've played, your constraints
    - Generates 3 concepts, helps you pick one, defines core loop and pillars
    - Produces a game concept document and recommends an engine
-2. **Initialize your project** â€” Run `/init-template` to customize the template with your game name, engine, and clean out example files.
-3. **Set up the engine** â€” Run `/setup-engine` (uses the brainstorm recommendation)
+2. **Initialize your project** â€?Run `/init-template` to customize the template with your game name, engine, and clean out example files.
+3. **Set up the engine** â€?Run `/setup-engine` (uses the brainstorm recommendation)
    - Configures CLAUDE.md, detects knowledge gaps, populates reference docs
    - Creates `.opencode/docs/technical-preferences.md` with naming conventions,
      performance budgets, and engine-specific defaults
    - If the engine version is newer than the LLM's training data, it fetches
      current docs from the web so agents suggest correct APIs
-4. **Enhance with godot-mcp (Godot only)** â€” Install the optional MCP server
+4. **Enhance with godot-mcp (Godot only)** â€?Install the optional MCP server
    for automated editor control and smoke testing:
    ```bash
    npx @coding-solo/godot-mcp
    ```
    Once configured, run `/automated-smoke-test` to verify the project launches
    without errors.
-5. **Validate the concept** â€” Run `/design-review design/gdd/game-concept.md`
-6. **Decompose into systems** â€” Run `/map-systems` to map all systems and dependencies
-7. **Design each system** â€” Run `/design-system [system-name]` (or `/map-systems next`)
+5. **Validate the concept** â€?Run `/design-review game/design/gdd/game-concept.md`
+6. **Decompose into systems** â€?Run `/map-systems` to map all systems and dependencies
+7. **Design each system** â€?Run `/design-system [system-name]` (or `/map-systems next`)
    to write GDDs in dependency order
-8. **Test the core loop** â€” Run `/prototype [core-mechanic]`
-9. **Playtest it** â€” Run `/playtest-report` to validate the hypothesis
-10. **Plan the first sprint** â€” Run `/sprint-plan new`
+8. **Test the core loop** â€?Run `/prototype [core-mechanic]`
+9. **Playtest it** â€?Run `/playtest-report` to validate the hypothesis
+10. **Plan the first sprint** â€?Run `/sprint-plan new`
 11. Start building
 
 ### Path B: "I know what I want to build"
 
 If you already have a game concept and engine choice:
 
-1. **Set up the engine** â€” Run `/setup-engine [engine] [version]`
-   (e.g., `/setup-engine godot 4.6`) â€” also creates technical preferences
-2. **Write the Game Pillars** â€” delegate to `creative-director`
-3. **Decompose into systems** â€” Run `/map-systems` to enumerate systems and dependencies
-4. **Design each system** â€” Run `/design-system [system-name]` for GDDs in dependency order
-5. **Create the initial ADR** â€” Run `/architecture-decision`
+1. **Set up the engine** â€?Run `/setup-engine [engine] [version]`
+   (e.g., `/setup-engine godot 4.6`) â€?also creates technical preferences
+2. **Write the Game Pillars** â€?delegate to `creative-director`
+3. **Decompose into systems** â€?Run `/map-systems` to enumerate systems and dependencies
+4. **Design each system** â€?Run `/design-system [system-name]` for GDDs in dependency order
+5. **Create the initial ADR** â€?Run `/architecture-decision`
 6. **Create the first milestone** in `production/milestones/`
-7. **Plan the first sprint** â€” Run `/sprint-plan new`
+7. **Plan the first sprint** â€?Run `/sprint-plan new`
 8. Start building
 
 ### Path C: "I know the game but not the engine"
 
 If you have a concept but don't know which engine fits:
 
-1. **Run `/setup-engine`** with no arguments â€” it will ask about your game's
+1. **Run `/setup-engine`** with no arguments â€?it will ask about your game's
    needs (2D/3D, platforms, team size, language preferences) and recommend
    an engine based on your answers
 2. Follow Path B from step 2 onward
@@ -261,14 +261,14 @@ If you have a concept but don't know which engine fits:
 
 If you have design docs, prototypes, or code already:
 
-1. **Run `/start`** (or `/project-stage-detect`) â€” analyzes what exists,
+1. **Run `/start`** (or `/project-stage-detect`) â€?analyzes what exists,
    identifies gaps, and recommends next steps
-2. **Run `/adopt`** if you have existing GDDs, ADRs, or stories â€” audits
+2. **Run `/adopt`** if you have existing GDDs, ADRs, or stories â€?audits
    internal format compliance and builds a numbered migration plan to fill gaps
    without overwriting your existing work
-3. **Configure engine if needed** â€” Run `/setup-engine` if not yet configured
-4. **Validate phase readiness** â€” Run `/gate-check` to see where you stand
-5. **Plan the next sprint** â€” Run `/sprint-plan new`
+3. **Configure engine if needed** â€?Run `/setup-engine` if not yet configured
+4. **Validate phase readiness** â€?Run `/gate-check` to see where you stand
+5. **Plan the next sprint** â€?Run `/sprint-plan new`
 
 ### 6. Use Modules (Optional)
 

@@ -1,9 +1,9 @@
 # Epic: rule-rewriting-system
 
 > **Layer**: core
-> **GDD**: design/gdd/rule-rewriting-system.md
+> **GDD**: game/design/gdd/rule-rewriting-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories rule-rewriting-system`
+> **Stories**: Not yet created â€?run `/create-stories rule-rewriting-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the rule-rewriting-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-rule-rewriting-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-rule-rewriting-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-rule-rewriting-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-rule-rewriting-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

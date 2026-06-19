@@ -1,9 +1,9 @@
 # Epic: npc-system
 
 > **Layer**: feature
-> **GDD**: design/gdd/npc-system.md
+> **GDD**: game/design/gdd/npc-system.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories npc-system`
+> **Stories**: Not yet created â€?run `/create-stories npc-system`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the npc-system system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-npc-system-001 | Core implementation | ADR-0001 âœ… |
-| TR-npc-system-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-npc-system-001 | Core implementation | ADR-0001 âœ?|
+| TR-npc-system-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

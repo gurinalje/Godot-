@@ -9,14 +9,14 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, question
 ## Phase 0: Parse Arguments and Context Check
 
 Resolve the review mode (once, store for all gate spawns this run):
-1. If `--review [full|lean|solo]` was passed â†’ use that
-2. Else read `production/review-mode.txt` â†’ use that value
-3. Else â†’ default to `lean`
+1. If `--review [full|lean|solo]` was passed â†?use that
+2. Else read `production/review-mode.txt` â†?use that value
+3. Else â†?default to `lean`
 
 See `.opencode/docs/director-gates.md` for the full check pattern.
 
-Read `design/gdd/game-concept.md`. If it does not exist, fail with:
-> "No game concept found. Run `/brainstorm` first â€” the art bible is authored after the game concept is approved."
+Read `game/design/gdd/game-concept.md`. If it does not exist, fail with:
+> "No game concept found. Run `/brainstorm` first â€?the art bible is authored after the game concept is approved."
 
 Extract from game-concept.md:
 - Game title (working title)
@@ -45,12 +45,12 @@ Section | Status
 ```
 
 - Present this table to the user:
-  > "Found existing art bible at `design/art/art-bible.md`. [N] sections are complete, [M] need content. I'll work on the incomplete sections only â€” existing content will not be touched."
+  > "Found existing art bible at `design/art/art-bible.md`. [N] sections are complete, [M] need content. I'll work on the incomplete sections only â€?existing content will not be touched."
 - Only work on sections with Status: Empty or Placeholder. Do not re-author sections that are already complete.
 
-If the file does not exist, this is a fresh authoring session â€” proceed normally.
+If the file does not exist, this is a fresh authoring session â€?proceed normally.
 
-Read `.opencode/docs/technical-preferences.md` if it exists â€” extract performance budgets and engine for asset standard constraints.
+Read `.opencode/docs/technical-preferences.md` if it exists â€?extract performance budgets and engine for asset standard constraints.
 
 ---
 
@@ -59,23 +59,23 @@ Read `.opencode/docs/technical-preferences.md` if it exists â€” extract performa
 Present the session context and ask two questions before authoring anything:
 
 Use `question` with two tabs:
-- Tab **"Scope"** â€” "Which sections need to be authored today?"
-  Options: `Full bible â€” all 9 sections` / `Visual identity core (sections 1â€“4 only)` / `Asset standards only (section 8)` / `Resume â€” fill in missing sections`
-- Tab **"References"** â€” "Do you have reference games, films, or art that define the visual direction?"
-  (Free text â€” let the user type specific titles. Do NOT preset options here.)
+- Tab **"Scope"** â€?"Which sections need to be authored today?"
+  Options: `Full bible â€?all 9 sections` / `Visual identity core (sections 1â€? only)` / `Asset standards only (section 8)` / `Resume â€?fill in missing sections`
+- Tab **"References"** â€?"Do you have reference games, films, or art that define the visual direction?"
+  (Free text â€?let the user type specific titles. Do NOT preset options here.)
 
 If the game-concept.md has a Visual Identity Anchor section, note it:
-> "Found a visual identity anchor from brainstorm: '[anchor name] â€” [one-line rule]'. I'll use this as the foundation for the art bible."
+> "Found a visual identity anchor from brainstorm: '[anchor name] â€?[one-line rule]'. I'll use this as the foundation for the art bible."
 
 ---
 
-## Phase 2: Visual Identity Foundation (Sections 1â€“4)
+## Phase 2: Visual Identity Foundation (Sections 1â€?)
 
 These four sections define the core visual language. **All other sections flow from them.** Author and write each to file before moving to the next.
 
 ### Section 1: Visual Identity Statement
 
-**Goal**: A one-line visual rule plus 2â€“3 supporting principles that resolve visual ambiguity.
+**Goal**: A one-line visual rule plus 2â€? supporting principles that resolve visual ambiguity.
 
 If a visual anchor exists from game-concept.md: present it and ask:
 - "Build directly from this anchor?"
@@ -84,7 +84,7 @@ If a visual anchor exists from game-concept.md: present it and ask:
 
 **Agent delegation (MANDATORY)**: Spawn `art-director` via Task:
 - Provide: game concept (elevator pitch, core fantasy), full pillar set, platform target, any reference games/art from Phase 1 framing, the visual anchor if it exists
-- Ask: "Draft a Visual Identity Statement for this game. Provide: (1) a one-line visual rule that could resolve any visual decision ambiguity, (2) 2â€“3 supporting visual principles, each with a one-sentence design test ('when X is ambiguous, this principle says choose Y'). Anchor all principles directly in the stated pillars â€” each principle must serve a specific pillar."
+- Ask: "Draft a Visual Identity Statement for this game. Provide: (1) a one-line visual rule that could resolve any visual decision ambiguity, (2) 2â€? supporting visual principles, each with a one-sentence design test ('when X is ambiguous, this principle says choose Y'). Anchor all principles directly in the stated pillars â€?each principle must serve a specific pillar."
 
 Present the art-director's draft to the user. Use `question`:
 - Options: `[A] Lock this in` / `[B] Revise the one-liner` / `[C] Revise a supporting principle` / `[D] Describe my own direction`
@@ -93,15 +93,15 @@ Write the approved section to file immediately.
 
 ### Section 2: Mood & Atmosphere
 
-**Goal**: Emotional targets by game state â€” specific enough for a lighting artist to work from.
+**Goal**: Emotional targets by game state â€?specific enough for a lighting artist to work from.
 
-For each major game state (e.g., exploration, combat, victory, defeat, menus â€” adapt to this game's states), define:
+For each major game state (e.g., exploration, combat, victory, defeat, menus â€?adapt to this game's states), define:
 - Primary emotion/mood target
 - Lighting character (time of day, color temperature, contrast level)
-- Atmospheric descriptors (3â€“5 adjectives)
+- Atmospheric descriptors (3â€? adjectives)
 - Energy level (frenetic / measured / contemplative / etc.)
 
-**Agent delegation**: Spawn `art-director` via Task with the Visual Identity Statement and pillar set. Ask: "Define mood and atmosphere targets for each major game state in this game. Be specific â€” 'dark and foreboding' is not enough. Name the exact emotional target, the lighting character (warm/cool, high/low contrast, time of day direction), and at least one visual element that carries the mood. Each game state must feel visually distinct from the others."
+**Agent delegation**: Spawn `art-director` via Task with the Visual Identity Statement and pillar set. Ask: "Define mood and atmosphere targets for each major game state in this game. Be specific â€?'dark and foreboding' is not enough. Name the exact emotional target, the lighting character (warm/cool, high/low contrast, time of day direction), and at least one visual element that carries the mood. Each game state must feel visually distinct from the others."
 
 Write the approved section to file immediately.
 
@@ -111,7 +111,7 @@ Write the approved section to file immediately.
 
 Cover:
 - Character silhouette philosophy (how readable at thumbnail size? Distinguishing trait per archetype?)
-- Environment geometry (angular/curved/organic/geometric â€” which dominates and why?)
+- Environment geometry (angular/curved/organic/geometric â€?which dominates and why?)
 - UI shape grammar (does UI echo the world aesthetic, or is it a distinct HUD language?)
 - Hero shapes vs. supporting shapes (what draws the eye, what recedes?)
 
@@ -124,13 +124,13 @@ Write the approved section to file immediately.
 **Goal**: A complete, producible palette system that serves both aesthetic and communication needs.
 
 Cover:
-- Primary palette (5â€“7 colors with roles â€” not just hex codes, but what each color means in this world)
+- Primary palette (5â€? colors with roles â€?not just hex codes, but what each color means in this world)
 - Semantic color usage (what does red communicate? Gold? Blue? White? Establish the color vocabulary)
 - Per-biome or per-area color temperature rules (if the game has distinct areas)
-- UI palette (may differ from world palette â€” define the divergence explicitly)
+- UI palette (may differ from world palette â€?define the divergence explicitly)
 - Colorblind safety: which semantic colors need shape/icon/sound backup
 
-**Agent delegation**: Spawn `art-director` via Task with Visual Identity Statement and mood targets. Ask: "Design the color system for this game. Every semantic color assignment must be explained â€” why does this color mean danger/safety/reward in this world? Identify which color pairs might fail colorblind players and specify what backup cues are needed."
+**Agent delegation**: Spawn `art-director` via Task with Visual Identity Statement and mood targets. Ask: "Design the color system for this game. Every semantic color assignment must be explained â€?why does this color mean danger/safety/reward in this world? Identify which color pairs might fail colorblind players and specify what backup cues are needed."
 
 Write the approved section to file immediately.
 
@@ -142,11 +142,11 @@ After the color system is approved, write machine-readable palette files that to
 
 Write the approved palette data to **two files**:
 
-**`design/art/palette.json`** â€” Ask "May I export the palette as JSON?"
+**`design/art/palette.json`** â€?Ask "May I export the palette as JSON?"
 
 ```json
 {
-  "name": "[Game Title] â€” Color Palette",
+  "name": "[Game Title] â€?Color Palette",
   "generated": "[date]",
   "art-bible-source": "design/art/art-bible.md",
   "primary": [
@@ -154,7 +154,7 @@ Write the approved palette data to **two files**:
       "name": "Example Blue",
       "hex": "#4A90D9",
       "rgb": [74, 144, 217],
-      "role": "Primary hero color â€” used for player character and friendly elements",
+      "role": "Primary hero color â€?used for player character and friendly elements",
       "context": "world"
     }
   ],
@@ -170,7 +170,7 @@ Write the approved palette data to **two files**:
   ],
   "variants": [
     {
-      "name": "Forest Biome â€” Cool Shift",
+      "name": "Forest Biome â€?Cool Shift",
       "palette": ["#2E5E3E", "#4A8B5E", "#6BA37A"],
       "rule": "Subtract 15% saturation from primary palette, add 10% blue channel"
     }
@@ -178,7 +178,7 @@ Write the approved palette data to **two files**:
 }
 ```
 
-**`design/art/palette.css`** â€” Ask "May I export the palette as CSS custom properties?"
+**`design/art/palette.css`** â€?Ask "May I export the palette as CSS custom properties?"
 
 ```css
 :root {
@@ -199,34 +199,34 @@ Write the approved palette data to **two files**:
 }
 ```
 
-Both files together mean: palette.json â†’ 3D tools, palette.css â†’ web/UI prototyping, and both â†’ AI prompts ("use --color-primary as the dominant hue").
+Both files together mean: palette.json â†?3D tools, palette.css â†?web/UI prototyping, and both â†?AI prompts ("use --color-primary as the dominant hue").
 
 ---
 
 ## Phase 2.5: Production Reference Outputs
 
-These sections produce spec files that bridge visual identity â†’ actual asset production. Each is written to `design/art/` and feeds directly into `/asset-spec` generation.
+These sections produce spec files that bridge visual identity â†?actual asset production. Each is written to `design/art/` and feeds directly into `/asset-spec` generation.
 
 ### Section 4c: Typography Spec
 
 **Goal**: A complete typography system that covers both in-game UI and any marketing/branding materials.
 
-**Agent delegation**: Spawn `art-director` via Task with the Visual Identity Statement and mood targets. Ask: "Design the typography system for this game. Consider: font family recommendations (primary + fallback + monospace), what each font communicates about the game's world, weight hierarchy (headline, body, caption â€” exact weights), line height ratios, tracking/letter-spacing for UI use, and any custom typographic effects that define the game's text treatment (glow, stroke, distortion). If the game has a specific cultural or period setting, recommend fonts that serve that setting."
+**Agent delegation**: Spawn `art-director` via Task with the Visual Identity Statement and mood targets. Ask: "Design the typography system for this game. Consider: font family recommendations (primary + fallback + monospace), what each font communicates about the game's world, weight hierarchy (headline, body, caption â€?exact weights), line height ratios, tracking/letter-spacing for UI use, and any custom typographic effects that define the game's text treatment (glow, stroke, distortion). If the game has a specific cultural or period setting, recommend fonts that serve that setting."
 
 Cover:
-- **Primary display font** â€” used for titles, key UI headers, marketing. Name specific font families with fallback chains.
-- **Body text font** â€” used for dialogue, item descriptions, menus. Must be readable at small sizes.
-- **Monospace / data font** â€” used for damage numbers, timers, stats, code-like UI.
-- **Size scale** â€” base size, scale ratio, and named tiers (caption / body / lead / subhead / headline / display)
-- **Weight usage** â€” which weights map to which contexts (e.g., Bold for headers only, Regular for body)
-- **Special treatments** â€” any glow, outline, distortion, or animation applied to text elements
-- **Accessibility** â€” minimum size, contrast ratio against expected backgrounds
+- **Primary display font** â€?used for titles, key UI headers, marketing. Name specific font families with fallback chains.
+- **Body text font** â€?used for dialogue, item descriptions, menus. Must be readable at small sizes.
+- **Monospace / data font** â€?used for damage numbers, timers, stats, code-like UI.
+- **Size scale** â€?base size, scale ratio, and named tiers (caption / body / lead / subhead / headline / display)
+- **Weight usage** â€?which weights map to which contexts (e.g., Bold for headers only, Regular for body)
+- **Special treatments** â€?any glow, outline, distortion, or animation applied to text elements
+- **Accessibility** â€?minimum size, contrast ratio against expected backgrounds
 
 Write the approved section to `design/art/art-bible.md` Section 4c. Then ask: "May I export typography as JSON to `design/art/typography.json`?"
 
 ```json
 {
-  "name": "[Game Title] â€” Typography",
+  "name": "[Game Title] â€?Typography",
   "generated": "[date]",
   "art-bible-source": "design/art/art-bible.md",
   "fonts": {
@@ -266,12 +266,12 @@ Write the approved section to `design/art/art-bible.md` Section 4c. Then ask: "M
 
 **Goal**: A single AI-generation-ready prompt that captures the entire visual identity. Use this as a seed prompt for all subsequent asset generation in `/asset-spec`.
 
-**Agent delegation**: Spawn `art-director` via Task with the complete sections 1-4c (Visual Identity through Typography). Ask: "Write a single comprehensive visual anchor prompt for this game's art style. Structure it for use with AI image generation (Midjourney, Stable Diffusion, DALL-E). The prompt must be modular â€” use `--style` or `[style fragment]` markers so individual asset prompts can interpolate their subject into the style. Include: art style keywords, color palette anchor (reference the palette.json color names), lighting direction, composition philosophy, camera distance defaults, and strong negative prompts for what this style is NOT. The goal is: pasting this anchor + an asset description into any image generator produces output consistent with the art bible."
+**Agent delegation**: Spawn `art-director` via Task with the complete sections 1-4c (Visual Identity through Typography). Ask: "Write a single comprehensive visual anchor prompt for this game's art style. Structure it for use with AI image generation (Midjourney, Stable Diffusion, DALL-E). The prompt must be modular â€?use `--style` or `[style fragment]` markers so individual asset prompts can interpolate their subject into the style. Include: art style keywords, color palette anchor (reference the palette.json color names), lighting direction, composition philosophy, camera distance defaults, and strong negative prompts for what this style is NOT. The goal is: pasting this anchor + an asset description into any image generator produces output consistent with the art bible."
 
 Write the anchor to `design/art/style-anchor-prompt.md`:
 
 ```markdown
-# Visual Anchor Prompt â€” [Game Title]
+# Visual Anchor Prompt â€?[Game Title]
 
 > Generated: [date]
 > Art Bible: design/art/art-bible.md
@@ -286,7 +286,7 @@ lighting: soft warm directional from upper-left, no harsh shadows,
 colors: --color-primary dominant hue, --color-secondary for environment,
 --color-accent for points of interest,
 composition: centered subject, negative space breathing room,
-detail level: painterly â€” suggestive not photorealistic,
+detail level: painterly â€?suggestive not photorealistic,
 camera: medium distance, eye-level,
 negative: no photorealistic textures, no bloom, no lens flare,
 no gritty/dark fantasy tone, no cel-shading outlines, no anime eyes]
@@ -312,29 +312,29 @@ one eye glowing with --color-accent
 | [Cave] | Desaturate 30%, add 15% blue | Single hard light source from above |
 ```
 
-## Phase 3: Production Guides (Sections 5â€“8)
+## Phase 3: Production Guides (Sections 5â€?)
 
 These sections translate the visual identity into concrete production rules. They should be specific enough that an outsourcing team can follow them without additional briefing.
 
 ### Section 5: Character Design Direction
 
-**Agent delegation**: Spawn `art-director` via Task with sections 1â€“4. Ask: "Define character design direction for this game. Cover: visual archetype for the player character (if any), distinguishing feature rules per character type (how do players tell enemies/NPCs/allies apart at a glance?), expression/pose style targets (stiff/expressive/realistic/exaggerated), and LOD philosophy (how much detail is preserved at game camera distance?)."
+**Agent delegation**: Spawn `art-director` via Task with sections 1â€?. Ask: "Define character design direction for this game. Cover: visual archetype for the player character (if any), distinguishing feature rules per character type (how do players tell enemies/NPCs/allies apart at a glance?), expression/pose style targets (stiff/expressive/realistic/exaggerated), and LOD philosophy (how much detail is preserved at game camera distance?)."
 
 Write the approved section to file.
 
 ### Section 6: Environment Design Language
 
-**Agent delegation**: Spawn `art-director` via Task with sections 1â€“4. Ask: "Define the environment design language for this game. Cover: architectural style and its relationship to the world's culture/history, texture philosophy (painted vs. PBR vs. stylized â€” why this choice for this game?), prop density rules (sparse/dense â€” what drives the choice per area type?), and environmental storytelling guidelines (what visual details should tell the story without text?)."
+**Agent delegation**: Spawn `art-director` via Task with sections 1â€?. Ask: "Define the environment design language for this game. Cover: architectural style and its relationship to the world's culture/history, texture philosophy (painted vs. PBR vs. stylized â€?why this choice for this game?), prop density rules (sparse/dense â€?what drives the choice per area type?), and environmental storytelling guidelines (what visual details should tell the story without text?)."
 
 Write the approved section to file.
 
 ### Section 7: UI/HUD Visual Direction
 
 **Agent delegation**: Spawn in parallel:
-- **`art-director`**: Visual style for UI â€” diegetic vs. screen-space HUD, typography direction (font personality, weight, size hierarchy), iconography style (flat/outlined/illustrated/photorealistic), animation feel for UI elements
-- **`ux-designer`**: UX alignment check â€” does the visual direction support the interaction patterns this game requires? Flag any conflicts between art direction and readability/accessibility needs.
+- **`art-director`**: Visual style for UI â€?diegetic vs. screen-space HUD, typography direction (font personality, weight, size hierarchy), iconography style (flat/outlined/illustrated/photorealistic), animation feel for UI elements
+- **`ux-designer`**: UX alignment check â€?does the visual direction support the interaction patterns this game requires? Flag any conflicts between art direction and readability/accessibility needs.
 
-Collect both. If they conflict (e.g., art-director wants elaborate diegetic UI but ux-designer flags it would reduce combat readability), surface the conflict explicitly with both positions. Do NOT silently resolve â€” use `question` to let the user decide.
+Collect both. If they conflict (e.g., art-director wants elaborate diegetic UI but ux-designer flags it would reduce combat readability), surface the conflict explicitly with both positions. Do NOT silently resolve â€?use `question` to let the user decide.
 
 Write the approved section to file.
 
@@ -342,9 +342,9 @@ Write the approved section to file.
 
 **Agent delegation**: Spawn in parallel:
 - **`art-director`**: File format preferences, naming convention direction, texture resolution tiers, LOD level expectations, export settings philosophy
-- **`technical-artist`**: Engine-specific hard constraints â€” poly count budgets per asset category, texture memory limits, material slot counts, importer constraints, anything from the performance budgets in `.opencode/docs/technical-preferences.md`
+- **`technical-artist`**: Engine-specific hard constraints â€?poly count budgets per asset category, texture memory limits, material slot counts, importer constraints, anything from the performance budgets in `.opencode/docs/technical-preferences.md`
 
-If any art preference conflicts with a technical constraint (e.g., art-director wants 4K textures but performance budget requires 2K for mobile), resolve the conflict explicitly â€” note both the ideal and the constrained standard, and explain the tradeoff. Ambiguity in asset standards is where production costs are born.
+If any art preference conflicts with a technical constraint (e.g., art-director wants 4K textures but performance budget requires 2K for mobile), resolve the conflict explicitly â€?note both the ideal and the constrained standard, and explain the tradeoff. Ambiguity in asset standards is where production costs are born.
 
 Write the approved section to file.
 
@@ -354,7 +354,7 @@ Write the approved section to file.
 
 **Goal**: A curated reference set that is specific about what to take and what to avoid from each source.
 
-**Agent delegation**: Spawn `art-director` via Task with the completed sections 1â€“8. Ask: "Compile a reference direction for this game. Provide 3â€“5 reference sources (games, films, art styles, or specific artists). For each: name it, specify exactly what visual element to draw from it (not 'the general aesthetic' â€” a specific technique, color choice, or compositional rule), and specify what to explicitly avoid or diverge from (to prevent the 'trying to copy X' reading). References should be additive â€” no two references should be pointing in exactly the same direction."
+**Agent delegation**: Spawn `art-director` via Task with the completed sections 1â€?. Ask: "Compile a reference direction for this game. Provide 3â€? reference sources (games, films, art styles, or specific artists). For each: name it, specify exactly what visual element to draw from it (not 'the general aesthetic' â€?a specific technique, color choice, or compositional rule), and specify what to explicitly avoid or diverge from (to prevent the 'trying to copy X' reading). References should be additive â€?no two references should be pointing in exactly the same direction."
 
 Write the approved section to file.
 
@@ -373,7 +373,7 @@ For each reference source named in Section 9, generate 2-3 specific image search
 Use `question` to present the query list:
 - Prompt: "I'll search for reference images matching these queries. Each targets a specific visual element from the reference direction."
 - Show the query list as conversation text
-- Options: `[A] Proceed â€” search for all of these` / `[B] Add or remove queries` / `[C] Skip â€” I'll provide images myself`
+- Options: `[A] Proceed â€?search for all of these` / `[B] Add or remove queries` / `[C] Skip â€?I'll provide images myself`
 
 ### Step 2: Fetch and Catalog
 
@@ -387,48 +387,48 @@ The goal is to find:
 For each successful fetch, extract the page URL and note what visual element it demonstrates. Present findings:
 
 > Found [N] reference pages:
-> - [URL] â€” "Greenpath lighting â€” warm greens, soft dappled light" â€” matches Â§2 Mood targets
-> - [URL] â€” "Character silhouette â€” horned knight" â€” matches Â§3 Shape Language
-> - [URL] â€” "UI mockup â€” ornate border with gold accents" â€” matches Â§7 UI Direction
+> - [URL] â€?"Greenpath lighting â€?warm greens, soft dappled light" â€?matches Â§2 Mood targets
+> - [URL] â€?"Character silhouette â€?horned knight" â€?matches Â§3 Shape Language
+> - [URL] â€?"UI mockup â€?ornate border with gold accents" â€?matches Â§7 UI Direction
 
 ### Step 3: Write Reference Catalog
 
 Ask: "May I write the reference catalog to `design/art/reference-catalog.md`?"
 
 ```markdown
-# Reference Image Catalog â€” [Game Title]
+# Reference Image Catalog â€?[Game Title]
 
 > Generated: [date]
 > Art Bible: design/art/art-bible.md
 
 ## References by Art Bible Section
 
-### Â§2 Mood & Atmosphere â€” Lighting References
+### Â§2 Mood & Atmosphere â€?Lighting References
 | Image URL | Source | Element | Matches |
 |-----------|--------|---------|---------|
 | [url] | ArtStation | Warm green atmospheric lighting in cave | Â§2 Exploration mood |
-| [url] | Pinterest | Golden hour forest â€” warm directional light | Â§2 Combat energy |
+| [url] | Pinterest | Golden hour forest â€?warm directional light | Â§2 Combat energy |
 
-### Â§3 Shape Language â€” Silhouette References
+### Â§3 Shape Language â€?Silhouette References
 ...
 
-### Â§9 Reference Direction â€” Full Scene References
+### Â§9 Reference Direction â€?Full Scene References
 ...
 
 ## AI Generation Seed URLs
 
 Include these as image reference URLs (`--sref` or `--iw`) when generating:
-- [URL 1] â€” overall style anchor
-- [URL 2] â€” color palette exemplar
-- [URL 3] â€” lighting benchmark
+- [URL 1] â€?overall style anchor
+- [URL 2] â€?color palette exemplar
+- [URL 3] â€?lighting benchmark
 ```
 
 ---
 
-**Review mode check** â€” apply before spawning AD-ART-BIBLE:
-- `solo` â†’ skip. Note: "AD-ART-BIBLE skipped â€” Solo mode." Proceed to Phase 6.
-- `lean` â†’ skip (not a PHASE-GATE). Note: "AD-ART-BIBLE skipped â€” Lean mode." Proceed to Phase 6.
-- `full` â†’ spawn as normal.
+**Review mode check** â€?apply before spawning AD-ART-BIBLE:
+- `solo` â†?skip. Note: "AD-ART-BIBLE skipped â€?Solo mode." Proceed to Phase 6.
+- `lean` â†?skip (not a PHASE-GATE). Note: "AD-ART-BIBLE skipped â€?Lean mode." Proceed to Phase 6.
+- `full` â†?spawn as normal.
 
 After all sections are complete (or the scoped set from Phase 1 is complete), spawn `creative-director` via Task using gate **AD-ART-BIBLE** (`.opencode/docs/director-gates.md`).
 
@@ -442,37 +442,37 @@ Handle verdict per standard rules in `director-gates.md`. Record the verdict in 
 ## Phase 6: Close
 
 Before presenting next steps, check project state:
-- Does `design/gdd/systems-index.md` exist? â†’ map-systems is done, skip that option
-- Does `.opencode/docs/technical-preferences.md` contain a configured engine (not `[TO BE CONFIGURED]`)? â†’ setup-engine is done, skip that option
-- Does `design/gdd/` contain any `*.md` files? â†’ design-system has been run, skip that option
-- Does `design/gdd/gdd-cross-review-*.md` exist? â†’ review-all-gdds is done
-- Do GDDs exist (check above)? â†’ include /consistency-check option
+- Does `game/design/gdd/systems-index.md` exist? â†?map-systems is done, skip that option
+- Does `.opencode/docs/technical-preferences.md` contain a configured engine (not `[TO BE CONFIGURED]`)? â†?setup-engine is done, skip that option
+- Does `game/design/gdd/` contain any `*.md` files? â†?design-system has been run, skip that option
+- Does `game/design/gdd/gdd-cross-review-*.md` exist? â†?review-all-gdds is done
+- Do GDDs exist (check above)? â†?include /consistency-check option
 
 Use `question` for next steps. Only include options that are genuinely next based on the state check above:
 
-**Option pool â€” include only if not already done:**
-- `[_] Run /map-systems â€” decompose the concept into systems before writing GDDs` (skip if systems-index.md exists)
-- `[_] Run /setup-engine â€” configure the engine (asset standards may need revisiting after engine is set)` (skip if engine configured)
-- `[_] Run /design-system â€” start the first GDD` (skip if any GDDs exist)
-- `[_] Run /review-all-gdds â€” cross-GDD consistency check (required before Technical Setup gate)` (skip if gdd-cross-review-*.md exists)
-- `[_] Run /asset-spec â€” generate per-asset visual specs and AI generation prompts from approved GDDs` (include if GDDs exist)
-- `[_] Run /consistency-check â€” scan existing GDDs against the art bible for visual direction conflicts` (include if GDDs exist)
-- `[_] Run /create-architecture â€” author the master architecture document (next Technical Setup step)`
+**Option pool â€?include only if not already done:**
+- `[_] Run /map-systems â€?decompose the concept into systems before writing GDDs` (skip if systems-index.md exists)
+- `[_] Run /setup-engine â€?configure the engine (asset standards may need revisiting after engine is set)` (skip if engine configured)
+- `[_] Run /design-system â€?start the first GDD` (skip if any GDDs exist)
+- `[_] Run /review-all-gdds â€?cross-GDD consistency check (required before Technical Setup gate)` (skip if gdd-cross-review-*.md exists)
+- `[_] Run /asset-spec â€?generate per-asset visual specs and AI generation prompts from approved GDDs` (include if GDDs exist)
+- `[_] Run /consistency-check â€?scan existing GDDs against the art bible for visual direction conflicts` (include if GDDs exist)
+- `[_] Run /create-architecture â€?author the master architecture document (next Technical Setup step)`
 - `[_] Stop here`
 
-Assign letters A, B, Câ€¦ only to the options actually included. Mark the most logical pipeline-advancing option as `(recommended)`.
+Assign letters A, B, Câ€?only to the options actually included. Mark the most logical pipeline-advancing option as `(recommended)`.
 
-> **Always include** `/create-architecture` and Stop here as options â€” these are always valid next steps once the art bible is complete.
+> **Always include** `/create-architecture` and Stop here as options â€?these are always valid next steps once the art bible is complete.
 
 ---
 
 ## Collaborative Protocol
 
-Every section follows: **Question â†’ Options â†’ Decision â†’ Draft (from art-director agent) â†’ Approval â†’ Write to file**
+Every section follows: **Question â†?Options â†?Decision â†?Draft (from art-director agent) â†?Approval â†?Write to file**
 
 - Never draft a section without first spawning the relevant agent(s)
-- Write each section to file immediately after approval â€” do not batch
-- Surface all agent disagreements to the user â€” never silently resolve conflicts between art-director and technical-artist
+- Write each section to file immediately after approval â€?do not batch
+- Surface all agent disagreements to the user â€?never silently resolve conflicts between art-director and technical-artist
 - The art bible is a constraint document: it restricts future decisions in exchange for visual coherence. Every section should feel like it narrows the solution space productively.
 
 ---

@@ -12,7 +12,7 @@
 # Design Document Standards
 
 - All design docs use Markdown
-- Each mechanic has a dedicated document in `design/gdd/`
+- Each mechanic has a dedicated document in `game/design/gdd/`
 - Documents must include these 8 required sections:
   1. **Overview** -- one-paragraph summary
   2. **Player Fantasy** -- intended feeling and experience
@@ -32,8 +32,8 @@ All stories must have appropriate test evidence before they can be marked Done:
 
 | Story Type | Required Evidence | Location | Gate Level |
 |---|---|---|---|
-| **Logic** (formulas, AI, state machines) | Automated unit test â€” must pass | `tests/unit/[system]/` | BLOCKING |
-| **Integration** (multi-system) | Integration test OR documented playtest | `tests/integration/[system]/` | BLOCKING |
+| **Logic** (formulas, AI, state machines) | Automated unit test â€?must pass | `game/tests/unit/[system]/` | BLOCKING |
+| **Integration** (multi-system) | Integration test OR documented playtest | `game/tests/integration/[system]/` | BLOCKING |
 | **Visual/Feel** (animation, VFX, feel) | Screenshot + lead sign-off | `production/qa/evidence/` | ADVISORY |
 | **UI** (menus, HUD, screens) | Manual walkthrough doc OR interaction test | `production/qa/evidence/` | ADVISORY |
 | **Config/Data** (balance tuning) | Smoke check pass | `production/qa/smoke-[date].md` | ADVISORY |
@@ -41,11 +41,11 @@ All stories must have appropriate test evidence before they can be marked Done:
 ## Automated Test Rules
 
 - **Naming**: `[system]_[feature]_test.[ext]` for files; `test_[scenario]_[expected]` for functions
-- **Determinism**: Tests must produce the same result every run â€” no random seeds, no time-dependent assertions
+- **Determinism**: Tests must produce the same result every run â€?no random seeds, no time-dependent assertions
 - **Isolation**: Each test sets up and tears down its own state; tests must not depend on execution order
 - **No hardcoded data**: Test fixtures use constant files or factory functions, not inline magic numbers
   (exception: boundary value tests where the exact number IS the point)
-- **Independence**: Unit tests do not call external APIs, databases, or file I/O â€” use dependency injection
+- **Independence**: Unit tests do not call external APIs, databases, or file I/O â€?use dependency injection
 
 ## What NOT to Automate
 
@@ -57,8 +57,8 @@ All stories must have appropriate test evidence before they can be marked Done:
 ## CI/CD Rules
 
 - Automated test suite runs on every push to main and every PR
-- No merge if tests fail â€” tests are a blocking gate in CI
-- Never disable or skip failing tests to make CI pass â€” fix the underlying issue
+- No merge if tests fail â€?tests are a blocking gate in CI
+- Never disable or skip failing tests to make CI pass â€?fix the underlying issue
 - Engine-specific CI commands:
   - **Godot**: `godot --headless --script tests/gdunit4_runner.gd`
   - **Unity**: `game-ci/unity-test-runner@v4` (GitHub Actions)

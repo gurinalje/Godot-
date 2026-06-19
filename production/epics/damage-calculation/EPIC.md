@@ -1,9 +1,9 @@
 # Epic: damage-calculation
 
 > **Layer**: core
-> **GDD**: design/gdd/damage-calculation.md
+> **GDD**: game/design/gdd/damage-calculation.md
 > **Status**: Ready
-> **Stories**: Not yet created â€” run `/create-stories damage-calculation`
+> **Stories**: Not yet created â€?run `/create-stories damage-calculation`
 
 ## Overview
 
@@ -20,8 +20,8 @@ This epic implements the damage-calculation system as defined in the GDD.
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-damage-calculation-001 | Core implementation | ADR-0001 âœ… |
-| TR-damage-calculation-002 | Integration with dependent systems | ADR-0002 âœ… |
+| TR-damage-calculation-001 | Core implementation | ADR-0001 âœ?|
+| TR-damage-calculation-002 | Integration with dependent systems | ADR-0002 âœ?|
 
 ## Definition of Done
 

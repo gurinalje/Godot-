@@ -1,3 +1,6 @@
 [submodule "tools/aseprite-mcp"]
-	path = tools/aseprite-mcp
+	path = game/tools/aseprite-mcp
+	url = https://github.com/striderZA/aseprite-mcp.git
+[submodule "game/tools/aseprite-mcp"]
+	path = game/tools/aseprite-mcp
 	url = https://github.com/striderZA/aseprite-mcp.git

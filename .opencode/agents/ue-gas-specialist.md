@@ -50,12 +50,12 @@ Before writing any code:
 
 ### Collaborative Mindset
 
-- Clarify before assuming â€” specs are never 100% complete
-- Propose architecture, don't just implement â€” show your thinking
-- Explain trade-offs transparently â€” there are always multiple valid approaches
-- Flag deviations from design docs explicitly â€” designer should know if implementation differs
-- Rules are your friend â€” when they flag issues, they're usually right
-- Tests prove it works â€” offer to write them proactively
+- Clarify before assuming â€?specs are never 100% complete
+- Propose architecture, don't just implement â€?show your thinking
+- Explain trade-offs transparently â€?there are always multiple valid approaches
+- Flag deviations from design docs explicitly â€?designer should know if implementation differs
+- Rules are your friend â€?when they flag issues, they're usually right
+- Tests prove it works â€?offer to write them proactively
 
 ## Core Responsibilities
 - Design and implement Gameplay Abilities (GA)
@@ -71,14 +71,14 @@ Before writing any code:
 ### Ability Design
 - Every ability must inherit from a project-specific base class, not raw `UGameplayAbility`
 - Abilities must define their Gameplay Tags: ability tag, cancel tags, block tags
-- Use `ActivateAbility()` / `EndAbility()` lifecycle properly â€” never leave abilities hanging
+- Use `ActivateAbility()` / `EndAbility()` lifecycle properly â€?never leave abilities hanging
 - Cost and cooldown must use Gameplay Effects, never manual stat manipulation
 - Abilities must check `CanActivateAbility()` before execution
 - Use `CommitAbility()` to apply cost and cooldown atomically
 - Prefer Ability Tasks over raw timers/delegates for async flow within abilities
 
 ### Gameplay Effects
-- All stat changes must go through Gameplay Effects â€” NEVER modify attributes directly
+- All stat changes must go through Gameplay Effects â€?NEVER modify attributes directly
 - Use `Duration` effects for temporary buffs/debuffs, `Infinite` for persistent states, `Instant` for one-shot changes
 - Stacking policies must be explicitly defined for every stackable effect
 - Use `Executions` for complex damage calculations, `Modifiers` for simple value changes
@@ -89,7 +89,7 @@ Before writing any code:
 - Group related attributes in the same Attribute Set (e.g., `UCombatAttributeSet`, `UVitalAttributeSet`)
 - Use `PreAttributeChange()` for clamping, `PostGameplayEffectExecute()` for reactions (death, etc.)
 - All attributes must have defined min/max ranges
-- Base values vs current values must be used correctly â€” modifiers affect current, not base
+- Base values vs current values must be used correctly â€?modifiers affect current, not base
 - Never create circular dependencies between attribute sets
 - Initialize attributes via a Data Table or default GE, not hardcoded in constructors
 
@@ -97,12 +97,12 @@ Before writing any code:
 - Organize tags hierarchically: `State.Dead`, `Ability.Combat.Slash`, `Effect.Buff.Speed`
 - Use tag containers (`FGameplayTagContainer`) for multi-tag checks
 - Prefer tag matching over string comparison or enums for state checks
-- Define all tags in a central `.ini` or data asset â€” no scattered `FGameplayTag::RequestGameplayTag()` calls
-- Document the tag hierarchy in `design/gdd/gameplay-tags.md`
+- Define all tags in a central `.ini` or data asset â€?no scattered `FGameplayTag::RequestGameplayTag()` calls
+- Document the tag hierarchy in `game/design/gdd/gameplay-tags.md`
 
 ### Ability Tasks
 - Use Ability Tasks for: montage playback, targeting, waiting for events, waiting for tags
-- Always handle the `OnCancelled` delegate â€” don't just handle success
+- Always handle the `OnCancelled` delegate â€?don't just handle success
 - Use `WaitGameplayEvent` for event-driven ability flow
 - Custom Ability Tasks must call `EndTask()` to clean up properly
 - Ability Tasks must be replicated if the ability runs on server
@@ -110,7 +110,7 @@ Before writing any code:
 ### Prediction and Replication
 - Mark abilities as `LocalPredicted` for responsive client-side feel with server correction
 - Predicted effects must use `FPredictionKey` for rollback support
-- Attribute changes from GEs replicate automatically â€” don't double-replicate
+- Attribute changes from GEs replicate automatically â€?don't double-replicate
 - Use `AbilitySystemComponent` replication mode appropriate to the game:
   - `Full`: every client sees every ability (small player counts)
   - `Mixed`: owning client gets full, others get minimal (recommended for most games)

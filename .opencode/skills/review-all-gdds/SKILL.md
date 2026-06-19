@@ -46,7 +46,7 @@ Before reading any full document, use Grep to extract `## Summary` sections
 from all GDD files:
 
 ```
-Grep pattern="## Summary" glob="design/gdd/*.md" output_mode="content" -A 5
+Grep pattern="## Summary" glob="game/design/gdd/*.md" output_mode="content" -A 5
 ```
 
 Display a manifest to the user:
@@ -84,10 +84,10 @@ Run `/consistency-check` after this review to populate the registry."
 
 Full-read the in-scope documents:
 
-1. `design/gdd/game-concept.md` â€?game vision, core loop, MVP definition
-2. `design/gdd/game-pillars.md` if it exists â€?design pillars and anti-pillars
-3. `design/gdd/systems-index.md` â€?authoritative system list, layers, dependencies, status
-4. **Every in-scope system GDD in `design/gdd/`** â€?read completely (skip
+1. `game/design/gdd/game-concept.md` â€?game vision, core loop, MVP definition
+2. `game/design/gdd/game-pillars.md` if it exists â€?design pillars and anti-pillars
+3. `game/design/gdd/systems-index.md` â€?authoritative system list, layers, dependencies, status
+4. **Every in-scope system GDD in `game/design/gdd/`** â€?read completely (skip
    game-concept.md and systems-index.md â€?those are read above)
 
 Report: "Loaded [N] system GDDs covering [M] systems. Pillars: [list]. Anti-pillars: [list]."
@@ -544,7 +544,7 @@ FAIL: One or more blocking issues must be resolved before architecture begins.
 ## Phase 6: Write Report and Flag GDDs
 
 Use `question` for write permission:
-- Prompt: "May I write this review to `design/gdd/gdd-cross-review-[date].md`?"
+- Prompt: "May I write this review to `game/design/gdd/gdd-cross-review-[date].md`?"
 - Options: `[A] Yes â€?write the report` / `[B] No â€?skip`
 
 If any GDDs are flagged for revision, use a second `question`:
@@ -565,7 +565,7 @@ append to `production/session-state/active.md`:
     - Flagged for revision: [comma-separated list, or "None"]
     - Blocking issues: [N â€?brief one-line descriptions, or "None"]
     - Recommended next: [the Phase 7 handoff action, condensed to one line]
-    - Report: design/gdd/gdd-cross-review-[date].md
+    - Report: game/design/gdd/gdd-cross-review-[date].md
 
 If `active.md` does not exist, create it with this block as the initial content.
 Confirm in conversation: "Session state updated."

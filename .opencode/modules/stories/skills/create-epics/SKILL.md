@@ -1,6 +1,6 @@
 ---
 name: create-epics
-description: "Translate approved GDDs + architecture into epics ‚Äî one epic per architectural module. Defines scope, governing ADRs, engine risk, and untraced requirements. Does NOT break into stories ‚Äî run /create-stories [epic-slug] after each epic is created."
+description: "Translate approved GDDs + architecture into epics ‚Ä?one epic per architectural module. Defines scope, governing ADRs, engine risk, and untraced requirements. Does NOT break into stories ‚Ä?run /create-stories [epic-slug] after each epic is created."
 argument-hint: "[system-name | layer: foundation|core|feature|presentation | all] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Task, question
@@ -11,10 +11,10 @@ agent: technical-director
 
 An epic is a named, bounded body of work that maps to one architectural module.
 It defines **what** needs to be built and **who owns it architecturally**. It
-does not prescribe implementation steps ‚Äî that is the job of stories.
+does not prescribe implementation steps ‚Ä?that is the job of stories.
 
 **Run this skill once per layer** as you approach that layer in development.
-Do not create Feature layer epics until Core is nearly complete ‚Äî the design
+Do not create Feature layer epics until Core is nearly complete ‚Ä?the design
 will have changed.
 
 **Output:** `production/epics/[epic-slug]/EPIC.md` + `production/epics/index.md`
@@ -28,49 +28,49 @@ will have changed.
 ## 1. Parse Arguments
 
 Resolve the review mode (once, store for all gate spawns this run):
-1. If `--review [full|lean|solo]` was passed ‚Üí use that
-2. Else read `production/review-mode.txt` ‚Üí use that value
-3. Else ‚Üí default to `lean`
+1. If `--review [full|lean|solo]` was passed ‚Ü?use that
+2. Else read `production/review-mode.txt` ‚Ü?use that value
+3. Else ‚Ü?default to `lean`
 
 See `.opencode/docs/director-gates.md` for the full check pattern.
 
 **Modes:**
-- `/create-epics all` ‚Äî process all systems in layer order
-- `/create-epics layer: foundation` ‚Äî Foundation layer only
-- `/create-epics layer: core` ‚Äî Core layer only
-- `/create-epics layer: feature` ‚Äî Feature layer only
-- `/create-epics layer: presentation` ‚Äî Presentation layer only
-- `/create-epics [system-name]` ‚Äî one specific system
-- No argument ‚Äî ask: "Which layer or system would you like to create epics for?"
+- `/create-epics all` ‚Ä?process all systems in layer order
+- `/create-epics layer: foundation` ‚Ä?Foundation layer only
+- `/create-epics layer: core` ‚Ä?Core layer only
+- `/create-epics layer: feature` ‚Ä?Feature layer only
+- `/create-epics layer: presentation` ‚Ä?Presentation layer only
+- `/create-epics [system-name]` ‚Ä?one specific system
+- No argument ‚Ä?ask: "Which layer or system would you like to create epics for?"
 
 ---
 
 ## 2. Load Inputs
 
-### Step 2a ‚Äî Summary scan (fast)
+### Step 2a ‚Ä?Summary scan (fast)
 
 Grep all GDDs for their `## Summary` sections before reading anything fully:
 
 ```
-Grep pattern="## Summary" glob="design/gdd/*.md" output_mode="content" -A 5
+Grep pattern="## Summary" glob="game/design/gdd/*.md" output_mode="content" -A 5
 ```
 
 For `layer:` or `[system-name]` modes: filter to only in-scope GDDs based on
 the Summary quick-reference. Skip full-reading anything out of scope.
 
-### Step 2b ‚Äî Full document load (in-scope systems only)
+### Step 2b ‚Ä?Full document load (in-scope systems only)
 
-Using the Step 2a grep results, identify which systems are in scope. Read full documents **only for in-scope systems** ‚Äî do not read GDDs or ADRs for out-of-scope systems or layers.
+Using the Step 2a grep results, identify which systems are in scope. Read full documents **only for in-scope systems** ‚Ä?do not read GDDs or ADRs for out-of-scope systems or layers.
 
 Read for in-scope systems:
 
-- `design/gdd/systems-index.md` ‚Äî authoritative system list, layers, priority
+- `game/design/gdd/systems-index.md` ‚Ä?authoritative system list, layers, priority
 - In-scope GDDs only (Approved or Designed status, filtered by Step 2a results)
-- `docs/architecture/architecture.md` ‚Äî module ownership and API boundaries
-- Accepted ADRs **whose domains cover in-scope systems only** ‚Äî read the "GDD Requirements Addressed", "Decision", and "Engine Compatibility" sections; skip ADRs for unrelated domains
-- `docs/architecture/control-manifest.md` ‚Äî manifest version date from header
-- `docs/architecture/tr-registry.yaml` ‚Äî for tracing requirements to ADR coverage
-- `docs/engine-reference/[engine]/VERSION.md` ‚Äî engine name, version, risk levels
+- `docs/architecture/architecture.md` ‚Ä?module ownership and API boundaries
+- Accepted ADRs **whose domains cover in-scope systems only** ‚Ä?read the "GDD Requirements Addressed", "Decision", and "Engine Compatibility" sections; skip ADRs for unrelated domains
+- `docs/architecture/control-manifest.md` ‚Ä?manifest version date from header
+- `docs/architecture/tr-registry.yaml` ‚Ä?for tracing requirements to ADR coverage
+- `docs/engine-reference/[engine]/VERSION.md` ‚Ä?engine name, version, risk levels
 
 Report: "Loaded [N] GDDs, [M] ADRs, engine: [name + version]."
 
@@ -94,7 +94,7 @@ For each system, map it to an architectural module from `architecture.md`.
 
 Check ADR coverage against the TR registry:
 - **Traced requirements**: TR-IDs that have an Accepted ADR covering them
-- **Untraced requirements**: TR-IDs with no ADR ‚Äî warn before proceeding
+- **Untraced requirements**: TR-IDs with no ADR ‚Ä?warn before proceeding
 
 Present to user before writing anything:
 
@@ -102,10 +102,10 @@ Present to user before writing anything:
 ## Epic: [System Name]
 
 **Layer**: [Foundation / Core / Feature / Presentation]
-**GDD**: design/gdd/[filename].md
+**GDD**: game/design/gdd/[filename].md
 **Architecture Module**: [module name from architecture.md]
 **Governing ADRs**: [ADR-NNNN, ADR-MMMM]
-**Engine Risk**: [LOW / MEDIUM / HIGH ‚Äî highest risk among governing ADRs]
+**Engine Risk**: [LOW / MEDIUM / HIGH ‚Ä?highest risk among governing ADRs]
 **GDD Requirements Covered by ADRs**: [N / total]
 **Untraced Requirements**: [list TR-IDs with no ADR, or "None"]
 ```
@@ -116,16 +116,16 @@ If there are untraced requirements:
 > Run `/architecture-decision` first, or proceed with placeholders."
 
 Ask: "Shall I create Epic: [name]?"
-Options: "Yes, create it", "Skip", "Pause ‚Äî I need to write ADRs first"
+Options: "Yes, create it", "Skip", "Pause ‚Ä?I need to write ADRs first"
 
 ---
 
 ## 4b. Producer Epic Structure Gate
 
-**Review mode check** ‚Äî apply before spawning PR-EPIC:
-- `solo` ‚Üí skip. Note: "PR-EPIC skipped ‚Äî Solo mode." Proceed to Step 5 (write epic files).
-- `lean` ‚Üí skip (not a PHASE-GATE). Note: "PR-EPIC skipped ‚Äî Lean mode." Proceed to Step 5 (write epic files).
-- `full` ‚Üí spawn as normal.
+**Review mode check** ‚Ä?apply before spawning PR-EPIC:
+- `solo` ‚Ü?skip. Note: "PR-EPIC skipped ‚Ä?Solo mode." Proceed to Step 5 (write epic files).
+- `lean` ‚Ü?skip (not a PHASE-GATE). Note: "PR-EPIC skipped ‚Ä?Lean mode." Proceed to Step 5 (write epic files).
+- `full` ‚Ü?spawn as normal.
 
 After all epics for the current layer are defined (Step 4 completed for all in-scope systems), and before writing any files, spawn `producer` via Task using gate **PR-EPIC** (`.opencode/docs/director-gates.md`).
 
@@ -147,10 +147,10 @@ After user confirms, write:
 # Epic: [System Name]
 
 > **Layer**: [Foundation / Core / Feature / Presentation]
-> **GDD**: design/gdd/[filename].md
+> **GDD**: game/design/gdd/[filename].md
 > **Architecture Module**: [module name]
 > **Status**: Ready
-> **Stories**: Not yet created ‚Äî run `/create-stories [epic-slug]`
+> **Stories**: Not yet created ‚Ä?run `/create-stories [epic-slug]`
 
 ## Overview
 
@@ -167,14 +167,14 @@ and the architecture module's stated responsibilities]
 
 | TR-ID | Requirement | ADR Coverage |
 |-------|-------------|--------------|
-| TR-[system]-001 | [requirement text from registry] | ADR-NNNN ‚úÖ |
-| TR-[system]-002 | [requirement text] | ‚ùå No ADR |
+| TR-[system]-001 | [requirement text from registry] | ADR-NNNN ‚ú?|
+| TR-[system]-002 | [requirement text] | ‚ù?No ADR |
 
 ## Definition of Done
 
 This epic is complete when:
 - All stories are implemented, reviewed, and closed via `/story-done`
-- All acceptance criteria from `design/gdd/[filename].md` are verified
+- All acceptance criteria from `game/design/gdd/[filename].md` are verified
 - All Logic and Integration stories have passing test files in `tests/`
 - All Visual/Feel and UI stories have evidence docs with sign-off in `production/qa/evidence/`
 
@@ -204,8 +204,7 @@ Engine: [name + version]
 
 After writing all epics for the requested scope:
 
-- **Foundation + Core complete**: These are required for the Pre-Production ‚Üí
-  Production gate. Run `/gate-check production` to check readiness.
+- **Foundation + Core complete**: These are required for the Pre-Production ‚Ü?  Production gate. Run `/gate-check production` to check readiness.
 - **Reminder**: Epics define scope. Stories define implementation steps. Run
   `/create-stories [epic-slug]` for each epic before developers can pick up work.
 
@@ -213,13 +212,13 @@ After writing all epics for the requested scope:
 
 ## Collaborative Protocol
 
-1. **One epic at a time** ‚Äî present each epic definition before asking to create it
-2. **Warn on gaps** ‚Äî flag untraced requirements before proceeding
-3. **Ask before writing** ‚Äî per-epic approval before writing any file
-4. **No invention** ‚Äî all content comes from GDDs, ADRs, and architecture docs
-5. **Never create stories** ‚Äî this skill stops at the epic level
+1. **One epic at a time** ‚Ä?present each epic definition before asking to create it
+2. **Warn on gaps** ‚Ä?flag untraced requirements before proceeding
+3. **Ask before writing** ‚Ä?per-epic approval before writing any file
+4. **No invention** ‚Ä?all content comes from GDDs, ADRs, and architecture docs
+5. **Never create stories** ‚Ä?this skill stops at the epic level
 
 After all requested epics are processed:
 
-- **Verdict: COMPLETE** ‚Äî [N] epic(s) written. Run `/create-stories [epic-slug]` per epic.
-- **Verdict: BLOCKED** ‚Äî user declined all epics, or no eligible systems found.
+- **Verdict: COMPLETE** ‚Ä?[N] epic(s) written. Run `/create-stories [epic-slug]` per epic.
+- **Verdict: BLOCKED** ‚Ä?user declined all epics, or no eligible systems found.

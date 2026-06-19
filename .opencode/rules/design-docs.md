@@ -1,6 +1,6 @@
 ---
 paths:
-  - "design/gdd/**"
+  - "game/design/gdd/**"
 ---
 
 # Design Document Rules
@@ -8,16 +8,16 @@ paths:
 - Every design document MUST contain these 8 sections: Overview, Player Fantasy, Detailed Rules, Formulas, Edge Cases, Dependencies, Tuning Knobs, Acceptance Criteria
 - Formulas must include variable definitions, expected value ranges, and example calculations
 - Edge cases must explicitly state what happens, not just "handle gracefully"
-- Dependencies must be bidirectional â€” if system A depends on B, B's doc must mention A
+- Dependencies must be bidirectional â€?if system A depends on B, B's doc must mention A
 - Tuning knobs must specify safe ranges and what gameplay aspect they affect
-- Acceptance criteria must be testable â€” a QA tester must be able to verify pass/fail
+- Acceptance criteria must be testable â€?a QA tester must be able to verify pass/fail
 - No hand-waving: "the system should feel good" is not a valid specification
 - Balance values must link to their source formula or rationale
 - Design documents MUST be written incrementally: create skeleton first, then fill
   each section one at a time with user approval between sections. Write each
   approved section to the file immediately to persist decisions and manage context
 - Cross-system facts (entities, items, formulas shared between GDDs) must be registered
-  in `design/registry/entities.yaml` â€” never define a value in two GDDs independently
+  in `design/registry/entities.yaml` â€?never define a value in two GDDs independently
 
 ## Examples
 
@@ -32,8 +32,8 @@ The `damage_formula` is defined as:
 ### Variables
 | Symbol | Type | Range | Description |
 |--------|------|-------|-------------|
-| base_damage | float | 0â€“100 | Weapon's base damage value |
-| power_multiplier | float | 0.5â€“3.0 | Player power scaling factor |
+| base_damage | float | 0â€?00 | Weapon's base damage value |
+| power_multiplier | float | 0.5â€?.0 | Player power scaling factor |
 
 ### Edge Cases
 - If `base_damage = 0`: damage = 0 (no division by zero risk)
@@ -54,7 +54,7 @@ Edge case: handle when the player misses.
 
 - Writing formulas in prose instead of symbolic equations with variable tables
 - Edge cases described as "handle appropriately" without specifying the exact resolution
-- Accepting "the system should feel good" as a spec â€” it needs measurable criteria
+- Accepting "the system should feel good" as a spec â€?it needs measurable criteria
 - Defining cross-system values independently in two GDDs without registry registration
 - Committing the full GDD in one write instead of section-by-section with approvals
 - Dependencies listed in one direction only (A depends on B, but B doesn't mention A)
@@ -62,10 +62,10 @@ Edge case: handle when the player misses.
 
 ## Cross-References
 
-- Agent: `game-designer` â€” oversees GDD authoring
-- Agent: `systems-designer` â€” creates formulas and tuning knobs
-- Agent: `qa-lead` â€” validates acceptance criteria testability
-- Skill: `design-system` â€” section-by-section GDD authoring
-- Skill: `design-review` â€” validates GDD completeness
-- Skill: `consistency-check` â€” cross-GDD value consistency
-- Skill: `quick-design` â€” lightweight alternative for small changes
+- Agent: `game-designer` â€?oversees GDD authoring
+- Agent: `systems-designer` â€?creates formulas and tuning knobs
+- Agent: `qa-lead` â€?validates acceptance criteria testability
+- Skill: `design-system` â€?section-by-section GDD authoring
+- Skill: `design-review` â€?validates GDD completeness
+- Skill: `consistency-check` â€?cross-GDD value consistency
+- Skill: `quick-design` â€?lightweight alternative for small changes
