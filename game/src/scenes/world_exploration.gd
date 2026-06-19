@@ -266,7 +266,9 @@ func _setup_player() -> void:
 	if sprite:
 		if idle_texture:
 			sprite.texture = idle_texture
-			sprite.hframes = 4  # 4帧idle动画
+			sprite.region_enabled = true
+			sprite.region_rect = Rect2(0, 0, IDLE_FRAME_WIDTH, FRAME_HEIGHT)
+			sprite.hframes = IDLE_FRAME_COUNT
 			sprite.vframes = 1
 			sprite.scale = Vector2(2, 2)  # 放大2倍显示
 			print("[WorldExploration] Loaded vampire mage player sprite")
@@ -1251,6 +1253,9 @@ var animation_timer: float = 0.0
 var current_frame: int = 0
 const IDLE_FRAME_COUNT = 4
 const WALK_FRAME_COUNT = 6
+const IDLE_FRAME_WIDTH = 128  # 512px / 4帧
+const WALK_FRAME_WIDTH = 192  # 1152px / 6帧
+const FRAME_HEIGHT = 48
 const IDLE_ANIM_SPEED = 4.0  # 4 FPS
 const WALK_ANIM_SPEED = 10.0  # 10 FPS
 
@@ -1288,26 +1293,30 @@ func _update_player_animation(direction: Vector2) -> void:
 		# 使用预加载的walk纹理（切换时立即设置帧）
 		if walk_texture and sprite.texture != walk_texture:
 			sprite.texture = walk_texture
-			sprite.hframes = 6
+			sprite.region_enabled = true
+			sprite.region_rect = Rect2(0, 0, WALK_FRAME_WIDTH, FRAME_HEIGHT)
+			sprite.hframes = WALK_FRAME_COUNT
 			sprite.frame = current_frame
 		
 		# 播放行走动画
 		if animation_timer >= 1.0 / WALK_ANIM_SPEED:
 			animation_timer = 0.0
 			current_frame = (current_frame + 1) % WALK_FRAME_COUNT
-			sprite.frame = current_frame
+			sprite.region_rect = Rect2(current_frame * WALK_FRAME_WIDTH, 0, WALK_FRAME_WIDTH, FRAME_HEIGHT)
 	else:
 		# 使用预加载的idle纹理（切换时立即设置帧）
 		if idle_texture and sprite.texture != idle_texture:
 			sprite.texture = idle_texture
-			sprite.hframes = 4
+			sprite.region_enabled = true
+			sprite.region_rect = Rect2(0, 0, IDLE_FRAME_WIDTH, FRAME_HEIGHT)
+			sprite.hframes = IDLE_FRAME_COUNT
 			sprite.frame = current_frame
 		
 		# 播放待机动画
 		if animation_timer >= 1.0 / IDLE_ANIM_SPEED:
 			animation_timer = 0.0
 			current_frame = (current_frame + 1) % IDLE_FRAME_COUNT
-			sprite.frame = current_frame
+			sprite.region_rect = Rect2(current_frame * IDLE_FRAME_WIDTH, 0, IDLE_FRAME_WIDTH, FRAME_HEIGHT)
 
 ## 触发战斗（通过敌人ID）
 func _trigger_battle(enemy_data: Dictionary) -> void:

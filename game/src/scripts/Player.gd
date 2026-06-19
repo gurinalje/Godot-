@@ -18,7 +18,9 @@ const WALK_SHEET = "res://assets/sprites/characters/players/char_players_vampire
 const ATTACK_SHEET = "res://assets/sprites/characters/players/char_players_vampire_mage_attack.png"
 
 ## Frame dimensions for spritesheet slicing
-const FRAME_WIDTH = 32
+const IDLE_FRAME_WIDTH = 128  # 512px / 4帧
+const WALK_FRAME_WIDTH = 192  # 1152px / 6帧
+const ATTACK_FRAME_WIDTH = 128  # 假设与idle相同
 const FRAME_HEIGHT = 48
 
 ## Frame counts per animation
@@ -38,19 +40,19 @@ func _setup_animations() -> void:
 	var sprite_frames = SpriteFrames.new()
 	
 	# Add idle animation from spritesheet
-	_add_animation_from_sheet(sprite_frames, "idle", IDLE_SHEET, IDLE_FRAMES, 4.0, true)
+	_add_animation_from_sheet(sprite_frames, "idle", IDLE_SHEET, IDLE_FRAMES, IDLE_FRAME_WIDTH, 4.0, true)
 	
 	# Add walk animation from spritesheet
-	_add_animation_from_sheet(sprite_frames, "walk", WALK_SHEET, WALK_FRAMES, 10.0, true)
+	_add_animation_from_sheet(sprite_frames, "walk", WALK_SHEET, WALK_FRAMES, WALK_FRAME_WIDTH, 10.0, true)
 	
 	# Add attack animation from spritesheet
-	_add_animation_from_sheet(sprite_frames, "attack", ATTACK_SHEET, ATTACK_FRAMES, 20.0, false)
+	_add_animation_from_sheet(sprite_frames, "attack", ATTACK_SHEET, ATTACK_FRAMES, ATTACK_FRAME_WIDTH, 20.0, false)
 	
 	animated_sprite.sprite_frames = sprite_frames
 	animated_sprite.play("idle")
 
 
-func _add_animation_from_sheet(sprite_frames: SpriteFrames, anim_name: String, sheet_path: String, frame_count: int, fps: float, loop: bool) -> void:
+func _add_animation_from_sheet(sprite_frames: SpriteFrames, anim_name: String, sheet_path: String, frame_count: int, frame_width: int, fps: float, loop: bool) -> void:
 	"""Add an animation to SpriteFrames by slicing a spritesheet."""
 	var texture: Texture2D = load(sheet_path)
 	if texture == null:
@@ -65,7 +67,7 @@ func _add_animation_from_sheet(sprite_frames: SpriteFrames, anim_name: String, s
 	for i in range(frame_count):
 		var atlas_texture = AtlasTexture.new()
 		atlas_texture.atlas = texture
-		atlas_texture.region = Rect2(i * FRAME_WIDTH, 0, FRAME_WIDTH, FRAME_HEIGHT)
+		atlas_texture.region = Rect2(i * frame_width, 0, frame_width, FRAME_HEIGHT)
 		sprite_frames.add_frame(anim_name, atlas_texture)
 
 
