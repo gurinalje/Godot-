@@ -1260,6 +1260,7 @@ var walk_texture: Texture2D = null
 
 ## 上一帧的移动状态（用于检测状态切换）
 var was_moving: bool = false
+var last_facing_left: bool = false
 
 ## 更新玩家动画
 func _update_player_animation(direction: Vector2) -> void:
@@ -1271,22 +1272,24 @@ func _update_player_animation(direction: Vector2) -> void:
 	animation_timer += get_physics_process_delta_time()
 	
 	# 检测状态切换，重置帧计数器
-	if is_moving != was_moving:
+	var state_changed = is_moving != was_moving
+	if state_changed:
 		current_frame = 0
 		animation_timer = 0.0
 		was_moving = is_moving
 	
 	if is_moving:
-		# 设置朝向
-		if direction.x < 0:
-			sprite.flip_h = true
-		elif direction.x > 0:
-			sprite.flip_h = false
+		# 仅在方向变化时设置朝向（避免每帧翻转导致闪烁）
+		var facing_left = direction.x < 0
+		if facing_left != last_facing_left:
+			last_facing_left = facing_left
+			sprite.flip_h = facing_left
 		
-		# 使用预加载的walk纹理
+		# 使用预加载的walk纹理（切换时立即设置帧）
 		if walk_texture and sprite.texture != walk_texture:
 			sprite.texture = walk_texture
-			sprite.hframes = 6  # 6帧walk动画
+			sprite.hframes = 6
+			sprite.frame = current_frame
 		
 		# 播放行走动画
 		if animation_timer >= 1.0 / WALK_ANIM_SPEED:
@@ -1294,10 +1297,11 @@ func _update_player_animation(direction: Vector2) -> void:
 			current_frame = (current_frame + 1) % WALK_FRAME_COUNT
 			sprite.frame = current_frame
 	else:
-		# 使用预加载的idle纹理
+		# 使用预加载的idle纹理（切换时立即设置帧）
 		if idle_texture and sprite.texture != idle_texture:
 			sprite.texture = idle_texture
-			sprite.hframes = 4  # 4帧idle动画
+			sprite.hframes = 4
+			sprite.frame = current_frame
 		
 		# 播放待机动画
 		if animation_timer >= 1.0 / IDLE_ANIM_SPEED:
